@@ -3,8 +3,8 @@
   "version": "0.2.0",
   "description": "A simple, reliable and isomorphic WebSocket client for RxJS",
   "main": "build/index.js",
-  "repository": "https://github.com/buccaneerai/swashbuckler.git",
-  "author": "Buccaneer LLC",
+  "repository": "https://github.com/buccaneerai/swashbuckler/tree/master/packages/rxws",
+  "author": "Buccaneer LLC <opensource@buccaneer.ai>",
   "license": "MIT",
   "private": false,
   "keywords": [
