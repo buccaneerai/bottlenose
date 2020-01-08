@@ -1,0 +1,47 @@
+{
+  "name": "@swashbuckler/rxws",
+  "version": "0.2.0",
+  "description": "A simple, reliable and isomorphic WebSocket client for RxJS",
+  "main": "build/index.js",
+  "repository": "https://github.com/buccaneerai/swashbuckler.git",
+  "author": "Buccaneer LLC",
+  "license": "MIT",
+  "private": false,
+  "keywords": [
+    "rxjs",
+    "rxws",
+    "websocket",
+    "reactive",
+    "ws",
+    "wss",
+    "pubsub",
+    "client",
+    "socket",
+    "observables"
+  ],
+  "files": [
+    "build/*"
+  ],
+  "bugs": {
+    "url": "https://github.com/buccaneerai/swashbuckler/issues"
+  },
+  "devDependencies": {
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "rxjs": "^6.5.4",
+    "ws": "^7.2.1"
+  },
+  "dependencies": {
+    "isomorphic-ws": "^4.0.1",
+    "lodash": "^4.17.15",
+    "rxjs": "^6.5.4"
+  },
+  "scripts": {
+    "lint": "eslint -c ../../.eslintrc ./src",
+    "prepublishOnly": "yarn lint && yarn test && yarn build",
+    "test": "mocha --require @babel/register --require @babel/polyfill ./src/*.test.js ./src/**/*.test.js --exit --require source-map-support",
+    "test:watch": "yarn test -- --watch",
+    "server:start": "babel-node ./scripts/startServer.js",
+    "server:connect": "babel-node ./scripts/testWebSocket.js"
+  }
+}
