@@ -26,6 +26,7 @@
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.17.0",
+    "esm": "^3.2.25",
     "lerna": "^3.20.2",
     "mocha": "^7.0.0",
     "optimist": "^0.6.1",
@@ -36,6 +37,7 @@
   "workspaces": [
     "packages/*"
   ],
+  "type": "module",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "dependencies": {
