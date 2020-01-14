@@ -40,8 +40,5 @@
   "type": "module",
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "dependencies": {
-    "lodash": "^4.17.15",
-    "rxjs": "^6.5.4"
-  }
+  "dependencies": {}
 }
