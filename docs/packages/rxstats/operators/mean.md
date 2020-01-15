@@ -9,7 +9,7 @@ Computes the mean \(arithmetic average\) of an `Observable`.
 ### Basic Example
 ```javascript
 import { from } from 'rxjs';
-import { mean } from '@buccaneer/rxjs-stats';
+import { mean } from '@bottlenose/rxstats';
 
 const mean$ = from([1, 2, 3, 4]).pipe(
   mean()
@@ -47,7 +47,7 @@ It's odd to calculate the mean of just one item. Sometimes, it makes more sense 
 ```javascript
 import { from } from 'rxjs';
 import { skip } from 'rxjs/operators';
-import { mean } from '@buccaneer/rxjs-stats';
+import { mean } from '@bottlenose/rxstats';
 
 const mean$ = from([1, 2, 3, 4]).pipe(
   mean(),
@@ -63,7 +63,7 @@ mean$.subscribe(console.log);
 Calculate a mean with an [initial warmstart value](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts) (instead starting with a blank state):
 ```javascript
 import { from } from 'rxjs';
-import { mean } from '@buccaneer/rxjs-stats';
+import { mean } from '@bottlenose/rxstats';
 
 // Add another subset of data to a previously calculated mean:
 const newNumber$ = from([5, 6, 7, 8]);
@@ -82,7 +82,7 @@ mean$.subscribe(console.log);
 Sometimes it is useful to be able to compute a mean from multiple data streams without processing the individual items from each stream. `rxjs-stats` enables this too.  Suppose you have data points from 3 different users' browser applications.  They can be combined into a single mean that represents all three data streams:
 ```javascript
 import { from } from 'rxjs';
-import { mean } from '@buccaneer/rxjs-stats';
+import { mean } from '@bottlenose/rxstats';
 
 const user1State = {average: 5, sum: 2500, index: 499};
 const user2State = {average: 4, sum: 1600, index: 399};

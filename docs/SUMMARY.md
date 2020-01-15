@@ -8,7 +8,7 @@
 * [Sources & Sinks]()
   * [rxws](packages/rxws/README.md)
     * [Guides](packages/rxws/Guides/README.md)
-      * [Installation](packages/rxws/Guides/Installation.md)  
+      * [Installation](packages/rxws/Guides/Installation.md)
       * [Quick Start](packages/rxws/Guides/GettingStarted.md)
       * [Example: Hello World (Express)](packages/rxws/Examples/express.md)
     <!-- * [creators](packages/rxws/creators/README.md) -->

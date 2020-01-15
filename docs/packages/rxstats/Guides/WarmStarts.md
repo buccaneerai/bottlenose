@@ -7,7 +7,7 @@ Here is a concrete example using the `mean` operator:
 ```javascript
 import { from } from 'rxjs';
 import { takeLast } from 'rxjs/operators';
-import { mean } from '@buccaneer/rxjs-stats';
+import { mean } from '@bottlenose/rxstats';
 
 const number$ = from([1, 2, 3, 42]);
 const initialMean$ = number$.pipe(

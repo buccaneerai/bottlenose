@@ -8,7 +8,7 @@ Calculates the differences between each item in an `Observable` and the prior it
 
 ```javascript
 import { from } from 'rxjs';
-import { change } from '@buccaneer/rxjs-stats';
+import { change } from '@bottlenose/rxstats';
 
 const num$ = from([2, 5, 9, 16, 26]);
 const change$ = num$.pipe(

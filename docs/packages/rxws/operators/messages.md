@@ -6,7 +6,7 @@ Listen for all message events from the WebSocket client.
 
 **Basic Usage**:
 ```javascript
-import { messages, ws } from '@buccaneer/rxws';
+import { messages, ws } from '@bottlenose/rxws';
 
 const ws$ = ws({url: 'wss://mysite.com'});
 const messages$ = ws$.pipe(
@@ -21,7 +21,7 @@ messages$.subscribe(console.log);
 
 **With a topic**:
 ```javascript
-import { messages, ws } from '@buccaneer/rxws';
+import { messages, ws } from '@bottlenose/rxws';
 
 const ws$ = ws({url: 'wss://mysite.com', topics: ['news']});
 const messages$ = ws$.pipe(

@@ -7,7 +7,7 @@ Maps a websocket stream into the raw WebSocket client (which is [socket.io clien
 ### Usage
 ```javascript
 import { share } from 'rxjs/operators';
-import { ws, client } from '@buccaneer/rxws';
+import { ws, client } from '@bottlenose/rxws';
 
 const websocketParams = {
   url: 'wss://mysite.com',

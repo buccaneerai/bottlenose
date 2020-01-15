@@ -15,7 +15,7 @@ However, R values estimated early in the stream will typically be less correct t
 ### Basic Example
 ```javascript
 import { from } from 'rxjs';
-import { dirtyR } from '@buccaneer/rxjs-stats';
+import { dirtyR } from '@bottlenose/rxstats';
 
 const instance$ = from([
   // [x, y], // where x is a variable/feature and y is the value to predict

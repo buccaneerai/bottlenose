@@ -7,7 +7,7 @@ Emits an `Error` if any item in the `Observable` is `NaN` or of a type that isn'
 ## Examples
 
 ```javascript
-import { throwUnlessNum } from '@buccaneer/rxjs-stats';​
+import { throwUnlessNum } from '@bottlenose/rxstats';​
 
 const numbers = [
   0,

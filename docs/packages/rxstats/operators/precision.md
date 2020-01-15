@@ -8,7 +8,7 @@ Given an Observable of ground-truth labels and predictions, the precision operat
 
 ```javascript
 import { from } from 'rxjs';
-import { precision } from '@buccaneer/rxjs-stats';
+import { precision } from '@bottlenose/rxstats';
 
 const items = [
   [0, 1], // [trueLabel, prediction]

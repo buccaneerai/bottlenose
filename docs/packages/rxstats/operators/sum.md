@@ -8,7 +8,7 @@ Calculates the sum of all items in an `Observable`.
 
 ```javascript
 import { from } from 'rxjs';
-import { sum } from '@buccaneer/rxjs-stats';
+import { sum } from '@bottlenose/rxstats';
 
 const num$ = from([1, 2, 3, 4, 5]);
 const sum$ = num$.pipe(

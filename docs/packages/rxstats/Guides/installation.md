@@ -2,12 +2,12 @@
 
 ## npm
 ```bash
-npm i @buccaneer/rxjs-stats --save
+npm i @bottlenose/rxstats --save
 ```
 
 ## yarn
 ```bash
-yarn add @buccaneer/rxjs-stats
+yarn add @bottlenose/rxstats
 ```
 
 ## Compatability

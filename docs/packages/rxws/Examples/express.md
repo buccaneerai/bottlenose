@@ -9,14 +9,14 @@ This example requires node.js and `npm` (or `yarn`) to be installed locally. To 
 ```bash
 mkdir ./rxws-hello-world && cd ./rxws-hello-world
 npm init -y
-npm i --save express ws rxjs @buccaneer/rxws
+npm i --save express ws rxjs @bottlenose/rxws
 touch startServer.js startClient.js
 ```
 Or with yarn:
 ```bash
 mkdir ./rxws-hello-world && cd ./rxws-hello-world
 yarn init -y
-yarn add express ws rxjs @buccaneer/rxws
+yarn add express ws rxjs @bottlenose/rxws
 touch startServer.js startClient.js
 ```
 
@@ -66,7 +66,7 @@ Now, let's connect the the WebSocket server and communicate with it. Copy this c
 ```javascript
 import { interval } from 'rxjs';
 import { map, share } from 'rxjs/operators';
-import {broadcast, connections, disconnections, messages, ws} from '@buccaneer/rxws';
+import {broadcast, connections, disconnections, messages, ws} from '@bottlenose/rxws';
 
 function startClient(url) {
   // create a hot observable with the websocket client

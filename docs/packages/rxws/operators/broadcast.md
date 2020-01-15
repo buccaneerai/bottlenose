@@ -7,7 +7,7 @@ Broadcast (emit) messages to the server. By default, it broadcasts to the 'messa
 **Basic Usage**:
 ```javascript
 import { from } from 'rxjs';
-import { broadcast, ws } from '@buccaneer/rxws';
+import { broadcast, ws } from '@bottlenose/rxws';
 
 const messagesToSend$ = from([
   {body: 'data'},

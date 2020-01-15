@@ -17,7 +17,7 @@ Calculating the true (pure) z-score, requires first calculating the mean and sta
 **Basic Example**
 ```javascript
 import { from } from 'rxjs';
-import { dirtyZScore } from '@buccaneer/rxjs-stats';
+import { dirtyZScore } from '@bottlenose/rxstats';
 
 const zombiePirateHeight$ = [
   600,
@@ -41,7 +41,7 @@ zScore$.subscribe(console.log);
 ```javascript
 import { from, zip } from 'rxjs';
 import { mergeMap, takeLast } from 'rxjs/operators';
-import { dirtyZScore, mean, stdev } from '@buccaneer/rxjs-stats';
+import { dirtyZScore, mean, stdev } from '@bottlenose/rxstats';
 
 const zombiePirateHeight$ = from([
   600,

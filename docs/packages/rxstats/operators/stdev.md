@@ -11,7 +11,7 @@ By default, it will compute the sample (rather than population) standard deviati
 ```javascript
 import { from } from 'rxjs';
 import { takeLast } from 'rxjs';
-import { stdev, roundTo } from '@buccaneer/rxjs-stats';
+import { stdev, roundTo } from '@bottlenose/rxstats';
 
 const stdev$ = from([600, 470, 170, 430, 300]).pipe(
   stdev(),

@@ -2,17 +2,17 @@
 
 #### npm
 ```bash
-npm i @buccaneer/rxws --save
+npm i @bottlenose/rxws --save
 ```
 #### yarn
 ```bash
-yarn add @buccaneer/rxws
+yarn add @bottlenose/rxws
 ```
 
 ## Subscribe to messages from a server
 ```javascript
 import { share } from 'rxjs/operators';
-import { messages, ws } from '@buccaneer/rxws';
+import { messages, ws } from '@bottlenose/rxws';
 
 const websocketParams = {
   url: 'wss://mysite.com',
@@ -33,7 +33,7 @@ message$.subscribe(console.log); // log messages from the server
 ```javascript
 import { from } from 'rxjs';
 import { share } from 'rxjs/operators';
-import { broadcast, ws } from '@buccaneer/rxws';
+import { broadcast, ws } from '@bottlenose/rxws';
 
 const ws$ = ws({url: 'wss://mysite.com'}).pipe(share());
 
@@ -51,7 +51,7 @@ publisher$.subscribe();
 ## Handle interruptions to the client's connection
 ```javascript
 import { share } from 'rxjs/operators';
-import { connections, disconnections, ws } from '@buccaneer/rxws';
+import { connections, disconnections, ws } from '@bottlenose/rxws';
 
 const websocketParams = {
   url: 'wss://mysite.com',

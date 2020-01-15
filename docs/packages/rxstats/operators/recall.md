@@ -8,7 +8,7 @@ Given an `Observable` of ground-truth labels and predictions, the recall operato
 
 ```javascript
 import { from } from 'rxjs';
-import { recall } from '@buccaneer/rxjs-stats';
+import { recall } from '@bottlenose/rxstats';
 
 const items = [
   [0, 1], // [trueLabel, prediction]

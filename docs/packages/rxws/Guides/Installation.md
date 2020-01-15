@@ -2,12 +2,12 @@
 
 ## npm
 ```bash
-npm i @buccaneer/rxws --save
+npm i @bottlenose/rxws --save
 ```
 
 ## yarn
 ```bash
-yarn add @buccaneer/rxws
+yarn add @bottlenose/rxws
 ```
 
 ## Compatability

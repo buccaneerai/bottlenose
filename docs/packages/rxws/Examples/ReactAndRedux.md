@@ -7,7 +7,7 @@ Here is a simple example using React hooks.  A fully functional version is avail
 ```jsx
 import {} from 'react-dom';
 import React, {useState} from 'react';
-import { create, messages, } from '@buccaneer/rxws';
+import { create, messages, } from '@bottlenose/rxws';
 
 const App = function(props) {
   const { isDisconnected, messages, onReconnect, reconnecting } = props;

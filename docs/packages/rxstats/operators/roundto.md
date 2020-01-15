@@ -8,7 +8,7 @@ Rounds numbers in an `Observable` to the number of desired decimal places.
 
 ```javascript
 import { from } from 'rxjs';
-import { roundTo } from '@buccaneer/rxjs-stats';
+import { roundTo } from '@bottlenose/rxstats';
 
 const num$ = from([1.234567, 4.5678]);
 const roundedNum$ = num$.pipe(

@@ -7,7 +7,7 @@ Filters the `rxws` stream to include only disconnection events.  This will emit 
 ### Usage
 ```javascript
 import { share } from 'rxjs/operators';
-import { ws, disconnections } from '@buccaneer/rxws';
+import { ws, disconnections } from '@bottlenose/rxws';
 
 const websocketParams = {url: 'wss://mysite.com'};
 const ws$ = ws(websocketParams).pipe(share()); // create a websocket Subject

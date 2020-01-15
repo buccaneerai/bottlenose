@@ -7,7 +7,7 @@ Creates an [isomorphic-websocket client](https://www.npmjs.com/package/isomorphi
 ## Usage
 ```javascript
 import { share } from 'rxjs/operators';
-import { ws, messages } from '@buccaneer/rxws';
+import { ws, messages } from '@bottlenose/rxws';
 
 // create a websocket
 const websocketParams = {

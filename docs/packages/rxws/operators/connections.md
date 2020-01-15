@@ -7,7 +7,7 @@ Filters the `rxws` stream to include only connection events.  This will emit an 
 ### Usage
 ```javascript
 import { share } from 'rxjs/operators';
-import { ws, connections } from '@buccaneer/rxws';
+import { ws, connections } from '@bottlenose/rxws';
 
 const websocketParams = {
   url: 'wss://mysite.com',

@@ -12,7 +12,7 @@ By default, it will compute the sample variance.
 ```javascript
 import { from } from 'rxjs';
 import { takeLast } from 'rxjs';
-import { variance } from '@buccaneer/rxjs-stats';
+import { variance } from '@bottlenose/rxstats';
 
 const variance$ = from([600, 470, 170, 430, 300]).pipe(
   variance(),
@@ -29,7 +29,7 @@ variance$.subscribe(console.log);
 ```javascript
 import { from } from 'rxjs';
 import { takeLast } from 'rxjs';
-import { variance } from '@buccaneer/rxjs-stats';
+import { variance } from '@bottlenose/rxstats';
 
 const variance$ = from([600, 470, 170, 430, 300]).pipe(
   variance(false),

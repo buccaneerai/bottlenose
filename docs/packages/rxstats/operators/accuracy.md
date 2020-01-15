@@ -8,7 +8,7 @@ Given an `Observable` of ground-truth labels and predictions, the accuracy opera
 
 ```javascript
 import { from } from 'rxjs';
-import { accuracy } from '@buccaneer/rxjs-stats';
+import { accuracy } from '@bottlenose/rxstats';
 
 const items = [
   [0, 1], // [trueLabel, prediction]
