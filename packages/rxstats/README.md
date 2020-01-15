@@ -1,8 +1,8 @@
 # <img src="https://github.com/buccaneerai/rxjs-stats/raw/master/docs/rxjs-stats.png" />
 [![CircleCI](https://circleci.com/gh/buccaneerai/rxjs-stats/tree/master.svg?style=shield)](https://circleci.com/gh/buccaneerai/rxjs-stats/tree/master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-<a href="https://www.npmjs.com/package/@buccaneer/rxjs-stats">
-  <img src="https://img.shields.io/npm/v/@buccaneer/rxjs-stats.svg" alt="Version">
+<a href="https://www.npmjs.com/package/@bottlenose/rxstats">
+  <img src="https://img.shields.io/npm/v/@bottlenose/rxstats.svg" alt="Version">
 </a>
 
 `rxjs-stats` is a set of of [RxJS 6](http://rxjs-dev.firebaseapp.com/) operators to perform common calculations used in statistics, data analysis, data science, math, finance and machine learning. 
