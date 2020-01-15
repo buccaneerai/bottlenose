@@ -2,9 +2,10 @@
 
 ## Description
 
-Filters the `rxws` stream to include only disconnection events.  This will emit an event whenever the client disconnects from the server.
+Filters the `rxws` stream to include only disconnection events. This will emit an event whenever the client disconnects from the server.
 
 ### Usage
+
 ```javascript
 import { share } from 'rxjs/operators';
 import { ws, disconnections } from '@bottlenose/rxws';
@@ -19,18 +20,24 @@ disconnection$.subscribe(() => console.log('You have disconnected from the serve
 ```
 
 ## API
-```
+
+```text
 disconnections()
 ```
 
 ### Since
+
 1.0
 
 ### Parameters
+
 None
 
 ### Options
+
 None
 
 ### Returns
+
 `{reason<String>}`: An Object which may include the reason for the disconnect.
+

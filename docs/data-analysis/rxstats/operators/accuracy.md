@@ -42,23 +42,22 @@ accuracy$.subscribe(console.log);
 ```
 
 ## API
-```
+
+```text
 accuracy([initialState={truePositives: 0, falsePositives: 0, trueNegatives: 0, falseNegatives: 0}])
 ```
 
-**Since**
-0.5
+**Since** 0.5
 
-**Parameters**
-None
+**Parameters** None
 
 **Options**
-* `initialState: Object {truePositives: Number, falsePositives: Number, trueNegatives: Number, falseNegatives: Number}`: Sets a [warm start](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts) value so that the calculation can continue from a non-zero starting point (instead of a blank state).
+
+* `initialState: Object {truePositives: Number, falsePositives: Number, trueNegatives: Number, falseNegatives: Number}`: Sets a [warm start](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts) value so that the calculation can continue from a non-zero starting point \(instead of a blank state\).
   * `truePositives: Number` is a count of the true positives
   * `falsePositives: Number` is a count of the false positives
   * `trueNegatives: Number` is a count of the true negatives
   * `falseNegatives Number` is a count of the false negatives
 
-**Returns**
-`Number`. (The current accuracy of the `Observable`.)
+**Returns** `Number`. \(The current accuracy of the `Observable`.\)
 

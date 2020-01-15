@@ -23,19 +23,24 @@ change$.subscribe(console.log);
 ```
 
 ## API
-```
+
+```text
 change()
 ```
 
-#### Since
+### Since
+
 0.5
 
-#### Parameters
+### Parameters
+
 None
 
-#### Options
+### Options
+
 None
 
-#### Returns
-`Number`. (The latest difference from the `Observable`)
+### Returns
+
+`Number`. \(The latest difference from the `Observable`\)
 

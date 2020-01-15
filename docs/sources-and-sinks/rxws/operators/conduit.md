@@ -1,3 +1,5 @@
+# conduit
+
 ## Description
 
 Pipe an Observable into a two-way websocket. Each item in the Observable will be emitted to the server. The output stream will be the messages sent from the server to the client.
@@ -5,6 +7,7 @@ Pipe an Observable into a two-way websocket. Each item in the Observable will be
 ## Usage
 
 **Basic Usage**:
+
 ```javascript
 import { from } from 'rxjs';
 import { conduit } from '@bottlenose/rxws';
@@ -21,6 +24,7 @@ socketResponse$.subscribe(); // this will attempt to send the messages to the se
 ```
 
 ## API
+
 ```typescript
 conduit(
   messagesToSend$<Observable>,
@@ -29,14 +33,19 @@ conduit(
 ```
 
 ### Since
+
 1.0
 
 ### Parameters
-* `messagesToSend$<Observable>`: An Observable containing messages that will be sent to the server (whenever a message is emitted)
+
+* `messagesToSend$<Observable>`: An Observable containing messages that will be sent to the server \(whenever a message is emitted\)
 * `topic<String>`: The topic to which the events should be published. Defaults to `'message'`.
 
 ### Options
+
 None
 
 ### Returns
+
 `{topic<String>,message<Any>}`
+

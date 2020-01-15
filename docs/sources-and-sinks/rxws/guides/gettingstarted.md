@@ -1,15 +1,19 @@
-# Install
+# Quick Start
 
-#### npm
+### npm
+
 ```bash
 npm i @bottlenose/rxws --save
 ```
-#### yarn
+
+### yarn
+
 ```bash
 yarn add @bottlenose/rxws
 ```
 
 ## Subscribe to messages from a server
+
 ```javascript
 import { share } from 'rxjs/operators';
 import { messages, ws } from '@bottlenose/rxws';
@@ -30,6 +34,7 @@ message$.subscribe(console.log); // log messages from the server
 ```
 
 ## Publish messages to a server
+
 ```javascript
 import { from } from 'rxjs';
 import { share } from 'rxjs/operators';
@@ -49,6 +54,7 @@ publisher$.subscribe();
 ```
 
 ## Handle interruptions to the client's connection
+
 ```javascript
 import { share } from 'rxjs/operators';
 import { connections, disconnections, ws } from '@bottlenose/rxws';
@@ -74,4 +80,6 @@ reconnection$.subscribe(
 ```
 
 ## Next steps
-- Check out the [full API](https://brianbuccaneer.gitbook.io/rxws/api).
+
+* Check out the [full API](https://brianbuccaneer.gitbook.io/rxws/api).
+

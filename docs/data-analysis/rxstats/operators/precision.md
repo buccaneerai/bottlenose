@@ -42,20 +42,26 @@ precision$.subscribe(console.log);
 ```
 
 ## API
-```
+
+```text
 precision([initialState={truePositives: 0, falsePositives: 0}])
 ```
 
 ### Since
+
 0.5
 
 ### Parameters
+
 None
 
 ### Options
-* `initialState: Object {truePositives: Number, falsePositives: Number}`: Sets a [warm start](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts) value so that the calculation can continue from a non-zero starting point (instead of a blank state). The initialState should have these keys:
+
+* `initialState: Object {truePositives: Number, falsePositives: Number}`: Sets a [warm start](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts) value so that the calculation can continue from a non-zero starting point \(instead of a blank state\). The initialState should have these keys:
   * `truePositives: Number` is a count of the true positives
   * `falsePositives: Number` is a count of the false positives
 
 ### Returns
-`Number`. (The current precision of the `Observable`.)
+
+`Number`. \(The current precision of the `Observable`.\)
+

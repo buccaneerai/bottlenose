@@ -1,3 +1,5 @@
+# messages
+
 ## Description
 
 Listen for all message events from the WebSocket client.
@@ -5,6 +7,7 @@ Listen for all message events from the WebSocket client.
 ## Usage
 
 **Basic Usage**:
+
 ```javascript
 import { messages, ws } from '@bottlenose/rxws';
 
@@ -20,6 +23,7 @@ messages$.subscribe(console.log);
 ```
 
 **With a topic**:
+
 ```javascript
 import { messages, ws } from '@bottlenose/rxws';
 
@@ -35,18 +39,24 @@ messages$.subscribe(console.log);
 ```
 
 ## API
-```
+
+```text
 messages(topic = 'message')
 ```
 
 ### Since
+
 1.0
 
 ### Parameters
+
 None
 
 ### Options
+
 `topic<String>`: specific topics to subscribe to. Defaults to `'message'`.
 
 ### Returns
+
 `{topic<String>,message<Any>}`
+

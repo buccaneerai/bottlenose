@@ -7,6 +7,7 @@ Computes the mean \(arithmetic average\) of an `Observable`.
 ## Examples
 
 ### Basic Example
+
 ```javascript
 import { from } from 'rxjs';
 import { mean } from '@bottlenose/rxstats';
@@ -23,25 +24,31 @@ mean$.subscribe(console.log);
 ```
 
 ## API
-```
+
+```text
 mean([initialState={average: 0, sum: 0, index: 0}])
 ```
 
 ### Since
+
 0.5
 
 ### Parameters
+
 None
 
 ### Options
-- `initialState: Object {average: Number, sum: Number, index: Number`: Sets a [warm start](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts) value so that the mean calculation can continue from a non-zero starting point (instead of a blank state).
+
+* `initialState: Object {average: Number, sum: Number, index: Number`: Sets a [warm start](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts) value so that the mean calculation can continue from a non-zero starting point \(instead of a blank state\).
 
 ### Returns
-`Number`. (The current mean of the `Observable`.)
+
+`Number`. \(The current mean of the `Observable`.\)
 
 ## More Examples
 
 ### Skipping the first value
+
 It's odd to calculate the mean of just one item. Sometimes, it makes more sense to skip the first item to ensure that means are calculated based on more than one number. RxJS makes this easy:
 
 ```javascript
@@ -60,7 +67,9 @@ mean$.subscribe(console.log);
 ```
 
 ### Warm Start
-Calculate a mean with an [initial warmstart value](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts) (instead starting with a blank state):
+
+Calculate a mean with an [initial warmstart value](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts) \(instead starting with a blank state\):
+
 ```javascript
 import { from } from 'rxjs';
 import { mean } from '@bottlenose/rxstats';
@@ -79,7 +88,9 @@ mean$.subscribe(console.log);
 ```
 
 ### Using Hotstarts to aggregate multiple streams
-Sometimes it is useful to be able to compute a mean from multiple data streams without processing the individual items from each stream. `rxjs-stats` enables this too.  Suppose you have data points from 3 different users' browser applications.  They can be combined into a single mean that represents all three data streams:
+
+Sometimes it is useful to be able to compute a mean from multiple data streams without processing the individual items from each stream. `rxjs-stats` enables this too. Suppose you have data points from 3 different users' browser applications. They can be combined into a single mean that represents all three data streams:
+
 ```javascript
 import { from } from 'rxjs';
 import { mean } from '@bottlenose/rxstats';
@@ -100,6 +111,6 @@ const aggregateMean$ = newNumber$.pipe(
   mean(initialState)
 );
 ```
-In the example above, `aggregateMean$` computes the mean of the data points from all three users without viewing any of their individual information!
 
+In the example above, `aggregateMean$` computes the mean of the data points from all three users without viewing any of their individual information!
 
