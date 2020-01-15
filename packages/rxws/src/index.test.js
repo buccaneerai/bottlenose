@@ -7,6 +7,7 @@ describe('index', () => {
     const functions = [
       'broadcast',
       'client',
+      'conduit',
       'connections',
       'disconnections',
       'messages',

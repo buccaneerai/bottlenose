@@ -1,7 +1,7 @@
 // copied from https://github.com/aws-samples/amazon-transcribe-websocket-static
 // https://aws.amazon.com/blogs/aws/amazon-transcribe-streaming-now-supports-websockets/
 import { map, mergeMap } from 'rxjs/operators';
-import { ws, send } from '@buccaneer/rxws';
+import { ws, send } from '@bottlenose/rxws';
 
 import createAwsSignedUrl from './createAwsSignedUrl';
 import convertAudioToBinaryMessage from './convertAudioToBinaryMessage';
