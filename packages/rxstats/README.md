@@ -1,5 +1,5 @@
 # <img src="https://github.com/buccaneerai/rxjs-stats/raw/master/docs/rxjs-stats.png" />
-[![CircleCI](https://circleci.com/gh/buccaneerai/rxjs-stats/tree/master.svg?style=shield)](https://circleci.com/gh/buccaneerai/rxjs-stats/tree/master)
+[![CircleCI](https://circleci.com/gh/buccaneerai/bottlenose/tree/master.svg?style=shield)](https://circleci.com/gh/buccaneerai/bottlenose/tree/master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 <a href="https://www.npmjs.com/package/@bottlenose/rxstats">
   <img src="https://img.shields.io/npm/v/@bottlenose/rxstats.svg" alt="Version">

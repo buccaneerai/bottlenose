@@ -1,8 +1,8 @@
 # rxtranscribe
-
+[![CircleCI](https://circleci.com/gh/buccaneerai/bottlenose/tree/master.svg?style=shield)](https://circleci.com/gh/buccaneerai/bottlenose/tree/master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-<a href="https://www.npmjs.com/package/@buccaneer/rxtranscribe">
-  <img src="https://img.shields.io/npm/v/@buccaneer/rxtranscribe.svg" alt="Version">
+<a href="https://www.npmjs.com/package/@bottlenose/rxtranscribe">
+  <img src="https://img.shields.io/npm/v/@bottlenose/rxtranscribe.svg" alt="Version">
 </a>
 
 ## Why?
