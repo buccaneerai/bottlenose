@@ -18,18 +18,20 @@ import createMultipartUpload from '../internals/createMultipartUpload';
 import uploadPart from '../internals/uploadPart';
 import completeUpload from '../internals/completeUpload';
 
-const s3 = new AWS.S3();
+const s3Default = new AWS.S3();
 
 // This example is helpful: https://www.srijan.net/blog/aws-s3-audio-streaming
-const streamS3Upload = function streamS3Upload({
+const upload = function upload({
   s3Key,
   s3Bucket,
   contentType,
+  s3 = s3Default,
   _createMultipartUpload = createMultipartUpload,
   _uploadPart = uploadPart,
   _completeUpload = completeUpload,
 }) {
-  // source$ should be composed of Buffer objects
+  // source$ should contain items which are one of these types:
+  // Buffer, Typed Array, Blob, String, ReadableStream
   return source$ => {
     const uploadId$ = new AsyncSubject();
     _createMultipartUpload({s3Key, s3Bucket, contentType, s3}).subscribe(uploadId$);
@@ -57,4 +59,4 @@ const streamS3Upload = function streamS3Upload({
   };
 };
 
-export default streamS3Upload;
+export default upload;
