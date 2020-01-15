@@ -4,12 +4,13 @@
 * [Contributing](./contributing/README.md)
   * [Contributing](../CONTRIBUTING.md)
   * [Code of Conduct](../CODE_OF_CONDUCT.md)
-  * [Creating Operators](contributing/creatint_operators.md)
+  * [Creating Operators](contributing/creating_operators.md)
 * [Sources & Sinks]()
   * [rxws](packages/rxws/README.md)
-    * [Installation](packages/rxws/Installation.md)  
-    * [Quick Start](packages/rxws/GettingStarted.md)
-    * [Example: Hello World (Express)](packages/rxws/Examples/express.md)
+    * [Guides](packages/rxws/Guides/README.md)
+      * [Installation](packages/rxws/Guides/Installation.md)  
+      * [Quick Start](packages/rxws/Guides/GettingStarted.md)
+      * [Example: Hello World (Express)](packages/rxws/Examples/express.md)
     <!-- * [creators](packages/rxws/creators/README.md) -->
       <!-- * [ws](packages/rxws/creators/ws.md) -->
     * [operators](packages/rxws/operators/README.md)

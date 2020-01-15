@@ -2,18 +2,18 @@
 
 #### npm
 ```
-npm i @buccaneer/rxjs-stats --save
+npm i @bottlenose/rxjs-stats --save
 ```
 #### yarn
 ```
-yarn add @buccaneer/rxjs-stats
+yarn add @bottlenose/rxjs-stats
 ```
 
 # Calculate real-time statistics!
 ```js
 import { from } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { mean } from '@buccaneer/rxjs-stats';
+import { mean } from '@bottlenose/rxstats';
 
 // create a data source
 const pirate$ = from([
