@@ -2,11 +2,11 @@
 
 #### npm
 ```
-npm i @bottlenose/rxjs-stats --save
+npm i @bottlenose/rxstats --save
 ```
 #### yarn
 ```
-yarn add @bottlenose/rxjs-stats
+yarn add @bottlenose/rxstats
 ```
 
 # Calculate real-time statistics!
@@ -33,5 +33,5 @@ averageShipCount$.subscribe(console.log);
 ```
 
 # Next steps
-* Check out the [full list of operators](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/operators).
-* Learn about [Hotstart Pipelines](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts)
+* Check out the [full list of operators](https://buccaneerai.gitbook.io/bottlenose/data-analysis/rxstats/operators).
+* Learn about [Hotstart Pipelines](https://buccaneerai.gitbook.io/bottlenose/data-analysis/rxstats/guides/warmstarts)

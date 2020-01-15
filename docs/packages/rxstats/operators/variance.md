@@ -56,10 +56,10 @@ variance(
 None
 
 ### Options
-* `initialState: Object`: Sets a [warm start](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts) value so that the calculation can continue from a non-zero starting point (instead of a blank state). The initialState should have these keys:
+* `initialState: Object`: Sets a [warm start](https://buccaneerai.gitbook.com/bottlenose/data-analysis/rxstats/guides/warmstarts) value so that the calculation can continue from a non-zero starting point (instead of a blank state). The initialState should have these keys:
   * `index: Number`: The starting index. (The total number of items in the sample minus one.)
   * `mean: Number`: The initial mean of the sample.
-  * `m2: Number` The initial m2 value for the sample.  (See the [source code](https://github.com/buccaneerai/rxjs-stats/blob/operators/variance.js) to see how m2 is calculated.)
+  * `m2: Number` The initial m2 value for the sample.  (See the [source code](https://github.com/buccaneerai/bottlenose/blob/packages/rxstats/src/operators/variance.js) to see how m2 is calculated.)
 * `sample: Boolean`: The default is `true`. If `true`, then it will calculate the sample variance. Otherwise, it will calculate population variance.
 
 ### Returns

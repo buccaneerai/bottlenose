@@ -87,9 +87,9 @@ dirtyZScore([initialState={meanState: Object, stdevState: Object}])
 None
 
 ### Options
-* `initialState: Object {meanState: Object, stdevState: Object`: Sets a [warm start](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts) value so that the z-score calculation can continue from a non-zero starting point (instead of a blank state).  Since z-score is calculated from the mean and standard deviation operators, the warm start values mirror those.  The object should include the following keys:
-  * `meanState`: a warm start value for the `mean` operator. (See [mean](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/operators/mean).)
-  * `stdevState`: a warm start value for the `stdev` operator. (See [stdev](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/operators/stdev).)
+* `initialState: Object {meanState: Object, stdevState: Object`: Sets a [warm start](https://buccaneerai.gitbook.com/bottlenose/data-analysis/rxstats/guides/warmstarts) value so that the z-score calculation can continue from a non-zero starting point (instead of a blank state).  Since z-score is calculated from the mean and standard deviation operators, the warm start values mirror those.  The object should include the following keys:
+  * `meanState`: a warm start value for the `mean` operator. (See [mean](https://buccaneerai.gitbook.com/bottlenose/data-analysis/rxstats/operators/mean).)
+  * `stdevState`: a warm start value for the `stdev` operator. (See [stdev](https://buccaneerai.gitbook.com/bottlenose/data-analysis/rxstats/operators/stdev).)
 
 ### Returns
 `Number`. (The current zScore of the `Observable`.)

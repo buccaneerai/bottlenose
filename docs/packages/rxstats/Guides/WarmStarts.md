@@ -1,7 +1,7 @@
 # Using Warm Starts
 
 ## Overview
-Many `rxjs-stats` operators support a "warm start value".  A warm start value provides initial (non-blank) state for an operator.  This technique allows applications to continue calculating values without re-processing data that has already been processed.  In other words, setting an initial state lets calculations pick up from where they last left off.
+Many `rxstats` operators support a "warm start value".  A warm start value provides initial (non-blank) state for an operator.  This technique allows applications to continue calculating values without re-processing data that has already been processed.  In other words, setting an initial state lets calculations pick up from where they last left off.
 
 Here is a concrete example using the `mean` operator:
 ```javascript
@@ -42,5 +42,5 @@ The warm start technique is useful in at least a few situations:
 
 **Resuming a calculation that stopped due to a fatal exception**.  Let's give you the benefit of the doubt and assume your code is always perfect and bug-free...  Even then, software will eventually find ways to fail.  Perhaps there was a hardware fault due to an unexpected [Dalek](https://en.wikipedia.org/wiki/Dalek) invasion.  It's nice to be able to recover when this sort of thing happens.  The warm start technique creates an opportunity to restart a pipeline where it left off, assuming that the intermittant results are cached somewhere.  If you're using a database, you can often just restart the calculation at the index (or timestamp) you left off at.
 
-**Aggregating results from multiple streams**.  Warm start values can often be aggregated from multiple streams and then used to calculate a single result.  For example, suppose an application is collecing metrics from three users and the goal is to combine aggregates from each user into a single value that represents the aggregate of all three event streams.  Some `rxjs-stats` operators support this type of aggregation.  (The operators that support this functionality have code examples in their documentation.)
+**Aggregating results from multiple streams**.  Warm start values can often be aggregated from multiple streams and then used to calculate a single result.  For example, suppose an application is collecing metrics from three users and the goal is to combine aggregates from each user into a single value that represents the aggregate of all three event streams.  Some `rxstats` operators support this type of aggregation.  (The operators that support this functionality have code examples in their documentation.)
 
