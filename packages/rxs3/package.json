@@ -1,0 +1,32 @@
+{
+  "name": "@bottlenose/rxs3",
+  "version": "0.1.0",
+  "description": "Stream files to and from s3 with RxJS",
+  "keywords": [
+    "s3"
+  ],
+  "author": "Buccaneer LLC <opensource@buccaneer.ai>",
+  "homepage": "https://github.com/buccaneerai/bottlenose#readme",
+  "license": "MIT",
+  "main": "build/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "build"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.yarnpkg.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buccaneerai/bottlenose.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/buccaneerai/bottlenose/issues"
+  }
+}
