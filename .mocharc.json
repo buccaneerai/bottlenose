@@ -1,0 +1,14 @@
+{
+  "diff": true,
+  "require": ["esm", "@babel/register", "@babel/polyfill", "source-map-support"],
+  "extension": ["js", "jsx", "json", "ts", "tsx"],
+  "opts": false,
+  "colors": true,
+  "package": "../../package.json",
+  "reporter": "spec",
+  "slow": 75,
+  "timeout": 2000,
+  "ui": "bdd",
+  "watch-files": ["src/**/*.test.js", "src/*.test.js"],
+  "watch-ignore": ["scripts/**", "src/**/*.story.js"]
+}

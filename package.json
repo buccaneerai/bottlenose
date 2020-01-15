@@ -1,12 +1,23 @@
 {
   "private": true,
-  "name": "swashbuckler",
+  "name": "bottlenose",
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna exec --parallel 'BABEL_ENV=build babel src --out-dir build --source-maps --extensions .js --config-file ../../babel.config.js --delete-dir-on-start --no-comments'",
+    "lint": "lerna run lint",
+    "ls": "lerna ls",
+    "test": "lerna run test --since",
+    "bump": "lerna version --conventional-commits --yes",
+    "publish": "lerna publish",
+    "diff": "lerna diff"
+  },
   "devDependencies": {
     "@babel/cli": "^7.7.7",
     "@babel/core": "^7.7.7",
     "@babel/node": "^7.7.7",
     "@babel/polyfill": "^7.7.0",
     "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
     "@babel/register": "^7.7.7",
     "babel-eslint": "^10.0.3",
     "chai": "^4.2.0",
@@ -15,6 +26,7 @@
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.17.0",
+    "esm": "^3.2.25",
     "lerna": "^3.20.2",
     "mocha": "^7.0.0",
     "optimist": "^0.6.1",
@@ -24,5 +36,9 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "type": "module",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "dependencies": {}
 }
