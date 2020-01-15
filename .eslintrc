@@ -6,6 +6,15 @@
         "mocha": true
     },
     "extends": "airbnb",
+    "ignorePatterns": [
+        "*.test.js",
+        "*.story.js",
+        "node_modules",
+        "packages/**/node_modules/",
+        "packages/**/build/",
+        "**/bin/*",
+        "packages/**/**/bin/*"
+    ],
     "rules": {
         "arrow-body-style": 0,
         "arrow-parens": 0,
@@ -24,6 +33,7 @@
         "no-unused-vars": 1,
         "consistent-return": 1,
         "prefer-rest-params": 0,
-        "import/prefer-default-export": 1
+        "import/prefer-default-export": 1,
+        "import/no-extraneous-dependencies": 0
     }
 }
