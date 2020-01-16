@@ -5,6 +5,7 @@
   * [Contributing](contributing/contributing.md)
   * [Code of Conduct](contributing/code_of_conduct.md)
   * [Creating Operators](contributing/creating_operators.md)
+  * [Improving the Docs](contributing/improving_docs.md)
 * [Sources & Sinks]()
   * [rxs3 (AWS S3)](../packages/rxs3/README.md)
     * [Guides](packages/rxs3/Guides/README.md)
