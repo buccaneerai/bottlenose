@@ -24,8 +24,13 @@
     "observables"
   ],
   "files": [
-    "build/*"
+    "build/*",
+    "scripts/*"
   ],
+  "directories": {
+    "src": "src",
+    "scripts": "scripts"
+  },
   "dependencies": {
     "isomorphic-ws": "^4.0.1",
     "lodash": "^4.17.15",
@@ -41,7 +46,7 @@
     "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
     "test:watch": "yarn test -- --watch",
     "prepublishOnly": "yarn lint && yarn test && yarn build",
-    "server:start": "babel-node --config-file ../../babel.config.js ./scripts/startServer.js",
-    "server:connect": "babel-node --config-file ../../babel.config.js ./scripts/testWebSocket.js"
+    "server:start": "node --experimental-modules ./scripts/startServer.mjs",
+    "server:connect": "node --experimental-modules ./scripts/testWebSocket.mjs"
   }
 }

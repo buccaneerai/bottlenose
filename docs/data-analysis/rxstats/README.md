@@ -1,2 +1,0 @@
-# rxstats \(Descriptive Statistics\)
-
