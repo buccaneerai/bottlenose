@@ -1,4 +1,5 @@
 import { from, interval } from 'rxjs';
+import takeRight from 'lodash/takeRight';
 import { map, share, tap } from 'rxjs/operators';
 
 import {
