@@ -1,11 +1,17 @@
 # Table of contents
 
 * [Overview](../README.md)
-* [Contributing](./contributing/README.md)
-  * [Contributing](../CONTRIBUTING.md)
-  * [Code of Conduct](../CODE_OF_CONDUCT.md)
+* [Contributing](contributing/README.md)
+  * [Contributing](contributing/contributing.md)
+  * [Code of Conduct](contributing/code_of_conduct.md)
   * [Creating Operators](contributing/creating_operators.md)
 * [Sources & Sinks]()
+  * [rxs3 (AWS S3)](../packages/rxs3/README.md)
+    * [Guides](packages/rxs3/Guides/README.md)
+      * [Installation](packages/rxs3/Guides/Installation.md)
+      * [GettingStarted](packages/rxs3/Guides/GettingStarted.md)
+    * [operators](packages/rxs3/operators/README.md)
+      * [upload](packages/rxs3/operators/upload.md)
   * [rxws (WebSocket)](packages/rxws/README.md)
     * [Guides](packages/rxws/Guides/README.md)
       * [Installation](packages/rxws/Guides/Installation.md)
@@ -43,4 +49,5 @@
   * [rxtranscribe (Speech-to-Text)](packages/rxtranscribe/README.md)
     * [operators](packages/rxtranscribe/operators/README.md)
       * [transcribe](packages/rxtranscribe/operators/transcribe.md)
+
 

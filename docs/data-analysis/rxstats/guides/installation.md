@@ -3,13 +3,13 @@
 ## npm
 
 ```bash
-npm i @bottlenose/rxs3 --save
+npm i @bottlenose/rxstats --save
 ```
 
 ## yarn
 
 ```bash
-yarn add @bottlenose/rxs3
+yarn add @bottlenose/rxstats
 ```
 
 ## Compatability
