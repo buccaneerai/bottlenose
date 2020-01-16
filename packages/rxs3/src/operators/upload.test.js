@@ -38,7 +38,7 @@ describe('upload operator', () => {
       s3Key: 'tatooine/mysong.mp4',
       s3Bucket: 'mrbucket',
       contentType: 'application/mp4',
-      buffer$: m.cold(bufferMarble, bufferValues),
+      s3: {},
       _createMultipartUpload: sinon.stub().returns(m.cold(
         '-(r|)',
         {r: uploadId}
@@ -52,31 +52,13 @@ describe('upload operator', () => {
         {r: fakeCompleteResponse}
       )),
     };
+    const input$ = m.cold(bufferMarble, bufferValues);
     const expectedMarble = '--- --- --- --- --- ---(x|)';
     const expectedValues = {x: fakeCompleteResponse};
-    const actual$ = streamS3Upload(params);
+    const actual$ = input$.pipe(
+      upload(params)
+    );
     m.expect(actual$).toBeObservable(expectedMarble, expectedValues);
-    // expect(params._createMultipartUpload.calledOnce).to.be.true;
-    // expect(params._createMultipartUpload.firstCall.args[0]).to.deep.include({
-    //   s3Bucket: params.s3Bucket,
-    //   s3Key: params.s3Key,
-    //   contentType: params.contentType,
-    // });
-    // expect(params._uploadPart.callCount).to.equal(7);
-    // expect(params._uploadPart.getCall(6).args[0]).to.deep.include({
-    //   uploadId,
-    //   partNumber: 6,
-    //   partBuffer: bufferValues[6],
-    //   s3Bucket: params.s3Bucket,
-    //   s3Key: params.s3Key,
-    // });
-    // expect(params._completeUpload.calledOnce).to.be.true;
-    // expect(params._completeUpload.firstCalll.args[0]).to.deep.include({
-    //   uploadId,
-    //   s3Bucket: params.s3Bucket,
-    //   s3Key: params.s3Key,
-    //   parts: _.times(7, n => [n - 1, fakePartUploadResponse.ETag])
-    // });
   }));
 });
 
