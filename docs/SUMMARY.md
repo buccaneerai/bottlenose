@@ -12,7 +12,7 @@
       * [GettingStarted](packages/rxs3/Guides/GettingStarted.md)
     * [operators](packages/rxs3/operators/README.md)
       * [upload](packages/rxs3/operators/upload.md)
-  * [rxws (WebSocket)](packages/rxws/README.md)
+  * [rxws (WebSocket)](../packages/rxws/README.md)
     * [Guides](packages/rxws/Guides/README.md)
       * [Installation](packages/rxws/Guides/Installation.md)
       * [Quick Start](packages/rxws/Guides/GettingStarted.md)
@@ -27,7 +27,7 @@
       * [disconnections](packages/rxws/operators/disconnections.md)
       * [messages](packages/rxws/operators/messages.md) -->
 * [Data Analysis]()
-  * [rxstats (Statistics)](packages/rxstats/README.md)
+  * [rxstats (Statistics)](../packages/rxstats/README.md)
     * [Guides](packages/rxstats/Guides/README.md)
       * [Installation](packages/rxstats/Guides/installation.md)
       * [Getting Started](packages/rxstats/GettingStarted.md)
@@ -46,7 +46,7 @@
       * [stdev](packages/rxstats/operators/stdev.md)
       * [throwUnlessNumber](packages/rxstats/operators/throwUnlessNumber.md)
       * [variance](packages/rxstats/operators/variance.md)
-  * [rxtranscribe (Speech-to-Text)](packages/rxtranscribe/README.md)
+  * [rxtranscribe (Speech-to-Text)](../packages/rxtranscribe/README.md)
     * [operators](packages/rxtranscribe/operators/README.md)
       * [transcribe](packages/rxtranscribe/operators/transcribe.md)
 
