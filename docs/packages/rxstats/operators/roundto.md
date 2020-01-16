@@ -28,7 +28,7 @@ sum(numDecimalPlaces: Number)
 
 ### Since
 
-0.5
+0.1
 
 ### Parameters
 

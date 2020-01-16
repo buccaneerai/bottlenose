@@ -32,7 +32,7 @@ countValues([initialState={valueCounts: {}, keyCount: 0}])
 
 ### Since
 
-1.2
+0.1
 
 ### Parameters
 
@@ -43,6 +43,5 @@ None
 * `initialState: Object`: Sets a [warm start](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts) value so that the calculation can continue from a starting point \(instead of a blank state\).  Example: `{valueCounts: {myFirstValue: 32, mySecondValue: 5, myThirdValue: 42}, keyCount: 3}`.
 
 ### Returns
-
 `Number`. \(The current sum of the `Observable`.\)
 
