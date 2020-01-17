@@ -1,5 +1,5 @@
 import { toUtf8, fromUtf8 } from '@aws-sdk/util-utf8-node';
-import marshaller from '@aws-sdk/eventstream-marshaller';
+import { EventStreamMarshaller } from '@aws-sdk/eventstream-marshaller';
 
 function pcmEncode(input) {
   let offset = 0;
@@ -32,7 +32,7 @@ const convertAudioToBinaryMessage = function convertAudioToBinaryMessage({
   audioBinary,
   _pcmEncode = pcmEncode,
   _getAudioEventMessage = getAudioEventMessage,
-  _marshaller = (new marshaller.EventStreamMarshaller(
+  _marshaller = (new EventStreamMarshaller(
     toUtf8,
     fromUtf8
   )),
