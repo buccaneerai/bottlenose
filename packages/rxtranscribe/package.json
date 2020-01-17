@@ -1,7 +1,7 @@
 {
   "name": "@bottlenose/rxtranscribe",
   "version": "0.1.0",
-  "description": "Convert speech-to-text (S2T) in realtime with AWS Transcribe and RxJS",
+  "description": "👂 Realtime speech-to-text (S2T) transcription with AWS Transcribe and RxJS",
   "main": "build/index.js",
   "repository": "https://github.com/buccaneerai/bottlenose/tree/master/packages/rxtranscribe",
   "author": "Buccaneer LLC <opensource@buccaneer.ai>",
@@ -38,9 +38,11 @@
     "qs": "^6.9.1",
     "rxjs": "^6.5.4"
   },
+  "browserslist": [],
   "scripts": {
     "build": "rm -rf ./build/* && babel ./src -d ./build --ignore *.test.js",
     "lint": "eslint -c ../../.eslintrc ./src",
+    "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
     "test:watch": "yarn test -- --watch",
     "prepublishOnly": "yarn lint && yarn test && yarn build"
   }
