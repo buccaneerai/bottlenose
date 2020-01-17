@@ -1,7 +1,7 @@
 {
   "name": "@bottlenose/rxws",
   "version": "0.1.0",
-  "description": "A simple, reliable and isomorphic WebSocket client for RxJS",
+  "description": "🔌 A simple, reliable and isomorphic WebSocket client for RxJS",
   "main": "build/index.js",
   "repository": "https://github.com/buccaneerai/bottlenose/tree/master/packages/rxws",
   "author": "Buccaneer LLC <opensource@buccaneer.ai>",

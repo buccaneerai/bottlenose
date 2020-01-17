@@ -126,9 +126,9 @@ function createAwsSignedUrl(
 // Create pre-signed endpoint for the websocket to connect and authenticate with
 // AWS Transcribe
 const getAwsSignedUrl = function getAwsSignedUrl({
-  awsAccessKeyId,
-  awsSecretKey,
   region,
+  accessKeyId,
+  secretAccessKey,
   languageCode = 'en-US',
   sampleRate = 44100,
   _createAwsSignedUrl = createAwsSignedUrl,
@@ -143,8 +143,8 @@ const getAwsSignedUrl = function getAwsSignedUrl({
     crypto.createHash('sha256').update('', 'utf8').digest('hex'),
     {
       region,
-      key: awsAccessKeyId,
-      secret: awsSecretKey,
+      key: accessKeyId,
+      secret: secretAccessKey,
       protocol: 'wss',
       expires: 15,
       query: `language-code=${languageCode}&media-encoding=pcm&sample-rate=${sampleRate}`
