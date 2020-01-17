@@ -1,0 +1,19 @@
+// startup
+$theme-colors: (
+  // primary: #2595FF,
+  primary: rgb(94,84,155),
+  secondary: #fff,
+  success: #5cb85c,
+  info: #5bc0de,
+  warning: #f0ad4e,
+  danger: #d9534f,
+  light: #f5f8fa,
+  dark: #122a38
+);
+
+// @font-face {
+//   font-family: 'GT America';
+//   src: local('MyFont'), url(../fonts/GT-America-Standard-Bold.woff) format('woff');
+// }
+
+// @import "./variables.scss";
