@@ -31,14 +31,13 @@ mean([initialState={average: 0, sum: 0, index: 0}])
 
 ### Since
 
-0.5
+0.1
 
 ### Parameters
 
 None
 
 ### Options
-
 * `initialState: Object {average: Number, sum: Number, index: Number`: Sets a [warm start](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts) value so that the mean calculation can continue from a non-zero starting point \(instead of a blank state\).
 
 ### Returns
@@ -67,8 +66,7 @@ mean$.subscribe(console.log);
 ```
 
 ### Warm Start
-
-Calculate a mean with an [initial warmstart value](https://app.gitbook.com/@brianbuccaneer/s/rxjs-stats/guides/warmstarts) \(instead starting with a blank state\):
+Calculate a mean with an [initial warmstart value](https://buccaneerai.gitbook.io/bottlenose/data-analysis/rxstats/guides/warmstarts) (instead starting with a blank state):
 
 ```javascript
 import { from } from 'rxjs';
@@ -88,8 +86,7 @@ mean$.subscribe(console.log);
 ```
 
 ### Using Hotstarts to aggregate multiple streams
-
-Sometimes it is useful to be able to compute a mean from multiple data streams without processing the individual items from each stream. `rxjs-stats` enables this too. Suppose you have data points from 3 different users' browser applications. They can be combined into a single mean that represents all three data streams:
+Sometimes it is useful to be able to compute a mean from multiple data streams without processing the individual items from each stream. `rxstats` enables this too.  Suppose you have data points from 3 different users' browser applications.  They can be combined into a single mean that represents all three data streams:
 
 ```javascript
 import { from } from 'rxjs';
