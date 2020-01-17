@@ -29,6 +29,7 @@
     "esm": "^3.2.25",
     "lerna": "^3.20.2",
     "mocha": "^7.0.0",
+    "nodemon": "^2.0.2",
     "optimist": "^0.6.1",
     "prompt": "^1.0.0",
     "rxjs-marbles": "^5.0.4",
