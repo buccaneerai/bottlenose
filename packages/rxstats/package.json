@@ -1,7 +1,7 @@
 {
   "name": "@bottlenose/rxstats",
   "version": "0.1.0",
-  "description": "Descriptive statistics for RxJS",
+  "description": "🔬 Descriptive statistics for RxJS",
   "main": "build/index.js",
   "repository": "https://github.com/buccaneerai/bottlenose/tree/master/packages/rxstats",
   "author": "Buccaneer LLC <opensource@buccaneer.ai>",
