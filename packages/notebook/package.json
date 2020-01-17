@@ -1,0 +1,31 @@
+{
+  "name": "@bottlenose/notebook",
+  "version": "0.1.0",
+  "description": "Interactive data analysis notebook for RxJS and Bottlenose",
+  "keywords": [
+    "notebook"
+  ],
+  "author": "Brian <brianflaherty64@gmail.com>",
+  "homepage": "https://github.com/buccaneerai/bottlenose/tree/master/packages/notebook",
+  "license": "MIT",
+  "main": "src/index.js",
+  "directories": {
+    "src": "src"
+  },
+  "files": [
+    "build/*"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.yarnpkg.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buccaneerai/bottlenose.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/buccaneerai/bottlenose/issues"
+  }
+}
