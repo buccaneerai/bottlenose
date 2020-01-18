@@ -52,5 +52,13 @@
     * [README](../packages/rxtranscribe/README.md)
     * [operators](packages/rxtranscribe/operators/README.md)
       * [transcribe](packages/rxtranscribe/operators/transcribe.md)
+* [Machine Learning]()
+  * [rxsgd (SGD)](../packages/rxsgd/README.md)
+    * [README](../packages/rxsgd/README.md)
+    * [Guides]()
+      * [Getting Started](packages/rxsgd/guides/getting_started.md)
+    * [operators]()
+      * [classifier](packages/rxsgd/operators/classifier.md)
+      * [predict](packages/rxsgd/operators/predict.md)
 
 
