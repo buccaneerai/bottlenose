@@ -9,6 +9,9 @@ This module is part of the [Bottlenose project](https://github.com/buccaneerai/b
 
 `@bottlenose/rxsgd` provides a set of of [RxJS](http://rxjs.dev/) operators to train SGD (Stochastic Gradient Descent) classifiers.
 
+# Documentation & Guides
+- [Documentation](https://buccaneerai.gitbook.io/bottlenose/data-analysis/rxstats)
+
 ## Installation
 
 ### npm
@@ -31,9 +34,3 @@ yarn add @bottlenose/rxsgd
 | Browsers | ✅ |
 | React Native | ✅ |
 | Electron | ✅ |
-
-# Documentation & Guides
-- [Documentation](https://buccaneerai.gitbook.io/bottlenose/data-analysis/rxstats)
-- [Getting Started](https://buccaneerai.gitbook.io/bottlenose/data-analysis/rxstats/guides/gettingstarted)
-- [Full list of operators](https://buccaneerai.gitbook.io/bottlenose/data-analysis/rxstats/operators)
-- [Guides](https://buccaneerai.gitbook.io/bottlenose/data-analysis/rxstats/guides)

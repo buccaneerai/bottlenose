@@ -7,6 +7,30 @@ This module is functional but still **experimental**.  It's API is likely to cha
 ## About SGD Classifiers
 Stochastic Gradient Descent (SGD) classifiers are a fairly simple and commonly used machine learning algorithm. They scale well and train quickly under most conditions since they can be trained incrementally on each new item.
 
+## Installation
+
+### npm
+
+```bash
+npm i @bottlenose/rxsgd --save
+```
+
+### yarn
+
+```bash
+yarn add @bottlenose/rxsgd
+```
+
+### Compatability
+
+| Platform | Support |
+| :--- | :--- |
+| node.js \(&gt;10.0\) | ✅ |
+| Browsers | ✅ |
+| React Native | ✅ |
+| Electron | ✅ |
+
+
 ## Train an SGD classifier
 ```javascript
 import { of, range } from 'rxjs';
@@ -37,7 +61,7 @@ const myClassifier = function myClassifier() {
 
 export default myClassifier;
 ```
-💡 In this case, the training data was a hardcoded array.  But it could be *any data stream*: a database table, a Mongo query, a series of HTTP requests, a CSV file from AWS S3... You name it!
+💡 In this case, the training data was a hardcoded array.  But it could be *any data stream*: a database table, a Mongo query, a series of HTTP requests, a series of front-end user events, a CSV file from AWS S3... You name it!
 
 The **classifier is reactive**.  It will update every time a new item is ingested. These incremental classifiers are often useful if you want to understand how the model is improving (or overfitting itself) as it munches on more data.  If you just want to see the final classifier then you can simply ignore the incremental results and take the last one:
 ```javascript
