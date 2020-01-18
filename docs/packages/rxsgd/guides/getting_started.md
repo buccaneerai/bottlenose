@@ -37,9 +37,9 @@ const myClassifier = function myClassifier() {
 
 export default myClassifier;
 ```
-💡 In this case, the training data was a hardcoded array.  But **it could be any data stream**: a database table, Mongo collection, CSV file from AWS S3, HTTP API... You name it!
+💡 In this case, the training data was a hardcoded array.  But it could be *any data stream*: a database table, a Mongo query, a series of HTTP requests, a CSV file from AWS S3... You name it!
 
-The **classifier is reactive**.  It will update every time a new item is ingested. These incremental classifiers are often useful if you want to understand how the model is improving (or overfitting itself) as it fits itself to more data.  If you just want to see the final classifier then you can simply take the last one:
+The **classifier is reactive**.  It will update every time a new item is ingested. These incremental classifiers are often useful if you want to understand how the model is improving (or overfitting itself) as it munches on more data.  If you just want to see the final classifier then you can simply ignore the incremental results and take the last one:
 ```javascript
 import {takeLast} from 'rxjs/operators';
 
@@ -56,7 +56,7 @@ classifier$.subscribe(console.log);
 // }
 ```
 
-**The classifier is just a plain JavaScript object** with some data attached to it.  Internally, SGD classifiers are actually very simple (Bottlenose's original implementation was perhaps only around 50 lines of code).  They just calculate an intercept value and attach a weight to each feature column.
+**Each instance of the classifier is just a simple JavaScript object with a few keys, most importantly the model parameters**.  Internally, SGD classifiers are actually very simple. Bottlenose's original implementation was perhaps only around 50 lines of code.  They just calculate an intercept value and attach a weight to each feature column.
 
 ## Use a trained classifier to make predictions
 The easiest way to use a trained classifier is to store its parameters for later use.  Taking the classifier from the prior example, we can plugin its fitted parameters to make new predictions like this:
@@ -130,9 +130,10 @@ const latestClassifier$ = input$.pipe(
   mergeMap(classifier$ => classifier$),
   share()
 );
-latestClassifier.subscribe();
+// this will emit a new classifier at the end of each 30-minute window
+latestClassifier.subscribe(); 
 ```
 
-A better version of the code might test the performance of each new classifier to see if it does a better job than the previous classifier.
+A better version of the code might test the performance of each new classifier to see if it does a better job than the previous classifier. Or the results could be shipped to a backend job runner which would test each model to see if they are better than prior models.  Reactive programming makes it easy to do these sorts of things.
 
-Hopefully this enough information to get you started!
+We hope to add more information to this guide in the future.  Hopefully this enough information to get you started!
