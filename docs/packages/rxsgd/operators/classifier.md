@@ -2,6 +2,10 @@
 
 ## Description
 
+{% hint style="warning" %}
+This module is **experimental**.  It's API is likely to change in future versions as Bottlenose improves. We are working on adding support for multi-classification, streams of object input (instead of arrays) and an overall better experience for users.  We will attempt to make these changes in a backwards compatible way (but no promises).
+{% endhint %}
+
 Trains an SGD classifier on the input stream.
 
 ## Examples
