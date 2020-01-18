@@ -1,3 +1,5 @@
+// Numbers and code based on:
+// https://machinelearningmastery.com/implement-logistic-regression-stochastic-gradient-descent-scratch-python/
 import {expect} from 'chai';
 import {marbles} from 'rxjs-marbles/mocha';
 import {from,range} from 'rxjs';
@@ -7,8 +9,7 @@ import fpflattenDeep from 'lodash/fp/flattenDeep';
 import fptimes from 'lodash/fp/times';
 
 import classifier, {testExports} from './classifier';
-const {predict, updateWeights, modelTrainer} = testExports;
-// https://machinelearningmastery.com/implement-logistic-regression-stochastic-gradient-descent-scratch-python/
+const {updateWeights, modelTrainer} = testExports;
 
 const trainingData = [
   [[2.7810836, 2.550537003], 0],
@@ -39,7 +40,6 @@ describe('operators.classifier', () => {
       classifier(options),
       takeLast(1)
     );
-    // FIXME: there is a very slight discrepency between these and the Python numbers
     const expected$ = m.cold('(0|)', {
       0: {
         intercept: -0.8596443546618895,
@@ -69,15 +69,6 @@ describe('operators.classifier', () => {
     });
     m.expect(actual$).toBeObservable(expected$);
   }));
-
-  it('.predict() should generate correct predictions', () => {
-    const row = [2.7810836, 2.550537003];
-    const intercept = -0.406605464;
-    const weights = [0.852573316, -1.104746259];
-    const actual = predict(row, intercept, weights);
-    const expected = 0.2987569855650975;
-    expect(actual).to.equal(expected);
-  });
 
   it('.updateWeights() should generate correct weights', () => {
     const params = {
