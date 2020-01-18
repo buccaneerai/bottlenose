@@ -1,0 +1,42 @@
+{
+  "name": "@bottlenose/rxsgd",
+  "version": "0.1.0",
+  "description": "SGD classifier for RxJS",
+  "keywords": [
+    "sgd classifier",
+    "bottlenose",
+    "rxjs",
+    "machine learning",
+    "ml",
+    "artificial intelligence",
+    "ai",
+    "classifier",
+    "stochastic gradient descent"
+  ],
+  "author": "Brian <brianflaherty64@gmail.com>",
+  "homepage": "https://github.com/buccaneerai/bottlenose#readme",
+  "license": "MIT",
+  "main": "src/index.js",
+  "directories": {
+    "src": "src"
+  },
+  "files": [
+    "build/*"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.yarnpkg.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buccaneerai/bottlenose.git"
+  },
+  "scripts": {
+    "build": "rm -rf ./build/* && babel ./src -d ./build --ignore *.test.js",
+    "lint": "eslint -c ../../.eslintrc ./src",
+    "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
+    "test:watch": "yarn test -- --watch"
+  },
+  "bugs": {
+    "url": "https://github.com/buccaneerai/bottlenose/issues"
+  }
+}
