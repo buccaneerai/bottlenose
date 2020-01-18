@@ -16,13 +16,13 @@ const classifier = function classifier({
       initialIntercept: initialState.intercept || 0,
       initialWeights: initialState.weights,
     }),
-    map(({intercept, weights}) => ({
-      modelType: 'sgd',
-      modelParams: {intercept, weights},
-      featuresTrainedOn: [],
-      labelsTrainedOn: [],
-      lastUpdatedAt: (new Date()).toISOString(),
-    }))
+    // map(({intercept, weights}) => ({
+    //   modelType: 'sgd',
+    //   modelParams: {intercept, weights},
+    //   featuresTrainedOn: [],
+    //   labelsTrainedOn: [],
+    //   lastUpdatedAt: (new Date()).toISOString(),
+    // }))
   );
 };
 

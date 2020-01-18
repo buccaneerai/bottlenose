@@ -3,7 +3,8 @@ import {take} from 'rxjs/operators';
 import {expect} from 'chai';
 import {marbles} from 'rxjs-marbles/mocha';
 
-import modelTrainer from './modelTrainer';
+import modelTrainer, {testExports} from './modelTrainer';
+const {updateWeights} = testExports;
 
 // Numbers and code based on:
 // https://machinelearningmastery.com/implement-logistic-regression-stochastic-gradient-descent-scratch-python/

@@ -6,6 +6,7 @@ describe('index', () => {
   it('should export operator functions', () => {
     const expectedApi = [
       'classifier',
+      'predict',
     ];
     expect(Object.keys(api)).to.deep.equal(expectedApi);
   });
