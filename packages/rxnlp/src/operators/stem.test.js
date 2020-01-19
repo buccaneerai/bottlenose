@@ -29,7 +29,7 @@ const lancasterStemmedText = [
 ];
 
 
-describe('stem', () => {
+describe('operators.stem', () => {
   it('should default to stemming input strings using the Porter stemmer', marbles(m => {
     const text$ = m.cold('--0-1--2---(34|)', text);
     const actual$ = text$.pipe(stem());
