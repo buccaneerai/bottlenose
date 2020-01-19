@@ -12,7 +12,7 @@
   "license": "MIT",
   "main": "src/index.js",
   "directories": {
-    "src": "src",
+    "src": "src"
   },
   "files": [
     "build"
@@ -32,5 +32,11 @@
   },
   "bugs": {
     "url": "https://github.com/buccaneerai/bottlenose/issues"
+  },
+  "dependencies": {
+    "csv-parse": "^4.8.5",
+    "json2csv": "^4.5.4",
+    "lodash": "^4.17.15",
+    "rxjs": "^6.5.4"
   }
 }
