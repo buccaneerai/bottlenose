@@ -30,6 +30,14 @@
       * [messages](packages/rxws/operators/messages.md) -->
     * [HTTP Requests](guides/http.md)
 * [Data Analysis]()
+  * [rxnlp (NLP)](../packages/rxnlp/README.md)
+    * [README](../packages/rxnlp/README.md)
+    * [Getting Started](packages/rxnlp/getting_started.md)
+    * [operators]()
+      * [ngram](packages/rxnlp/operators/ngram.md)
+      * [stem](packages/rxnlp/operators/stem.md)
+      * [tokenize](packages/rxnlp/operators/tokenize.md)
+      <!-- * [tfidf](packages/rxnlp/operators/tfidf.md) -->
   * [rxstats (Statistics)](../packages/rxstats/README.md)
     * [README](../packages/rxstats/README.md)
     * [Guides]()
