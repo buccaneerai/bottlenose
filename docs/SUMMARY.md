@@ -36,8 +36,8 @@
     * [operators]()
       * [ngram](packages/rxnlp/operators/ngram.md)
       * [stem](packages/rxnlp/operators/stem.md)
-      * [tfidf](packages/rxnlp/operators/tfidf.md)
       * [tokenize](packages/rxnlp/operators/tokenize.md)
+      <!-- * [tfidf](packages/rxnlp/operators/tfidf.md) -->
   * [rxstats (Statistics)](../packages/rxstats/README.md)
     * [README](../packages/rxstats/README.md)
     * [Guides]()
