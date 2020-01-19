@@ -1,14 +1,14 @@
 import {expect} from 'chai';
 
-import * as api from './index';
+import * as operators from './index';
 
 describe('operators', () => {
     it('should export expected modules', () => {
-      const expectedApi = [
+      const api = [
         'ngram',
         'stem',
         'tokenize'
       ];
-      expect(Object.keys(api)).to.deep.equal(expectedApi);
+      expect(Object.keys(operators)).to.deep.equal(api);
     });
 });
