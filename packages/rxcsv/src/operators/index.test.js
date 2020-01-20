@@ -6,7 +6,7 @@ describe('operators', () => {
     it('should export expected modules', () => {
       const api = [
         'parse',
-        'stringify'
+        'toCsv'
       ];
       expect(Object.keys(operators)).to.deep.equal(api);
     });
