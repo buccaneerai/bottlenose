@@ -6,9 +6,8 @@ describe('index', () => {
   it('should export public API', () => {
     const functions = [
       'parse',
-      'stringify',
+      'toCsv',
     ];
     expect(Object.keys(api)).to.deep.equal(functions);
-    expect(api.ws).to.be.a('function');
   });
 });
