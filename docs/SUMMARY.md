@@ -14,7 +14,7 @@
     * [creators]()
       * [fromFile](packages/rxfs/creators/fromFile.md)
     * [operators]()
-      * [writeFile](packages/rxfs/operators/writefile.md)
+      * [writeFile](packages/rxfs/operators/writeFile.md)
       * [appendFile](packages/rxfs/operators/appendFile.md)
   * [rxs3 (AWS S3)](../packages/rxs3/README.md)
     * [README](../packages/rxs3/README.md)
