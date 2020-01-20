@@ -1,0 +1,50 @@
+{
+  "name": "@bottlenose/rxnlp",
+  "version": "0.1.0",
+  "description": "NLP (natural language processing) operators for RxJS",
+  "keywords": [
+    "nlp",
+    "natural language processing",
+    "rxjs",
+    "bottlenose",
+    "machine learning",
+    "data science",
+    "data analysis",
+    "observables",
+    "reactive functional programming",
+    "stemmer",
+    "tokenizer",
+    "tfidf"
+  ],
+  "author": "Brian <brianflaherty64@gmail.com>",
+  "homepage": "https://github.com/buccaneerai/bottlenose#readme",
+  "license": "MIT",
+  "main": "src/index.js",
+  "directories": {
+    "src": "src"
+  },
+  "files": [
+    "build"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.yarnpkg.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buccaneerai/bottlenose.git"
+  },
+  "scripts": {
+    "build": "rm -rf ./build/* && babel ./src -d ./build --ignore *.test.js",
+    "lint": "eslint -c ../../.eslintrc ./src",
+    "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
+    "test:watch": "yarn test -- --watch"
+  },
+  "bugs": {
+    "url": "https://github.com/buccaneerai/bottlenose/issues"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "natural": "^0.6.3",
+    "rxjs": "^6.5.4"
+  }
+}

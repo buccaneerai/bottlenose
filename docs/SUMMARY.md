@@ -5,6 +5,7 @@
   * [Contributing](contributing/contributing.md)
   * [Code of Conduct](contributing/code_of_conduct.md)
   * [Creating Operators](contributing/creating_operators.md)
+  * [Creating New Modules](contributing/creating_new_modules.md)
   * [Improving the Docs](contributing/improving_docs.md)
 * [Sources & Sinks]()
   * [rxs3 (AWS S3)](../packages/rxs3/README.md)
@@ -29,6 +30,14 @@
       * [messages](packages/rxws/operators/messages.md) -->
     * [HTTP Requests](guides/http.md)
 * [Data Analysis]()
+  * [rxnlp (NLP)](../packages/rxnlp/README.md)
+    * [README](../packages/rxnlp/README.md)
+    * [Getting Started](packages/rxnlp/getting_started.md)
+    * [operators]()
+      * [ngram](packages/rxnlp/operators/ngram.md)
+      * [stem](packages/rxnlp/operators/stem.md)
+      * [tokenize](packages/rxnlp/operators/tokenize.md)
+      <!-- * [tfidf](packages/rxnlp/operators/tfidf.md) -->
   * [rxstats (Statistics)](../packages/rxstats/README.md)
     * [README](../packages/rxstats/README.md)
     * [Guides]()
@@ -52,5 +61,13 @@
     * [README](../packages/rxtranscribe/README.md)
     * [operators](packages/rxtranscribe/operators/README.md)
       * [transcribe](packages/rxtranscribe/operators/transcribe.md)
+* [Machine Learning]()
+  * [rxsgd (SGD)](../packages/rxsgd/README.md)
+    * [README](../packages/rxsgd/README.md)
+    * [Guides]()
+      * [Getting Started](packages/rxsgd/guides/getting_started.md)
+    * [operators]()
+      * [classifier](packages/rxsgd/operators/classifier.md)
+      * [predict](packages/rxsgd/operators/predict.md)
 
 
