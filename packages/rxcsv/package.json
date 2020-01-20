@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "csv-parse": "^4.8.5",
+    "csv-parser": "^2.3.2",
     "json2csv": "^4.5.4",
     "lodash": "^4.17.15",
     "rxjs": "^6.5.4"
