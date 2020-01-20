@@ -6,7 +6,7 @@
 
 
 ## Description
-`@bottlenose/rxs3` is part of the Bottlenose project.  It allows for the upload and download of s3 files as streams (instead of a single larger HTTP payload). Why?
+`@bottlenose/rxs3` is part of the [Bottlenose](https://github.com/buccaneerai/bottlenose) project.  It allows for the upload and download of s3 files as streams (instead of a single larger HTTP payload). Why?
 
 - This is very important when working with big files. (Even a 1MB file can take significant time to upload.)
 - With some filetypes (like CSV, certain JSON formats and audio) this enables processing data immediately even if the full file takes longer to download.
@@ -38,7 +38,4 @@ yarn add @bottlenose/rxs3
 | Electron | ✅ |
 
 # Documentation & Guides
-- [Documentation](https://buccaneerai.gitbook.io/bottlenose/sources-and-sinks/rxs3)
-- [Getting Started](https://buccaneerai.gitbook.io/bottlenose/sources-and-sinks/rxs3/guides/gettingstarted)
-- [Full list of operators](https://buccaneerai.gitbook.io/bottlenose/sources-and-sinks/rxs3/operators)
-- [Guides](https://buccaneerai.gitbook.io/bottlenose/sources-and-sinks/rxs3/guides)
+- [Documentation & Guides](https://buccaneerai.gitbook.io/bottlenose/sources-and-sinks/rxs3)
