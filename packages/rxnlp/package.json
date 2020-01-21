@@ -16,7 +16,7 @@
     "tokenizer",
     "tfidf"
   ],
-  "author": "Brian <brianflaherty64@gmail.com>",
+  "author": "Buccaneer LLC <opensource@buccaneer.ai>",
   "homepage": "https://github.com/buccaneerai/bottlenose#readme",
   "license": "MIT",
   "main": "src/index.js",
