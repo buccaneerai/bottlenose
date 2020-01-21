@@ -1,0 +1,53 @@
+{
+  "name": "@bottlenose/rxtranscribe",
+  "version": "0.2.1-beta.2+2e605ea",
+  "description": "👂 Realtime speech-to-text (S2T) transcription with AWS Transcribe and RxJS",
+  "main": "build/index.js",
+  "repository": "https://github.com/buccaneerai/bottlenose/tree/master/packages/rxtranscribe",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Buccaneer LLC <opensource@buccaneer.ai>",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/buccaneerai/bottlenose/issues"
+  },
+  "keywords": [
+    "speech-to-text",
+    "s2t",
+    "transcription",
+    "transcribe",
+    "voice control",
+    "speech recognition",
+    "AWS",
+    "AWS Transcribe",
+    "rxjs",
+    "reactive",
+    "observables",
+    "stream",
+    "streaming",
+    "realtime"
+  ],
+  "files": [
+    "build/*"
+  ],
+  "dependencies": {
+    "@aws-sdk/eventstream-marshaller": "^0.1.0-preview.2",
+    "@aws-sdk/util-utf8-node": "^0.1.0-preview.1",
+    "@bottlenose/rxws": "^0.2.1-beta.2+2e605ea",
+    "lodash": "^4.17.15",
+    "qs": "^6.9.1",
+    "rxjs": "^6.5.4"
+  },
+  "browserslist": [],
+  "scripts": {
+    "build": "rm -rf ./build/* && babel ./src -d ./build --ignore *.test.js",
+    "lint": "eslint -c ../../.eslintrc ./src",
+    "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
+    "test:watch": "yarn test -- --watch",
+    "prepublishOnly": "yarn lint && yarn test && yarn build"
+  },
+  "gitHead": "2e605ea39f6ec0994985bdd3a63398c3b9946553"
+}

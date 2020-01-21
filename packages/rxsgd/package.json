@@ -1,0 +1,49 @@
+{
+  "name": "@bottlenose/rxsgd",
+  "version": "0.2.1-beta.2+2e605ea",
+  "description": "♾️ SGD (stochastic gradient descent) linear classifier for RxJS",
+  "keywords": [
+    "rxjs",
+    "bottlenose",
+    "sgd",
+    "stochastic gradient descent",
+    "sgd classifier",
+    "machine learning",
+    "ml",
+    "artificial intelligence",
+    "ai",
+    "classifier",
+    "linear classifier",
+    "linear model",
+    "logistic regression"
+  ],
+  "author": "Buccaneer LLC <opensource@buccaneer.ai>",
+  "homepage": "https://github.com/buccaneerai/bottlenose#readme",
+  "license": "MIT",
+  "private": false,
+  "main": "src/index.js",
+  "directories": {
+    "src": "src"
+  },
+  "files": [
+    "build/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buccaneerai/bottlenose.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf ./build/* && babel ./src -d ./build --ignore *.test.js",
+    "lint": "eslint -c ../../.eslintrc ./src",
+    "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
+    "test:watch": "yarn test -- --watch",
+    "prepare": "yarn lint && yarn test && yarn build"
+  },
+  "bugs": {
+    "url": "https://github.com/buccaneerai/bottlenose/issues"
+  },
+  "gitHead": "2e605ea39f6ec0994985bdd3a63398c3b9946553"
+}

@@ -1,0 +1,49 @@
+{
+  "name": "@bottlenose/rxs3",
+  "version": "0.2.1-beta.2+2e605ea",
+  "description": "☁️ Stream files to and from AWS S3 with RxJS",
+  "main": "build/index.js",
+  "author": "Buccaneer LLC <opensource@buccaneer.ai>",
+  "homepage": "https://github.com/buccaneerai/bottlenose#readme",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buccaneerai/bottlenose/tree/master/packages/rxws"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/buccaneerai/bottlenose/issues"
+  },
+  "keywords": [
+    "s3",
+    "stream",
+    "multipart upload",
+    "aws",
+    "rxjs",
+    "reactive",
+    "observable"
+  ],
+  "directories": {
+    "src": "src"
+  },
+  "files": [
+    "build/*"
+  ],
+  "scripts": {
+    "build": "rm -rf ./build/* && babel ./src -d ./build --ignore *.test.js",
+    "lint": "eslint -c ../../.eslintrc ./src",
+    "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
+    "test:watch": "yarn test -- --watch",
+    "prepare": "yarn lint && yarn test && yarn build"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.604.0",
+    "lodash": "^4.17.15",
+    "rxjs": "^6.5.4"
+  },
+  "gitHead": "2e605ea39f6ec0994985bdd3a63398c3b9946553"
+}

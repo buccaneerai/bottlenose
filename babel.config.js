@@ -29,7 +29,15 @@ module.exports = (api) => {
           '__stories__',
         ],
       },
-    },
-    ignore: ['node_modules'],
+      test: {
+        ignore: [
+          '**/*.story.js',
+          '__snapshots__',
+          '__tests__',
+          '__stories__'
+        ]
+      }
+    }
+    // ignore: ['node_modules'],
   };
 };
