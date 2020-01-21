@@ -23,9 +23,6 @@
   "files": [
     "build/*"
   ],
-  "publishConfig": {
-    "registry": "https://registry.yarnpkg.com"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/buccaneerai/bottlenose.git"
@@ -34,7 +31,8 @@
     "build": "rm -rf ./build/* && babel ./src -d ./build --ignore *.test.js",
     "lint": "eslint -c ../../.eslintrc ./src",
     "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
-    "test:watch": "yarn test -- --watch"
+    "test:watch": "yarn test -- --watch",
+    "prepare": "yarn lint && yarn test && yarn build"
   },
   "bugs": {
     "url": "https://github.com/buccaneerai/bottlenose/issues"
