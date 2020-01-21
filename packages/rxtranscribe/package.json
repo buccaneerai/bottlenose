@@ -45,5 +45,8 @@
     "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
     "test:watch": "yarn test -- --watch",
     "prepublishOnly": "yarn lint && yarn test && yarn build"
+  },
+  "devDependencies": {
+    "@bottlenose/rxfs": "^0.1.0"
   }
 }

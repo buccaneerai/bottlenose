@@ -1,10 +1,14 @@
+import fs from 'fs';
+import path from 'path';
 import {expect} from 'chai';
 import sinon from 'sinon';
-import {from,of} from 'rxjs';
-import {map,mapTo} from 'rxjs/operators';
+import {from,Observable,of} from 'rxjs';
+import {map,mapTo,take,tap} from 'rxjs/operators';
 import {marbles} from 'rxjs-marbles/mocha';
 
 import transcribe from './transcribe';
+
+const audioSampleFilePath = path.resolve(__dirname, '../../demo/sample-audio.mp3');
 
 describe('operators.transcribe', () => {
   it('should properly call its workflow', marbles(m => {
@@ -46,7 +50,22 @@ describe('operators.transcribe', () => {
     // expect(params._conduit.callCount).to.equal(1);
   }));
 
-  it('should produce correct output when given a valid input stream', marbles(m => {
-
-  }));
+  it('should produce correct output when given a valid input stream', done => {
+    const params = {
+      accessKeyId: 'fakeaccesskey',
+      secretAccessKey: 'fakesecretkey',
+      _conduit: sinon.stub().returns(source$ => source$.pipe(map(data => data))),
+      _getPresignedUrl: sinon.stub().returns(
+        'wss://buccaneer.ai?something'
+      ),
+    };
+    const mp3Stream$ = readFile(audioSampleFilePath).pipe(take(5));
+    mp3Stream$.pipe(tap(console.log)).subscribe();
+    const transcription$ = mp3Stream$.pipe(
+      transcribe(params),
+      tap(console.log)
+    ).subscribe();
+    // const expected$ = m.cold('---------------|');
+    // m.expect(transcription$).toBeObservable(expected$);
+  });
 });
