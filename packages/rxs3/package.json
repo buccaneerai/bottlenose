@@ -39,9 +39,6 @@
     "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
     "test:watch": "yarn test -- --watch"
   },
-  "bugs": {
-    "url": "https://github.com/buccaneerai/bottlenose/issues"
-  },
   "dependencies": {
     "aws-sdk": "^2.604.0",
     "lodash": "^4.17.15",
