@@ -1,6 +1,6 @@
 {
   "name": "@bottlenose/rxnlp",
-  "version": "0.2.1-beta.1+d9241fd",
+  "version": "0.2.1-beta.2+2e605ea",
   "description": "💬 NLP (natural language processing) operators for RxJS",
   "keywords": [
     "nlp",
@@ -31,6 +31,9 @@
     "type": "git",
     "url": "git+https://github.com/buccaneerai/bottlenose.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "rm -rf ./build/* && babel ./src -d ./build --ignore *.test.js",
     "lint": "eslint -c ../../.eslintrc ./src",
@@ -46,5 +49,5 @@
     "natural": "^0.6.3",
     "rxjs": "^6.5.4"
   },
-  "gitHead": "d9241fdec2eadd5a5a120d57e3c3565dad292764"
+  "gitHead": "2e605ea39f6ec0994985bdd3a63398c3b9946553"
 }

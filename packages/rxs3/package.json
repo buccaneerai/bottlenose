@@ -1,6 +1,6 @@
 {
   "name": "@bottlenose/rxs3",
-  "version": "0.2.1-beta.1+d9241fd",
+  "version": "0.2.1-beta.2+2e605ea",
   "description": "☁️ Stream files to and from AWS S3 with RxJS",
   "main": "build/index.js",
   "author": "Buccaneer LLC <opensource@buccaneer.ai>",
@@ -11,6 +11,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/buccaneerai/bottlenose/tree/master/packages/rxws"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "bugs": {
     "url": "https://github.com/buccaneerai/bottlenose/issues"
@@ -42,5 +45,5 @@
     "lodash": "^4.17.15",
     "rxjs": "^6.5.4"
   },
-  "gitHead": "d9241fdec2eadd5a5a120d57e3c3565dad292764"
+  "gitHead": "2e605ea39f6ec0994985bdd3a63398c3b9946553"
 }
