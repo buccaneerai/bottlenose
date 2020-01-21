@@ -1,7 +1,7 @@
 {
   "name": "@bottlenose/rxnlp",
-  "version": "0.1.0",
-  "description": "NLP (natural language processing) operators for RxJS",
+  "version": "0.2.1-beta.2+2e605ea",
+  "description": "💬 NLP (natural language processing) operators for RxJS",
   "keywords": [
     "nlp",
     "natural language processing",
@@ -19,6 +19,7 @@
   "author": "Buccaneer LLC <opensource@buccaneer.ai>",
   "homepage": "https://github.com/buccaneerai/bottlenose#readme",
   "license": "MIT",
+  "private": false,
   "main": "src/index.js",
   "directories": {
     "src": "src"
@@ -26,18 +27,19 @@
   "files": [
     "build"
   ],
-  "publishConfig": {
-    "registry": "https://registry.yarnpkg.com"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/buccaneerai/bottlenose.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "rm -rf ./build/* && babel ./src -d ./build --ignore *.test.js",
     "lint": "eslint -c ../../.eslintrc ./src",
     "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
-    "test:watch": "yarn test -- --watch"
+    "test:watch": "yarn test -- --watch",
+    "prepare": "yarn lint && yarn test && yarn build"
   },
   "bugs": {
     "url": "https://github.com/buccaneerai/bottlenose/issues"
@@ -46,5 +48,6 @@
     "lodash": "^4.17.15",
     "natural": "^0.6.3",
     "rxjs": "^6.5.4"
-  }
+  },
+  "gitHead": "2e605ea39f6ec0994985bdd3a63398c3b9946553"
 }
