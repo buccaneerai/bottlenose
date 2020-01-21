@@ -45,5 +45,6 @@
     "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
     "test:watch": "yarn test -- --watch",
     "prepublishOnly": "yarn lint && yarn test && yarn build"
-  }
+  },
+  "gitHead": "b2a0edac1d5927d6b5535160778f891a1d7a91c8"
 }

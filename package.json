@@ -7,9 +7,12 @@
     "lint": "lerna run lint",
     "ls": "lerna ls",
     "test": "lerna run test --since",
-    "bump": "lerna version --conventional-commits --yes",
-    "publish": "lerna publish",
-    "diff": "lerna diff"
+    "bump:major": "lerna version major --yes",
+    "bump:minor": "lerna version minor --yes",
+    "bump:patch": "lerna version patch --yes",
+    "diff": "lerna diff",
+    "release": "lerna publish",
+    "release:beta": "lerna publish --canary --preid beta"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",

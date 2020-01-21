@@ -47,5 +47,6 @@
     "prepare": "yarn lint && yarn test && yarn build",
     "server:start": "node --experimental-modules ./scripts/startServer.mjs",
     "server:connect": "node --experimental-modules ./scripts/testWebSocket.mjs"
-  }
+  },
+  "gitHead": "b2a0edac1d5927d6b5535160778f891a1d7a91c8"
 }
