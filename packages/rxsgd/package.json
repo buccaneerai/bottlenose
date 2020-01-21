@@ -1,21 +1,26 @@
 {
   "name": "@bottlenose/rxsgd",
-  "version": "0.2.1-beta.0+9216c0f",
-  "description": "SGD classifier for RxJS",
+  "version": "0.2.1-beta.1+d9241fd",
+  "description": "♾️ SGD (stochastic gradient descent) linear classifier for RxJS",
   "keywords": [
-    "sgd classifier",
-    "bottlenose",
     "rxjs",
+    "bottlenose",
+    "sgd",
+    "stochastic gradient descent",
+    "sgd classifier",
     "machine learning",
     "ml",
     "artificial intelligence",
     "ai",
     "classifier",
-    "stochastic gradient descent"
+    "linear classifier",
+    "linear model",
+    "logistic regression"
   ],
   "author": "Buccaneer LLC <opensource@buccaneer.ai>",
   "homepage": "https://github.com/buccaneerai/bottlenose#readme",
   "license": "MIT",
+  "private": false,
   "main": "src/index.js",
   "directories": {
     "src": "src"
@@ -37,5 +42,5 @@
   "bugs": {
     "url": "https://github.com/buccaneerai/bottlenose/issues"
   },
-  "gitHead": "9216c0f2309f24f1563f5b1d4648f90f7d1f84f7"
+  "gitHead": "d9241fdec2eadd5a5a120d57e3c3565dad292764"
 }

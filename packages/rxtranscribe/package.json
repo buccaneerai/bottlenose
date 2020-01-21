@@ -1,6 +1,6 @@
 {
   "name": "@bottlenose/rxtranscribe",
-  "version": "0.2.1-beta.0+9216c0f",
+  "version": "0.2.1-beta.1+d9241fd",
   "description": "👂 Realtime speech-to-text (S2T) transcription with AWS Transcribe and RxJS",
   "main": "build/index.js",
   "repository": "https://github.com/buccaneerai/bottlenose/tree/master/packages/rxtranscribe",
@@ -33,7 +33,7 @@
   "dependencies": {
     "@aws-sdk/eventstream-marshaller": "^0.1.0-preview.2",
     "@aws-sdk/util-utf8-node": "^0.1.0-preview.1",
-    "@bottlenose/rxws": "^0.2.1-beta.0+9216c0f",
+    "@bottlenose/rxws": "^0.2.1-beta.1+d9241fd",
     "lodash": "^4.17.15",
     "qs": "^6.9.1",
     "rxjs": "^6.5.4"
@@ -46,5 +46,5 @@
     "test:watch": "yarn test -- --watch",
     "prepublishOnly": "yarn lint && yarn test && yarn build"
   },
-  "gitHead": "9216c0f2309f24f1563f5b1d4648f90f7d1f84f7"
+  "gitHead": "d9241fdec2eadd5a5a120d57e3c3565dad292764"
 }
