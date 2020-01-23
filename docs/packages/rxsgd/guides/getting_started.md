@@ -103,7 +103,7 @@ const newRow$ = from([
 const classifier$ = myClassifier();
 const prediction$ = classifier$.pipe(
   takeLast(1),
-  mergeMap(classifier => testData$.pipe(
+  mergeMap(classifier => newRow$.pipe(
     predict(classifier)
   ))
 );

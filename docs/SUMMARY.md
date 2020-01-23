@@ -72,10 +72,16 @@
 * [Machine Learning]()
   * [rxsgd (SGD)](../packages/rxsgd/README.md)
     * [README](../packages/rxsgd/README.md)
-    * [Guides]()
-      * [Getting Started](packages/rxsgd/guides/getting_started.md)
+    * [Getting Started](packages/rxsgd/guides/getting_started.md)
     * [operators]()
       * [classifier](packages/rxsgd/operators/classifier.md)
       * [predict](packages/rxsgd/operators/predict.md)
+  * [rxtree (Decision Tree)](../packages/rxtree/README.md)
+    * [README](../packages/rxtree/README.md)
+    * [Getting Started](packages/rxtree/guides/getting_started.md)
+    * [operators]()
+      * [classifier](packages/rxtree/operators/classifier.md)
+      * [predict](packages/rxtree/operators/predict.md)
+
 
 
