@@ -6,14 +6,14 @@
 
 🐬 Bottlenose is a set of npm packages which provide industrial-strength data analysis and machine learning tools for software makers who love JavaScript. 
 
-Features:
-- Embraces reactive functional programming. (All packages are built as wrappers on top of the [RxJS](https://rxjs.dev).)
-- Modeled after gold standard data analysis tools like [R](https://www.r-project.org) and [pandas](https://pandas.pydata.org).
-- Built for software makers by software makers. (Use cases include startups, software enterprises, dev shops, full stack developers and other product creators.)
-- Full stack: most modules are universal and run on most environments (browser, server, mobile, desktop)
-- Expressive, concise, readable and declarative syntax (built on [RxJS pipeable operators](https://rxjs.dev)).
-- Stream-based and real-time: Allows most data analysis tasks to be accomplished with stream-processing instead of memory-intensive batch processing.
-- Lightweight, secure and performant
+Bottlenose differs from most data analysis tools in the following respects:
+- Embraces reactive **functional programming**. (All packages are built as wrappers on top of the [RxJS](https://rxjs.dev).)
+- Modeled after **gold standard data analysis tools** like [R](https://www.r-project.org) and [pandas](https://pandas.pydata.org).
+- **Built for software makers by software makers**. (Use cases include startups, software enterprises, dev shops, full stack developers and other product creators.)
+- **Full stack & universal**: Most modules can run anywhere (browser, server, mobile, desktop)
+- **Expressive, concise, readable and declarative** syntax (built on [RxJS pipeable operators](https://rxjs.dev)).
+- **Stream-based & real-time**: Allows most data analysis tasks to be accomplished with stream-processing instead of memory-intensive batch processing.
+- **Lightweight, secure and performant**
 
 You can use Bottlenose to...
 - Perform exploratory data analysis and data munging

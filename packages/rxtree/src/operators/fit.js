@@ -1,11 +1,11 @@
 import {of} from 'rxjs';
+import {tap} from 'rxjs/operators';
 
 import giniGain from './giniGain';
 import cartTree from './cartTree';
 
 const fit = function fit({
   initialState = {},
-  // stop$ = of(),
   gainOperator = giniGain,
   treeType = 'cart',
   presorted = false,
@@ -20,7 +20,7 @@ const fit = function fit({
       break;
   }
   return source$ => source$.pipe(
-    treeOperator({})
+    treeOperator({initialState, gainOperator, presorted, maxLeaves, maxDepth})
   );
 };
 
