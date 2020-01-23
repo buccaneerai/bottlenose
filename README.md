@@ -1,6 +1,7 @@
-[![CircleCI](https://circleci.com/gh/buccaneerai/bottlenose/tree/master.svg?style=shield)](https://circleci.com/gh/buccaneerai/bottlenose/tree/master)
-[![CircleCI](https://circleci.com/gh/buccaneerai/bottlenose/tree/dev.svg?style=shield)](https://circleci.com/gh/buccaneerai/bottlenose/tree/dev)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![CircleCI](https://img.shields.io/circleci/build/gh/buccaneerai/bottlenose/dev?label=master)](https://circleci.com/gh/buccaneerai/bottlenose/tree/dev)
+[![CircleCI](https://img.shields.io/circleci/build/gh/buccaneerai/bottlenose/dev?label=dev)](https://circleci.com/gh/buccaneerai/bottlenose/tree/dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?color=blue)](https://opensource.org/licenses/MIT)
+[![PRs Welcome](https://img.shields.io/static/v1?color=6A56A8&label=PRs&message=welcome)](https://buccaneerai.gitbook.io/bottlenose/contributing/contributing)
 
 ## Description
 
@@ -45,17 +46,16 @@ Bottlenose has [modules for handling common data input sources](https://buccanee
 ```javascript
 import { from } from 'rxjs';
 import { map  } from 'rxjs/operators';
+import { fromFile } from' @bottlenose/rxfs';
 import { parse } from '@bottlenose/rxcsv';
 
-// Create a stream of raw CSV data
-const csvString$ = from([
-  'name,systolicBp,dialostilicBp,message\n', 
-  'Blackbeard,140,91,Yarr\nCrunch,120,', 
-  ',180,Arr\nSparrow,110,70,Savvy\n',
-]);
+// Suppose there is a csv file containing this data:
+// "name","systolicBp","dialostilicBp","isAngry" 
+// "Blackbeard",140,91,"true"
+// "Crunch",120,180,"false"
+// "Sparrow",110,70,"false"
 
-// Stream the CSV data into an RxJS Subject
-const row$ = csvString$.pipe(parse());
+const row$ = fromFile('./my-csv.csv').pipe(parse());
 row$.subscribe();
 // {name: "Blackbeard", systolicBp: 140, diastolicBp: 91, isAngry: true},
 // {name: "Crunch", systolicBp: 120, diastolicBp: 80, isAngry: false},
@@ -68,7 +68,7 @@ Bottlenose also has [modules for common data analysis tasks](https://buccaneerai
 import { map } from 'rxjs/operators';
 import { mean } from '@bottlenose/rxstats';
 
-// using the row$ csv from the prior example
+// using the row$ data from the prior example
 const mean$ = row$.pipe(
   map(row => row.systolicBp), 
   mean() // calculate the mean on one of the columns
