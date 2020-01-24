@@ -23,51 +23,36 @@ function fakeColumn() {
 
 describe('bestSplit operator', () => {
   it('should discover correct split when given valid input data and gini gain function', marbles(m => {
-    // const onData = sinon.spy();
-    // const onError = sinon.spy();
-    // const params = {
-    //   columnSampleAscending$: fakeColumn(),
-    //   totalLabelCount$: of({0: 52, 1: 62}),
-    //   gainFunction: getGiniGain,
-    // };
-    // bestSplit(params).subscribe(onData, console.log, () => {
-    //   expect(onError.called).to.be.false;
-    //   expect(onData.callCount).to.equal(1);
-    //   expect(onData.getCall(0).args[0]).to.deep.include({
-    //     splitValue: 101,
-    //     labelCounts: {0: 51, 1: 2},
-    //     gain: 0.44513275254600215
-    //   });
-    //   done();
     const totalLabelCounts = {0: 52, 1: 62};
     const input$ = fakeColumn();
-      const actual$ = input$.pipe(
-        bestSplit(totalLabelCounts, giniGain)
-      );
-      const expected$ = m.cold('(0|)', {
-        0: {splitValue: 101, labelCounts: {0: 51, 1: 2}, gain: 0.44513275254600215}
-      });
-      m.expect(actual$).toBeObservable(expected$);
-    }));
-  // });
+    const actual$ = input$.pipe(
+      bestSplit(totalLabelCounts, giniGain)
+    );
+    const expected$ = m.cold('(0|)', {
+      0: {splitValue: 101, labelCounts: {0: 51, 1: 2}, gain: 0.44513275254600215}
+    });
+    m.expect(actual$).toBeObservable(expected$);
+  }));
+
+  it('should calculate label counts and gain correctly', marbles(m => {
+    const totalLabelCounts = {0: 2, 1: 2};
+    const input$ = m.cold('-01--23|', [
+      {index: 0, feature: 97.5, label: 0},
+      {index: 2, feature: 98.8, label: 0},
+      {index: 1, feature: 100.3, label: 1},
+      {index: 3, feature: 100.6, label: 1},
+    ]);
+    const actual$ = input$.pipe(
+      bestSplit(totalLabelCounts, giniGain),
+      takeLast(1)
+    );
+    const expected$ = m.cold('------0|', [
+      {splitValue: 100.3, labelCounts: {0: 2, 1: 2}, gain: 0.2}
+    ]);
+    m.expect(actual$).toBeObservable(expected$);
+  }));
 
   it('findBestSplit() should find best split when given valid inputs and gini gain function', marbles(m => {
-    // const params = {
-    //   split$: from([
-    //     {labelCounts: {0: 20, 1: 20}, splitValue: 0.25},
-    //     {labelCounts: {0: 45, 1: 30}, splitValue: 0.80},
-    //     {labelCounts: {0: 45, 1: 45}, splitValue: 2.0}
-    //   ]),
-    //   totalLabelCount$: of({0: 50, 1: 50}),
-    //   gainFunction: getGiniGain,
-    // };
-    // findBestSplit(params).subscribe(onData, onError, () => {
-    //   expect(onError.called).to.be.false;
-    //   expect(onData.calledOnce).to.be.true;
-    //   const bestSplit = onData.firstCall.args[0];
-    //   expect(bestSplit.splitValue).to.equal(0.80);
-    //   done();
-    // });
     const totalLabelCounts = {0: 50, 1: 50};
     const input$ = m.cold('01(2|)', [
       {labelCounts: {0: 20, 1: 20}, splitValue: 0.25},
