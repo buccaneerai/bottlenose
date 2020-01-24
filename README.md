@@ -19,8 +19,8 @@ Bottlenose differs from most data analysis tools in the following respects:
 You can use Bottlenose to...
 - Perform exploratory data analysis and data munging
 - Build data-intensive products and enterprise-ready data pipelines
-- Handle data streams
-- Train machine learning models (static or in real-time applications)
+- Handle data streams in real time
+- Train machine learning models in real-time
 - Write applications that are expressive, readable, easy to reason about and easy to test
 
 Bottlenose is a young project started in late 2019 so it has a limited but fast-growing feature set.  It is maintained by an opensource community. It is also actively used and improved by a healthcare AI startup called [Buccaneer](https://www.buccaneer.ai), which is adding new modules frequently as their team develops them for enterprise SaaS data pipelines.
@@ -44,8 +44,6 @@ RxJS offers great toolkit for general reactive functional programming.  Bottleno
 #### Easily generate input streams
 Bottlenose has [modules for handling common data input sources](https://buccaneerai.gitbook.io/bottlenose) like CSV, AWS S3, local file system and websockets.  For example, this would parse CSV input:
 ```javascript
-import { from } from 'rxjs';
-import { map  } from 'rxjs/operators';
 import { fromFile } from' @bottlenose/rxfs';
 import { parse } from '@bottlenose/rxcsv';
 
@@ -79,19 +77,32 @@ mean$.subscribe(console.log);
 // 123.33333333333333
 ```
 
-#### Train machine learning models reactively
-Bottlenose is also adding [modules for common machine learning algorithms](https://buccaneerai.gitbook.io/bottlenose) (like SGD).  For example, this would train an SGD classifier:
+#### Train & use machine learning models reactively
+Bottlenose is also adding [modules for common machine learning algorithms](https://buccaneerai.gitbook.io/bottlenose).  For example, this would train an SGD classifier:
 ```javascript
-import {classifier} from '@bottlenose/rxsgd';
+import { from } from 'rxjs';
+import { map, mergeMap, takeLast } from 'rxjs/operators';
+import { classifier, predict } from '@bottlenose/rxsgd';
 
-// train an SGD model on the example above
+// train an SGD model on the example above to predict if the pirate isAngry
 const sgd$ = row$.pipe(
   map(row => [[row.systolicBp, row.diastolicBp], row.isAngry]),
-  classifier()
+  classifier(),
 );
-// train the classifier and emit it its new trained parameters each time 
-// a new item is ingested
-sgd$.subscribe();
+
+const newPirate$ = from([
+  {name: 'SpongeBob Squarepants', systolicBp: 105, diastolicBp: 70},
+  {name: 'Captain Hook', systolicBp: 150, diastolicBp: 100},
+]);
+
+// when the classifier is trained, start running data through it
+const prediction$ = classifier$.pipe(
+  takeLast(1),
+  mergeMap(classifier => newPirate$.pipe(
+    predict(classifier)
+  ))
+);
+prediction$.subscribe(console.log);
 ```
 
 ## Community
