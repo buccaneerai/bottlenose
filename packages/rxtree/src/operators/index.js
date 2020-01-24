@@ -1,1 +1,1 @@
-export { default as classifier } from './fit';
+export { default as classifier } from './classifier';
