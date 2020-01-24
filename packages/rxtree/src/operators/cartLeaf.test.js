@@ -46,17 +46,17 @@ describe('cartLeaf operator', () => {
       ]
     ]);
     const leaf$ = columns$.pipe(cartLeaf(params));
-    const expected$ = m.cold('--0|', [
+    const expected$ = m.cold('---(0|)', [
       {
-        _id: params.leafId,
-        parentId: params.parentId,
         numSamples: params.numSamples,
         depth: params.depth,
-        childIds: params.childIds,
-        splitGain: 0.2,
-        splitValue: 100.3,
+        _id: params.leafId,
+        splitValue: 99.55,
         splitColumnIndex: 1,
-        splitLabelCounts: {1: 2, 0: 2},
+        splitGain: 0.5,
+        childIds: params.childIds,
+        parentId: params.parentId,
+        // splitLabelCounts: {1: 2, 0: 2},
       },
     ]);
     m.expect(leaf$).toBeObservable(expected$);
@@ -82,14 +82,14 @@ describe('cartLeaf operator', () => {
     );
     const expected$ = m.cold('--0-|', {
       0: {
-        parentId: params.parentId,
         numSamples: params.numSamples,
-        depth: params.depth,
         _id: params.leafId,
+        parentId: params.parentId,
+        depth: params.depth,
         splitValue: splits[1].splitValue,
         splitColumnIndex: splits[1].splitColumn,
         splitGain: splits[1].gain,
-        splitLabelCounts: {1: 2, 0: 2},
+        // splitLabelCounts: {1: 2, 0: 2},
       },
     });
     m.expect(actual$).toBeObservable(expected$);

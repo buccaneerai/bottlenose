@@ -18,7 +18,7 @@ const makeLeaf = function makeLeaf({
   // Accepts an Observable where each item is an array, containing all of the
   // potential splits in the form of {splitValue: <Number>, gain: <Number>}
   return splits$ => splits$.pipe(
-    tap(console.log),
+    // tap(console.log),
     map(splits => (
       splits.reduce((bSplit, split, index) => (
         !bSplit || split.gain > bSplit.gain
@@ -26,16 +26,16 @@ const makeLeaf = function makeLeaf({
         : bSplit
       ), null)
     )),
-    tap(console.log),
+    // tap(console.log),
     map(bestSplitVal => ({
       parentId,
       numSamples,
       depth,
       _id: leafId,
       splitValue: bestSplitVal.splitValue,
-      splitColumn: bestSplitVal.columnIndex,
+      splitColumnIndex: bestSplitVal.columnIndex,
       splitGain: bestSplitVal.gain,
-      splitLabelCounts: bestSplitVal.labelCounts,
+      // splitLabelsAboveCount: bestSplitVal.labelCountsAbove,
       childIds: childIds || flow(times(() => randomstring.generate(17)))(2),
     })),
   );
