@@ -20,7 +20,7 @@ describe('giniGain operator', () => {
   it('should return correct gini impurity for 100-0 split', () => {
     const params = {
       labelCounts: { 1: 100, 2: 0 },
-      totalSampleCount: 100
+      totalSampleCount: 100,
     };
     const giniImpurity = getGiniImpurity(params);
     expect(giniImpurity).to.equal(0);

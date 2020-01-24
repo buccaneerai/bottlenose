@@ -1,4 +1,5 @@
 import isNumber from 'lodash/isNumber';
+import isNil from 'lodash/isNil';
 import flow from 'lodash/fp/flow';
 import reduce from 'lodash/fp/reduce';
 import toPairs from 'lodash/fp/toPairs';
@@ -7,45 +8,52 @@ import {filter,map,scan,shareReplay,takeLast} from 'rxjs/operators';
 
 import giniGain from './giniGain';
 
-function aggregateSplits(
-  [olderSample, priorSample, counter], // memo for the reduce loop
+function countLabelsAboveSplit(
+  [olderSample, priorSample, priorCounter, counter], // memo for the reduce loop
   currentSample // the latest sample/record/row in the column
 ) {
-  const labelCount = (
+  const labelCountsAboveInclusive = (
     isNumber(counter[currentSample.label])
     ? {...counter, [currentSample.label]: counter[currentSample.label] + 1}
     : {...counter, [currentSample.label]: 1}
   );
-  return [priorSample, currentSample, labelCount];
+  return [priorSample, currentSample, counter, labelCountsAboveInclusive];
 }
 
 function findSplits() {
   return columnValue$ => columnValue$.pipe(
-    scan(aggregateSplits, [null, null, {}]),
+    scan(countLabelsAboveSplit, [null, null, null, {}]),
     filter(([priorSample, currentSample]) => (
       priorSample && priorSample.label !== currentSample.label
     )),
     map(([priorSample, currentSample, counter]) => ({
-      splitValue: currentSample.feature,
-      labelCounts: counter,
+      splitValue: (currentSample.feature + priorSample.feature) / 2,
+      labelCountsAbove: counter,
     }))
   );
 }
 
 function findBestSplit(totalLabelCounts, gainOperator) {
   return split$ => {
-    const sourceSub$ = split$.pipe(shareReplay(100));
+    const sourceSub$ = split$.pipe(shareReplay(100)); // FIXME - should not be needed
     const gain$ = sourceSub$.pipe(
       map(split => {
         const labelCountsBelow = flow([
           toPairs,
-          reduce((counter, [label, totalCount]) => (
-            {...counter, [label]: totalCount - split.labelCounts[label]}
-          ), {})
+          reduce((counter, [label, totalCount]) => ({
+            ...counter,
+            [label]: (
+              totalCount - (
+                isNil(split.labelCountsAbove[label])
+                ? 0
+                : split.labelCountsAbove[label]
+              )
+            )
+          }), {})
         ])(totalLabelCounts);
         return {...split, labelCountsBelow};
       }),
-      map(split => [split.labelCounts, split.labelCountsBelow]),
+      map(split => [split.labelCountsAbove, split.labelCountsBelow]),
       gainOperator(totalLabelCounts),
     );
     const bestSplit$ = zip(split$, gain$).pipe(
@@ -62,7 +70,7 @@ function findBestSplit(totalLabelCounts, gainOperator) {
 
 /**
    * @name external:bestSplit
-   * @param {Observable} totalLabelCounts
+   * @param {0: <Number>, 1: <Number>, ...} totalLabelCounts
    * @param {Function}   gainOperator - the function to be used for calculating
                          the gain of various splits
    * @return {Observable} an observable which emits the best split in the form:
@@ -78,12 +86,12 @@ const bestSplit = function bestSplit(
   // totalLabelCount is a count of the total number of samples
   return columnValueAscending$ => columnValueAscending$.pipe(
     findSplits(),
-    findBestSplit(totalLabelCounts, gainOperator)
+    findBestSplit(totalLabelCounts, gainOperator),
   );
 };
 
 export const testExports = {
-  aggregateSplits,
+  countLabelsAboveSplit,
   findBestSplit,
   findSplits
 };
