@@ -1,5 +1,5 @@
 import giniGain from './giniGain';
-import createSortedColumnsFromRows from '../internals/createSortedColumnsFromRows';
+import createSortedColumnsFromRows from './createSortedColumnsFromRows';
 
 const cartTree = function cartTree({
   initialState = {},

@@ -1,10 +1,10 @@
 import {of} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
-import giniGain from './giniGain';
-import cartTree from './cartTree';
+import giniGain from '../internals/giniGain';
+import cartTree from '../internals/cartTree';
 
-const fit = function fit({
+const classifier = function classifier({
   initialState = {},
   gainOperator = giniGain,
   treeType = 'cart',
@@ -24,4 +24,4 @@ const fit = function fit({
   );
 };
 
-export default fit;
+export default classifier;
