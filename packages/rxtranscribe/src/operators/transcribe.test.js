@@ -5,6 +5,7 @@ import sinon from 'sinon';
 import {from,Observable,of} from 'rxjs';
 import {map,mapTo,take,tap} from 'rxjs/operators';
 import {marbles} from 'rxjs-marbles/mocha';
+import {fromFile} from '@bottlenose/rxfs';
 
 import transcribe from './transcribe';
 
@@ -50,22 +51,31 @@ describe('operators.transcribe', () => {
     // expect(params._conduit.callCount).to.equal(1);
   }));
 
-  it('should produce correct output when given a valid input stream', done => {
+  it('should parse audio into ArrayBuffer objects and stream to websocket', done => {
+    const onData = sinon.spy();
+    const onError = sinon.spy();
     const params = {
       accessKeyId: 'fakeaccesskey',
       secretAccessKey: 'fakesecretkey',
-      _conduit: sinon.stub().returns(source$ => source$.pipe(map(data => data))),
+      _conduit: sinon.stub().returns(source$ => source$.pipe()),
       _getPresignedUrl: sinon.stub().returns(
         'wss://buccaneer.ai?something'
       ),
     };
-    const mp3Stream$ = readFile(audioSampleFilePath).pipe(take(5));
-    mp3Stream$.pipe(tap(console.log)).subscribe();
+    const mp3Stream$ = fromFile({filePath: audioSampleFilePath}).pipe(
+      take(2)
+    );
     const transcription$ = mp3Stream$.pipe(
-      transcribe(params),
-      tap(console.log)
-    ).subscribe();
-    // const expected$ = m.cold('---------------|');
-    // m.expect(transcription$).toBeObservable(expected$);
+      transcribe(params)
+    );
+    transcription$.subscribe(onData, onError, () => {
+      expect(params._conduit.calledOnce).to.be.true;
+      expect(params._conduit.getCall(0).args[0]).to.deep.equal({url: 'wss://buccaneer.ai?something'});
+      expect(onData.callCount).to.equal(2);
+      const bufferOut = onData.getCall(0).args[0];
+      expect(bufferOut.constructor).to.equal(ArrayBuffer);
+      done();
+    });
+    transcription$.subscribe();
   });
 });
