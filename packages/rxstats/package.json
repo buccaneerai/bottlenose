@@ -1,9 +1,12 @@
 {
   "name": "@bottlenose/rxstats",
-  "version": "0.1.0",
+  "version": "0.2.1-beta.2+2e605ea",
   "description": "🔬 Descriptive statistics for RxJS",
   "main": "build/index.js",
   "repository": "https://github.com/buccaneerai/bottlenose/tree/master/packages/rxstats",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Buccaneer LLC <opensource@buccaneer.ai>",
   "license": "MIT",
   "private": false,
@@ -32,11 +35,12 @@
     "lodash": "^4.17.15",
     "rxjs": "^6.5.3"
   },
-  "devDependencies": {},
   "scripts": {
     "build": "rm -rf ./build/* && babel ./src -d ./build --ignore *.test.js",
     "lint": "eslint -c ../../.eslintrc ./src",
     "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
-    "test:watch": "yarn test -- --watch"
-  }
+    "test:watch": "yarn test -- --watch",
+    "prepare": "yarn lint && yarn test && yarn build"
+  },
+  "gitHead": "2e605ea39f6ec0994985bdd3a63398c3b9946553"
 }
