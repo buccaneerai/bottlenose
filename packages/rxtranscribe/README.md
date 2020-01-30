@@ -31,11 +31,11 @@ npm i --save @buccaneer/rxtranscribe
 |React Native|❌|
 |Electron|❌|
 
-💡 This package could perhaps be modified to work universally by polyfilling in the `Buffer` object.  The authors haven't bothered to do it because our use case did not require it to run on clients.  But if you want to take a stab at implementing it, [contact us](mailto:opensource@buccaneer.ai)!
+💡 This package could perhaps be modified to work universally by polyfilling in the `Buffer` object.  The authors haven't bothered to do it because running it on client devices does not seem like an advisable design for production situations.  But if you want to take a stab at implementing isomorphic support, [contact us](mailto:opensource@buccaneer.ai)!
 
 ## Basic Usage
 ```javascript
-import { transcribe } from '@buccaneer/rxtranscribe';
+import { transcribe } from '@bottlenose/rxtranscribe';
 
 // The pipeline takes a stream of .wav audio chunks (Buffer, String, Blob or Typed Array)
 const buffer$ = chunk$.pipe(
