@@ -20,7 +20,7 @@
   "homepage": "https://github.com/buccaneerai/bottlenose#readme",
   "license": "MIT",
   "private": false,
-  "main": "src/index.js",
+  "main": "build/index.js",
   "directories": {
     "src": "src"
   },
