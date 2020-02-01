@@ -1,5 +1,5 @@
 import {of} from 'rxjs';
-import {mergeMap,takeUntil,tap} from 'rxjs/operators';
+import {mergeMap,takeUntil} from 'rxjs/operators';
 
 import ws from '../creators/ws';
 import broadcast from './broadcast';
@@ -16,7 +16,6 @@ const conduit = function conduit({
     const conduit$ = ws({url, socketOptions}).pipe(
       broadcast(source$, serializer),
       messages(deserializer),
-      tap(m => console.log('MESSAGE', m)),
       takeUntil(stop$)
     );
     return conduit$;

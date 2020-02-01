@@ -24,9 +24,7 @@ const ws = function ws({
   });
   return event$.pipe(
     map(event => [socket, event]),
-    // tap(e => console.log('WEBSOCKET_EVENT', e)),
     filter(data => data.indexOf(undefined) === -1),
-    // tap(() => console.log('NOT FILTERED')),
     takeUntil(stop$)
   );
 };
