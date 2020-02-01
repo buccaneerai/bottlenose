@@ -1,5 +1,5 @@
 import {of} from 'rxjs';
-import {mergeMap,takeUntil} from 'rxjs/operators';
+import {mergeMap,takeUntil,tap} from 'rxjs/operators';
 
 import ws from '../creators/ws';
 import broadcast from './broadcast';
@@ -9,16 +9,18 @@ const conduit = function conduit({
   url,
   stop$ = of(),
   socketOptions = {},
+  serializer = JSON.stringify,
+  deserializer = JSON.parse,
 }) {
-  return source$ => source$.pipe(
-    mergeMap(() => (
-      ws({url, socketOptions}).pipe(
-        broadcast(source$),
-        messages()
-      )
-    )),
-    takeUntil(stop$)
-  );
+  return source$ => {
+    const conduit$ = ws({url, socketOptions}).pipe(
+      broadcast(source$, serializer),
+      messages(deserializer),
+      tap(m => console.log('MESSAGE', m)),
+      takeUntil(stop$)
+    );
+    return conduit$;
+  };
 };
 
 export default conduit;

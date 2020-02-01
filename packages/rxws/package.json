@@ -48,8 +48,9 @@
     "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
     "test:watch": "yarn test -- --watch",
     "prepare": "yarn lint && yarn test && yarn build",
-    "server:start": "node --experimental-modules ./scripts/startServer.mjs",
-    "server:connect": "node --experimental-modules ./scripts/testWebSocket.mjs"
+    "demo:server": "BABEL_ENV=script yarn babel-node --config-file ../../babel.config.js ./demo/startServer.js",
+    "demo:client": "BABEL_ENV=script yarn babel-node --config-file ../../babel.config.js ./demo/testWebSocket.js",
+    "demo:conduit": "BABEL_ENV=script yarn babel-node --config-file ../../babel.config.js ./demo/startConduit.js"
   },
   "gitHead": "2e605ea39f6ec0994985bdd3a63398c3b9946553"
 }
