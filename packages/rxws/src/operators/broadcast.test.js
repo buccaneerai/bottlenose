@@ -1,6 +1,7 @@
 import {expect} from 'chai';
 import sinon from 'sinon';
 import {BehaviorSubject,from,of} from 'rxjs';
+import {takeLast} from 'rxjs/operators';
 import {marbles} from 'rxjs-marbles/mocha';
 
 import broadcast from './broadcast';
@@ -19,8 +20,8 @@ describe('broadcast operator', () => {
       4: [client, {type: 'notaconnection', type: NEW_MESSAGE}],
       5: [client, {data: {startTime}, type: RECONNECT_DONE}],
     });
-    const actual$ = input$.pipe(broadcast('foobar'));
-    m.expect(actual$).toBeObservable(m.cold('#', null, error));
+    const actual$ = input$.pipe(broadcast('foobar'), takeLast(1));
+    m.expect(actual$).toBeObservable(m.cold('----------#', null, error));
   }));
 
   it('should call the .send() method on each item', done => {
