@@ -57,7 +57,3 @@ const socketResponse$ = messageToSend$.pipe(
 socketResponse$.subscribe();
 ```
 
-## Next steps
-
-* Check out the [full API](https://brianbuccaneer.gitbook.io/rxws/api).
-
