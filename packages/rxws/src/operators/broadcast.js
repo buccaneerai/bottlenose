@@ -1,30 +1,39 @@
-import { concat, of, throwError } from 'rxjs';
-import { filter, map, mergeMap } from 'rxjs/operators';
+import { merge, of, throwError } from 'rxjs';
+import { filter, mergeMap, shareReplay, withLatestFrom } from 'rxjs/operators';
 
 // import client from './client';
 
 const broadcast = function broadcast(
-  messageToSend$,
-  serializer = JSON.stringify
+  ws$, // stream of websocket events from the core ws() Observable
+  serializer = JSON.stringify // optional serializer function for messages
 ) {
-  // stream of the form [WebSocket, {type: 'ACTION_TYPE', data: {some: 'data'}}]
-  return ws$ => {
-    const sendStream$ = ws$.pipe(
-      // client(),
-      mergeMap(([ws]) => (
-        messageToSend$.subscribe
-        ? of(ws)
-        : throwError(new Error(
-          'broadcast() operator takes an Observable as its first parameter.'
-        ))
-      )),
-      mergeMap(ws => messageToSend$.pipe(
-        map(message => ws.send(serializer(message))),
-        filter(() => false) // this stream will never emit data...
+  // stream of data objects (any valid data type) to be sent to the server
+  return messageIn$ => {
+    // FIXME - this will cause a problem if the ws does not emit any events...
+    // therefore, the ws creator should ensure that it is a ReplaySubject or
+    // BehaviorSubject so that it always emits at least one instance of the
+    // socket client.
+    const wsEvent$ = (
+      ws$.subscribe && ws$.pipe
+      ? ws$.pipe(shareReplay(1))
+      : throwError(new Error(
+        'broadcast() operator takes an Observable as its first parameter.'
       ))
     );
-    // FIXME - concat might not be the best operator for this but merge doesn't work...
-    return concat(ws$, sendStream$);
+    // FIXME - this code will cause messages to buffer in memory or fail to send
+    // if the websocket is not ready
+    const sendStream$ = messageIn$.pipe(
+      // FIXME - this should validate that the message is a valid type
+      // which can be sent over a websocket like Buffer, ArrayBuffer, String, etc
+      withLatestFrom(wsEvent$),
+      mergeMap(([message, [socket, action]]) => {
+        socket.send(serializer(message));
+        return of([socket, action]);
+      }),
+      filter(() => false) // this never emits data...
+    );
+    // ensure that both streams get subscribed to
+    return merge(wsEvent$, sendStream$);
   };
 };
 
