@@ -36,7 +36,7 @@
       * [connections](packages/rxws/operators/connections.md)
       * [disconnections](packages/rxws/operators/disconnections.md)
       * [messages](packages/rxws/operators/messages.md) -->
-    * [HTTP Requests](guides/http.md)
+    * [HTTP Requests](guides/requests.md)
 * [Data Analysis]()
   * [rxnlp (NLP)](../packages/rxnlp/README.md)
     * [README](../packages/rxnlp/README.md)
@@ -67,6 +67,8 @@
       * [variance](packages/rxstats/operators/variance.md)
   * [rxtranscribe (Speech-to-Text)](../packages/rxtranscribe/README.md)
     * [README](../packages/rxtranscribe/README.md)
+    * [Getting Started](packages/rxtranscribe/guides/getting_started.md)
+    * [Demo](packages/rxtranscribe/guides/demo.md)
     * [operators](packages/rxtranscribe/operators/README.md)
       * [transcribe](packages/rxtranscribe/operators/transcribe.md)
 * [Machine Learning]()

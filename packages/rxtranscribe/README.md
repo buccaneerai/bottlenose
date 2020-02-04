@@ -15,11 +15,11 @@ This package allows real-time speech-to-text (S2T) functionality using a WebSock
 
 ## Installation
 ```bash
-yarn add @buccaneer/rxtranscribe
+yarn add @bottlenose/rxtranscribe
 ```
 
 ```bash
-npm i --save @buccaneer/rxtranscribe
+npm i --save @bottlenose/rxtranscribe
 ```
 
 ## Compatibility
@@ -27,11 +27,11 @@ npm i --save @buccaneer/rxtranscribe
 |Platform|Support|
 |--------------|:-----------:|
 |node.js (>10.8)|✅|
-|Browsers|❌|
-|React Native|❌|
-|Electron|❌|
+|Browsers|❓|
+|React Native|❓|
+|Electron|❓|
 
-💡 This package could perhaps be modified to work universally by polyfilling in the `Buffer` object.  The authors haven't bothered to do it because running it on client devices does not seem like an advisable design for production situations.  But if you want to take a stab at implementing isomorphic support, [contact us](mailto:opensource@buccaneer.ai)!
+💡 This package has only been tested in the node.js environment.  If it doesn't work isomorphically, it could probably be modified to do so without much effort.  The authors haven't one so because running it on client devices does not seem like an advisable design for production situations.  But if you want to take a stab at implementing isomorphic support, [contact us](mailto:opensource@buccaneer.ai)!
 
 ## Basic Usage
 ```javascript
@@ -40,7 +40,7 @@ import { transcribe } from '@bottlenose/rxtranscribe';
 // The pipeline takes a stream of .wav audio chunks (Buffer, String, Blob or Typed Array)
 const buffer$ = chunk$.pipe(
   map(chunkStr => Buffer.from(chunkString, 'base64')),
-  transcribe()
+  transcribe({})
 );
 ```
 
