@@ -2,7 +2,7 @@
 
 * [Overview](../README.md)
 * [Contributing](contributing/README.md)
-  * [Contributing](contributing/contributing.md)
+  * [Contributing](../CONTRIBUTING.md)
   * [Code of Conduct](contributing/code_of_conduct.md)
   * [Creating Operators](contributing/creating_operators.md)
   * [Creating New Modules](contributing/creating_new_modules.md)
