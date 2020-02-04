@@ -9,9 +9,9 @@ const startConduit = function startConduit({url = 'ws://localhost:3002'}) {
   );
   const socket$ = data$.pipe(conduit({url}));
   socket$.subscribe(
-    data => console.log(data),
-    err => console.error(err),
-    () => console.log('Complete')
+    data => console.log('Conduit.out', data),
+    err => console.error('Conduit.err', err),
+    () => console.log('Conduit.complete')
   );
 };
 
