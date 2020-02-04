@@ -9,8 +9,8 @@ describe('index', () => {
       'client',
       'conduit',
       'connections',
+      'consume',
       'disconnections',
-      'messages',
       'ws',
     ];
     expect(Object.keys(api)).to.deep.equal(functions);

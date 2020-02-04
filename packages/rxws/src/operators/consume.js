@@ -2,7 +2,7 @@ import {filter, map} from 'rxjs/operators';
 
 import {NEW_MESSAGE} from '../internals/actions';
 
-const messages = function messages(
+const consume = function consume(
   deserializer = JSON.parse
 ) {
   return ws$ => ws$.pipe(
@@ -14,4 +14,4 @@ const messages = function messages(
   );
 };
 
-export default messages;
+export default consume;
