@@ -40,6 +40,7 @@ describe('operators.transcribe', () => {
       JSON.stringify({foo: 'some json'}),
     ])
     m.expect(actual$).toBeObservable(expected$);
+    m.expect(input$).toHaveSubscriptions('^--------!');
     expect(params._getPresignedUrl.calledOnce).to.be.true;
     expect(params._getPresignedUrl.getCall(0).args[0]).to.deep.equal({
       region: 'us-east-1',
@@ -61,6 +62,8 @@ describe('operators.transcribe', () => {
       _getPresignedUrl: sinon.stub().returns(
         'wss://buccaneer.ai?something'
       ),
+      _serializer: d => d,
+      _deserializer: d => d,
     };
     const mp3Stream$ = fromFile({filePath: audioSampleFilePath}).pipe(
       take(2)
@@ -70,10 +73,14 @@ describe('operators.transcribe', () => {
     );
     transcription$.subscribe(onData, onError, () => {
       expect(params._conduit.calledOnce).to.be.true;
-      expect(params._conduit.getCall(0).args[0]).to.deep.equal({url: 'wss://buccaneer.ai?something'});
+      expect(params._conduit.getCall(0).args[0]).to.deep.equal({
+        url: 'wss://buccaneer.ai?something',
+        serializer: params._serializer,
+        deserializer: params._deserializer,
+      });
       expect(onData.callCount).to.equal(2);
       const bufferOut = onData.getCall(0).args[0];
-      expect(bufferOut.constructor).to.equal(ArrayBuffer);
+      expect(bufferOut.constructor).to.equal(Buffer);
       done();
     });
     transcription$.subscribe();

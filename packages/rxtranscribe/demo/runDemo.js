@@ -14,7 +14,7 @@ function runDemo({
 }) {
   const mp3Chunk$ = fromFile({filePath: inputFilePath});
   const transcription$ = mp3Chunk$.pipe(
-    // tap(console.log),
+    tap(input => console.log('IN', typeof input)),
     transcribe({region})
   );
   return transcription$;
@@ -41,8 +41,12 @@ const schema = {
 //   if (!process.env.AWS_ACCESS_KEY_ID) throw new Error('AWS_ACCESS_KEY_ID must be set');
 //   if (!process.env.AWS_SECRET_ACCESS_KEY) throw new Error('AWS_SECRET_ACCESS_KEY must be set');
   const transcription$ = runDemo({});
-  transcription$.subscribe(console.log, console.error, () => {
-    console.log('DONE');
-    process.exit();
-  });
+  transcription$.subscribe(
+    out => console.log('OUT', out),
+    console.error,
+    () => {
+      console.log('DONE');
+      process.exit();
+    }
+  );
 // });

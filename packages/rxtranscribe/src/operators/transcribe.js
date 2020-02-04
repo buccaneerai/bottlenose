@@ -4,7 +4,7 @@
 // https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html
 // https://docs.aws.amazon.com/transcribe/latest/dg/limits-guidelines.html
 import { of, throwError } from 'rxjs';
-import { map, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { map, mergeMap, takeUntil } from 'rxjs/operators';
 import { conduit } from '@bottlenose/rxws';
 
 import createAwsSignedUrl from '../internals/createAwsSignedUrl';
@@ -21,24 +21,24 @@ const transcribe = function transcribe({
   _deserializer = message => decodeMessage({message}),
   _getPresignedUrl = createAwsSignedUrl
 }) {
-  const url = _getPresignedUrl({region, accessKeyId, secretAccessKey});
-  return source$ => source$.pipe(
-    mergeMap(fileChunk => (
-      !accessKeyId || !secretAccessKey
-      ? throwError(new Error('AWS credentials must be set'))
-      : of(fileChunk)
-    )),
-    // map(audioBinary => _convertAudioToBinaryMessage(audioBinary)),
-    // audioBinary should be streamed as an arraybuffer type on the websocket...
-    // tap(d => console.log('IN', d)),
-    _conduit({
-      url,
-      serializer: _serializer,
-      deserializer: _deserializer,
-    }), // outputs JSON response objects
-    tap(out => console.log('OUTPUT', out)),
-    takeUntil(stop$)
-  );
+  return fileChunk$ => {
+    const url = _getPresignedUrl({region, accessKeyId, secretAccessKey});
+    const message$ = fileChunk$.pipe(
+      mergeMap(fileChunk => (
+        !accessKeyId || !secretAccessKey
+        ? throwError(new Error('AWS credentials must be set'))
+        : of(fileChunk)
+      )),
+      // audioBinary should be streamed as an arraybuffer type on the websocket...
+      _conduit({
+        url,
+        serializer: _serializer,
+        deserializer: _deserializer,
+      }), // outputs JSON response objects
+      takeUntil(stop$)
+    );
+    return message$;
+  };
 };
 
 export default transcribe;

@@ -7,7 +7,6 @@ const decodeMessage = function decodeMessage({
   _marshaller = (new EventStreamMarshaller(toUtf8, fromUtf8))
 }) {
   const messageWrapper = _marshaller.unmarshall(Buffer.from(message));
-  console.log('messageWrapper.body', messageWrapper);
   const messageBody = JSON.parse(
     String.fromCharCode.apply(String, messageWrapper.body)
   );
