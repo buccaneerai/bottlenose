@@ -5,11 +5,13 @@ import {of} from 'rxjs';
 import {mapTo} from 'rxjs/operators';
 
 import { CLIENT_CREATE, RECONNECT_DONE, NEW_MESSAGE } from '../internals/actions';
-import conduit from './conduit';
+import conduit, {testExports} from './conduit';
+
+const {createMessageBuffer} = testExports;
 
 describe('operators.conduit', () => {
   it('should create a websocket, subscribe to it and return messages from socket', marbles(m => {
-    const client = {send: sinon.spy()};
+    const client = {send: sinon.spy(), OPEN: true};
     const startTime = new Date();
     const ws$ = m.cold('0-1(23)4-5|', {
       0: [client, {data: {startTime}, type: CLIENT_CREATE}],
@@ -38,6 +40,56 @@ describe('operators.conduit', () => {
     m.expect(messageIn$).toHaveSubscriptions('^-------!');
   }));
 
+  it('should buffer messages when socket is closed', marbles(m => {
+    const client = {send: sinon.spy(), OPEN: true};
+    const startTime = new Date();
+    const ws$ = m.cold('01-34--7|', {
+      0: [client, {data: {startTime}, type: CLIENT_CREATE}],
+      1: [{...client, OPEN: false}, {type: NEW_MESSAGE, data: {startTime, message: {data: JSON.stringify({text: 'hello'})}}}],
+      3: [{...client, OPEN: false}, {data: {startTime}, type: 'notaconnection'}],
+      4: [client, {type: NEW_MESSAGE, data: {startTime, message: {data: JSON.stringify({text: 'aloha'})}}}],
+      7: [client, {type: NEW_MESSAGE, data: {startTime, message: {data: JSON.stringify({text: 'aloha'})}}}],
+    });
+    const messageIn$ = m.cold('0123-5|', {
+      0: {text: 'tag'},
+      1: {text: 'sup'},
+      2: {text: 'bonjour'},
+      3: {text: 'hola'},
+      5: {text: 'aloha'},
+    });
+    const out$ = createMessageBuffer(messageIn$, ws$);
+    const expected$ = m.cold('------(123|)', {
+      1: {text: 'sup'},
+      2: {text: 'bonjour'},
+      3: {text: 'hola'},
+    });
+    m.expect(out$).toBeObservable(expected$);
+    m.expect(messageIn$).toHaveSubscriptions('^-----!');
+    m.expect(ws$).toHaveSubscriptions('^-------!');
+  }));
+
+  it('should throw an error if no URL is provided', marbles(m => {
+    const error = new Error('conduit operator requires a {url<String>}');
+    const params = {url: null};
+    const messageIn$ = m.cold('--|');
+    const out$ = messageIn$.pipe(conduit(params));
+    m.expect(out$).toBeObservable('#', null, error);
+  }));
+
+  it('should default to using the JSON.stringify and JSON.parse serializer/deserializer', marbles(m => {
+    const messageIn$ = m.cold('--|');
+    const params = {
+      url: 'wss:fake.buccaneer.ai:883',
+      _ws: () => m.cold('----|'),
+      _broadcast: sinon.stub().returns(() => of()),
+      _consume: sinon.stub().returns(() => of()),
+    };
+    const actual$ = messageIn$.pipe(conduit(params));
+    expect(params._broadcast.calledOnce).to.be.true;
+    expect(params._broadcast.firstCall.args[1]).to.equal(JSON.stringify);
+    expect(params._consume.calledOnce).to.be.true;
+    expect(params._consume.firstCall.args[0]).to.equal(JSON.parse);
+  }));
 
   // it('should broadcast messages to the socket', () => {
   //   const client = {send: sinon.spy()};
@@ -69,27 +121,4 @@ describe('operators.conduit', () => {
   //   m.expect(ws$).toHaveSubscriptions('^---------!');
   //   m.expect(messageIn$).toHaveSubscriptions('^-------!');
   // });
-
-  it('should throw an error if no URL is provided', marbles(m => {
-    const error = new Error('conduit operator requires a {url<String>}');
-    const params = {url: null};
-    const messageIn$ = m.cold('--|');
-    const out$ = messageIn$.pipe(conduit(params));
-    m.expect(out$).toBeObservable('#', null, error);
-  }));
-
-  it('should default to using the JSON.stringify and JSON.parse serializer/deserializer', marbles(m => {
-    const messageIn$ = m.cold('--|');
-    const params = {
-      url: 'wss:fake.buccaneer.ai:883',
-      _ws: () => m.cold('----|'),
-      _broadcast: sinon.stub().returns(() => of()),
-      _consume: sinon.stub().returns(() => of()),
-    };
-    const actual$ = messageIn$.pipe(conduit(params));
-    expect(params._broadcast.calledOnce).to.be.true;
-    expect(params._broadcast.firstCall.args[1]).to.equal(JSON.stringify);
-    expect(params._consume.calledOnce).to.be.true;
-    expect(params._consume.firstCall.args[0]).to.equal(JSON.parse);
-  }));
 });
