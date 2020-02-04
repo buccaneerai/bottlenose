@@ -8,6 +8,7 @@ const decodeMessage = function decodeMessage({
 }) {
   const messageWrapper = _marshaller.unmarshall(Buffer.from(message));
   const messageBody = JSON.parse(
+    // eslint-disable-next-line
     String.fromCharCode.apply(String, messageWrapper.body)
   );
   if (messageWrapper.headers[':message-type'].value === 'event') {
