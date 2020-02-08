@@ -40,7 +40,35 @@ describe('operators.conduit', () => {
     m.expect(messageIn$).toHaveSubscriptions('^-------!');
   }));
 
-  it('should buffer messages when socket is closed', marbles(m => {
+  it('should buffer messages before the socket\'s initial connection is established', marbles(m => {
+    const client = {send: sinon.spy(), OPEN: true};
+    const startTime = new Date();
+    const ws$ = m.cold('--234--7|', {
+      2: [{...client, OPEN: false}, {data: {startTime}, type: CLIENT_CREATE}],
+      3: [{...client, OPEN: false}, {data: {startTime}, type: 'notaconnection'}],
+      4: [client, {type: NEW_MESSAGE, data: {startTime, message: {data: JSON.stringify({text: 'aloha'})}}}],
+      7: [client, {type: NEW_MESSAGE, data: {startTime, message: {data: JSON.stringify({text: 'hallo'})}}}],
+    });
+    const messageIn$ = m.cold('0123-5|', {
+      0: {text: 'tag'},
+      1: {text: 'sup'},
+      2: {text: 'bonjour'},
+      3: {text: 'hola'},
+      5: {text: 'aloha'},
+    });
+    const out$ = createMessageBuffer(messageIn$, ws$);
+    const expected$ = m.cold('------(0123|)', {
+      0: {text: 'tag'},
+      1: {text: 'sup'},
+      2: {text: 'bonjour'},
+      3: {text: 'hola'},
+    });
+    m.expect(out$).toBeObservable(expected$);
+    m.expect(messageIn$).toHaveSubscriptions('^-----!');
+    m.expect(ws$).toHaveSubscriptions('^-------!');
+  }));
+
+  it('should buffer messages when socket is disconnected', marbles(m => {
     const client = {send: sinon.spy(), OPEN: true};
     const startTime = new Date();
     const ws$ = m.cold('01-34--7|', {
@@ -91,7 +119,7 @@ describe('operators.conduit', () => {
     expect(params._consume.firstCall.args[0]).to.equal(JSON.parse);
   }));
 
-  // it('should broadcast messages to the socket', () => {
+  // it('should broadcast messages to the socket', marbles(m => {
   //   const client = {send: sinon.spy()};
   //   const startTime = new Date();
   //   const ws$ = m.cold('0-1(23)4-5|', {
@@ -120,5 +148,5 @@ describe('operators.conduit', () => {
   //   });
   //   m.expect(ws$).toHaveSubscriptions('^---------!');
   //   m.expect(messageIn$).toHaveSubscriptions('^-------!');
-  // });
+  // }));
 });

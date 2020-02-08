@@ -4,10 +4,12 @@ import {
   filter,
   map,
   mergeMap,
+  pairwise,
   scan,
   share,
   shareReplay,
   takeUntil,
+  tap,
   withLatestFrom
 } from 'rxjs/operators';
 
@@ -25,15 +27,18 @@ function createMessageBuffer(message$, ws$) {
   const wsSub$ = ws$.pipe(share());
   // close buffer whenever the socket reconnects
   const closeBuffer = () => wsSub$.pipe(
-    scan(([,priorWsEvent], wsEvent) => [priorWsEvent, wsEvent], [null, null]),
-    filter(([priorWsEvent, wsEvent]) => (
-      (!priorWsEvent || !priorWsEvent.OPEN) && wsEvent.OPEN
-    ))
+    pairwise(),
+    // tap(e => console.log('SOCKETS', e)),
+    filter(([priorSocket, socket]) => (
+      (!priorSocket || !priorSocket.OPEN) && socket.OPEN
+    )),
+    // tap(console.log('CLOSE BUFFER')),
   );
   const bufferedMessage$ = messageInSub$.pipe(
-    withLatestFrom(wsSub$),
+    withLatestFrom(merge(of([null]), wsSub$)),
+    // tap(d => console.log('data', d)),
     // buffer messages whenever the socket is closed or not available
-    filter(([, [socket]]) => socket && !socket.OPEN),
+    filter(([, [socket]]) => !socket || !socket.OPEN),
     map(([message]) => message),
     bufferWhen(closeBuffer),
     mergeMap(bufferedItems => of(...bufferedItems)),
@@ -62,7 +67,7 @@ const conduit = function conduit({
     const bufferedMessage$ = createMessageBuffer(messageInSub$, ws$);
     const unbufferedMessage$ = messageInSub$.pipe(
       withLatestFrom(ws$),
-      filter(([,[socket]]) => socket.OPEN),
+      filter(([,[socket]]) => socket && socket.OPEN),
       map(([message]) => message)
     );
     const input$ = (
