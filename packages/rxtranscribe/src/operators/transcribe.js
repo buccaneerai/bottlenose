@@ -4,7 +4,7 @@
 // https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html
 // https://docs.aws.amazon.com/transcribe/latest/dg/limits-guidelines.html
 import { of, throwError } from 'rxjs';
-import { map, mergeMap, takeUntil } from 'rxjs/operators';
+import { mergeMap, takeUntil } from 'rxjs/operators';
 import { conduit } from '@bottlenose/rxws';
 
 import createAwsSignedUrl from '../internals/createAwsSignedUrl';
