@@ -1,5 +1,5 @@
 import { merge, of, throwError } from 'rxjs';
-import { filter, mergeMap, shareReplay, withLatestFrom } from 'rxjs/operators';
+import { filter, mergeMap, share, withLatestFrom } from 'rxjs/operators';
 
 // import client from './client';
 
@@ -15,7 +15,7 @@ const broadcast = function broadcast(
     // socket client.
     const wsEvent$ = (
       ws$.subscribe && ws$.pipe
-      ? ws$.pipe(shareReplay(1))
+      ? ws$.pipe(share())
       : throwError(new Error(
         'broadcast() operator takes an Observable as its first parameter.'
       ))
