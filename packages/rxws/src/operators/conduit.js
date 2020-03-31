@@ -5,9 +5,7 @@ import {
   map,
   mergeMap,
   pairwise,
-  scan,
   share,
-  shareReplay,
   takeUntil,
   tap,
   withLatestFrom
@@ -25,22 +23,27 @@ const errors = {
 function createMessageBuffer(message$, ws$) {
   const messageInSub$ = message$.pipe(share());
   const wsSub$ = ws$.pipe(share());
-  // close buffer whenever the socket reconnects
+  // close buffer whenever the socket connects
   const closeBuffer = () => wsSub$.pipe(
+    map(([socket]) => socket),
     pairwise(),
-    // tap(e => console.log('SOCKETS', e)),
+    // tap(([priorSocket, socket]) => console.log(
+    //   (!priorSocket || priorSocket.readyState !== 1)
+    //   && socket.readyState === 1
+    // )),
     filter(([priorSocket, socket]) => (
-      (!priorSocket || !priorSocket.OPEN) && socket.OPEN
+      (!priorSocket || priorSocket.readyState !== 1)
+      && socket.readyState === 1
     )),
-    // tap(console.log('CLOSE BUFFER')),
+    // tap(() => console.log('CLOSE_BUFFER'))
   );
   const bufferedMessage$ = messageInSub$.pipe(
-    withLatestFrom(merge(of([null]), wsSub$)),
-    // tap(d => console.log('data', d)),
+    withLatestFrom(merge(of([null, null]), wsSub$)),
     // buffer messages whenever the socket is closed or not available
-    filter(([, [socket]]) => !socket || !socket.OPEN),
+    filter(([, [socket]]) => !socket || socket.readyState !== 1),
     map(([message]) => message),
     bufferWhen(closeBuffer),
+    // tap(m => console.log('buffer', m)),
     mergeMap(bufferedItems => of(...bufferedItems)),
   );
   return bufferedMessage$;
@@ -61,14 +64,17 @@ const conduit = function conduit({
     const messageInSub$ = messageIn$.pipe(share());
     if (!url) return throwError(errors.noUrl);
     const ws$ = _ws({url, socketOptions}).pipe(
-      shareReplay(1),
+      // tap(([socket]) => console.log('WS', socket)),
+      share(),
       takeUntil(stop$),
+      // tap(arr => console.log('EVENT', arr[1]))
     );
     const bufferedMessage$ = createMessageBuffer(messageInSub$, ws$);
     const unbufferedMessage$ = messageInSub$.pipe(
-      withLatestFrom(ws$),
-      filter(([,[socket]]) => socket && socket.OPEN),
-      map(([message]) => message)
+      withLatestFrom(merge(of([null, null]), ws$)),
+      filter(([,[socket]]) => socket && socket.readyState === 1),
+      map(([message]) => message),
+      // tap(m => console.log('sending immediately:', m)),
     );
     const input$ = (
       bufferOnDisconnect

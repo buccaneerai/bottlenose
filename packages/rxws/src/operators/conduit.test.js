@@ -11,11 +11,11 @@ const {createMessageBuffer} = testExports;
 
 describe('operators.conduit', () => {
   it('should create a websocket, subscribe to it and return messages from socket', marbles(m => {
-    const client = {send: sinon.spy(), OPEN: true};
+    const client = {send: sinon.spy(), readyState: 1};
     const startTime = new Date();
     const ws$ = m.cold('0-1(23)4-5|', {
-      0: [client, {data: {startTime}, type: CLIENT_CREATE}],
-      1: [client, {type: 'notaconnection'}],
+      0: [{...client, readyState: 0}, {data: {startTime}, type: CLIENT_CREATE}],
+      1: [{...client, readyState: 0}, {type: 'notaconnection'}],
       2: [client, {type: NEW_MESSAGE, data: {startTime, message: {data: JSON.stringify({text: 'hello'})}}}],
       3: [client, {data: {startTime}, type: 'notaconnection'}],
       4: [client, {type: NEW_MESSAGE, data: {startTime, message: {data: JSON.stringify({text: 'aloha'})}}}],
@@ -41,15 +41,15 @@ describe('operators.conduit', () => {
   }));
 
   it('should buffer messages before the socket\'s initial connection is established', marbles(m => {
-    const client = {send: sinon.spy(), OPEN: true};
+    const client = {send: sinon.spy(), readyState: 1};
     const startTime = new Date();
-    const ws$ = m.cold('--234--7|', {
-      2: [{...client, OPEN: false}, {data: {startTime}, type: CLIENT_CREATE}],
-      3: [{...client, OPEN: false}, {data: {startTime}, type: 'notaconnection'}],
+    const ws$ = m.cold('--234--7', {
+      2: [{...client, readyState: 0}, {data: {startTime}, type: CLIENT_CREATE}],
+      3: [{...client, readyState: 0}, {data: {startTime}, type: 'notaconnection'}],
       4: [client, {type: NEW_MESSAGE, data: {startTime, message: {data: JSON.stringify({text: 'aloha'})}}}],
       7: [client, {type: NEW_MESSAGE, data: {startTime, message: {data: JSON.stringify({text: 'hallo'})}}}],
     });
-    const messageIn$ = m.cold('0123-5|', {
+    const messageIn$ = m.cold('0123-5', {
       0: {text: 'tag'},
       1: {text: 'sup'},
       2: {text: 'bonjour'},
@@ -57,28 +57,28 @@ describe('operators.conduit', () => {
       5: {text: 'aloha'},
     });
     const out$ = createMessageBuffer(messageIn$, ws$);
-    const expected$ = m.cold('------(0123|)', {
+    const expected$ = m.cold('----(0123)', {
       0: {text: 'tag'},
       1: {text: 'sup'},
       2: {text: 'bonjour'},
       3: {text: 'hola'},
     });
     m.expect(out$).toBeObservable(expected$);
-    m.expect(messageIn$).toHaveSubscriptions('^-----!');
-    m.expect(ws$).toHaveSubscriptions('^-------!');
+    m.expect(messageIn$).toHaveSubscriptions('^-----');
+    m.expect(ws$).toHaveSubscriptions('^-------');
   }));
 
   it('should buffer messages when socket is disconnected', marbles(m => {
-    const client = {send: sinon.spy(), OPEN: true};
+    const client = {send: sinon.spy(), readyState: 1};
     const startTime = new Date();
-    const ws$ = m.cold('01-34--7|', {
+    const ws$ = m.cold('01-34--7', {
       0: [client, {data: {startTime}, type: CLIENT_CREATE}],
-      1: [{...client, OPEN: false}, {type: NEW_MESSAGE, data: {startTime, message: {data: JSON.stringify({text: 'hello'})}}}],
-      3: [{...client, OPEN: false}, {data: {startTime}, type: 'notaconnection'}],
+      1: [{...client, readyState: 2}, {type: NEW_MESSAGE, data: {startTime, message: {data: JSON.stringify({text: 'hello'})}}}],
+      3: [{...client, readyState: 3}, {data: {startTime}, type: 'notaconnection'}],
       4: [client, {type: NEW_MESSAGE, data: {startTime, message: {data: JSON.stringify({text: 'aloha'})}}}],
       7: [client, {type: NEW_MESSAGE, data: {startTime, message: {data: JSON.stringify({text: 'aloha'})}}}],
     });
-    const messageIn$ = m.cold('0123-5|', {
+    const messageIn$ = m.cold('0123-5', {
       0: {text: 'tag'},
       1: {text: 'sup'},
       2: {text: 'bonjour'},
@@ -86,14 +86,14 @@ describe('operators.conduit', () => {
       5: {text: 'aloha'},
     });
     const out$ = createMessageBuffer(messageIn$, ws$);
-    const expected$ = m.cold('------(123|)', {
+    const expected$ = m.cold('----(123)', {
       1: {text: 'sup'},
       2: {text: 'bonjour'},
       3: {text: 'hola'},
     });
     m.expect(out$).toBeObservable(expected$);
-    m.expect(messageIn$).toHaveSubscriptions('^-----!');
-    m.expect(ws$).toHaveSubscriptions('^-------!');
+    m.expect(messageIn$).toHaveSubscriptions('^-----');
+    m.expect(ws$).toHaveSubscriptions('^-------');
   }));
 
   it('should throw an error if no URL is provided', marbles(m => {
