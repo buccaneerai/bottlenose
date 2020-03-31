@@ -20,6 +20,8 @@ const errors = {
   noUrl: new Error('conduit operator requires a {url<String>}'),
 };
 
+// FIXME: this might need to be reworked a bit to work properly...
+// maybe more like the conduit in rxsocketio
 function createMessageBuffer(message$, ws$) {
   const messageInSub$ = message$.pipe(share());
   const wsSub$ = ws$.pipe(share());

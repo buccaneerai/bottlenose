@@ -1,0 +1,45 @@
+{
+  "name": "@bottlenose/rxsocketio",
+  "version": "0.2.0",
+  "description": "RxJS operators for handling socket.io connections",
+  "keywords": [
+    "rxjs",
+    "socket.io"
+  ],
+  "author": "Buccaneer LLC <opensource@buccaneer.ai>",
+  "homepage": "https://github.com/buccaneerai/bottlenose#readme",
+  "license": "MIT",
+  "private": false,
+  "main": "build/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "build/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buccaneerai/bottlenose.git"
+  },
+  "scripts": {
+    "build": "rm -rf ./build/* && babel ./src -d ./build --ignore *.test.js",
+    "lint": "eslint -c ../../.eslintrc ./src",
+    "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
+    "test:watch": "yarn test -- --watch",
+    "prepare": "yarn lint && yarn test && yarn build"
+  },
+  "bugs": {
+    "url": "https://github.com/buccaneerai/bottlenose/issues"
+  },
+  "dependencies": {
+    "rxjs": "^6.5.4",
+    "socket.io-client": "^2.3.0"
+  },
+  "devDependencies": {
+    "socket.io": "^2.3.0"
+  }
+}
