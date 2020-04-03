@@ -3,12 +3,12 @@ import {expect} from 'chai';
 import * as creators from './index';
 
 describe('creators', () => {
-  it('should export ws function', () => {
+  it('should export creators', () => {
     const api = [
-      'ws',
+      'io',
       // 'wsManager'
     ];
-    expect(creators.ws).to.be.a('function');
-    expect(Object.keys(creators)).to.deep.equal(api);
+    expect(creators.io).to.be.a('function');
+    expect(Object.keys(creators)).to.deep.include(...api);
   });
 });
