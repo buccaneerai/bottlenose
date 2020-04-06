@@ -67,8 +67,8 @@ export const reconnectError = function reconnectError({error}) {
   return {error, type: RECONNECT_ERROR};
 };
 
-export const socketConnect = function socketConnect({socket}) {
-  return {type: CONNECT, data: {socket}};
+export const socketConnect = function socketConnect({client}) {
+  return {type: CONNECT, data: {client}};
 };
 
 export const socketError = function socketError(error) {

@@ -21,8 +21,8 @@ jobs:
             ~/.cache/yarn
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: Build
-          command: yarn build
+          name: Bootstrap
+          command: yarn bootstrap
       - run:
           name: Lint
           command: yarn lint
@@ -30,8 +30,11 @@ jobs:
           name: Test
           command: yarn test
       - run:
+          name: Build
+          command: yarn build
+      - run:
           name: Security check for npm packages
-          command: yarn audit
+          command: yarn audit --groups dependencies
 workflows:
   version: 2
   build_test_deploy:
