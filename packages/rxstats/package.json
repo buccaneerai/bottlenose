@@ -10,7 +10,6 @@
   "author": "Buccaneer LLC <opensource@buccaneer.ai>",
   "license": "MIT",
   "private": false,
-  "type": "module",
   "bugs": {
     "url": "https://github.com/buccaneerai/bottlenose/issues"
   },

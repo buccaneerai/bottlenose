@@ -41,7 +41,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "type": "module",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "dependencies": {}
