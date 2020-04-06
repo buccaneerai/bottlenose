@@ -1,6 +1,6 @@
 {
   "name": "@bottlenose/rxstats",
-  "version": "0.2.1-beta.2+2e605ea",
+  "version": "0.6.0",
   "description": "🔬 Descriptive statistics for RxJS",
   "main": "build/index.js",
   "repository": "https://github.com/buccaneerai/bottlenose/tree/master/packages/rxstats",

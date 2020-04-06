@@ -1,6 +1,6 @@
 {
   "name": "@bottlenose/rxs3",
-  "version": "0.2.1-beta.2+2e605ea",
+  "version": "0.6.0",
   "description": "☁️ Stream files to and from AWS S3 with RxJS",
   "main": "build/index.js",
   "author": "Buccaneer LLC <opensource@buccaneer.ai>",
