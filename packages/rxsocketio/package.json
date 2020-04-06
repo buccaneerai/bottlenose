@@ -1,6 +1,6 @@
 {
   "name": "@bottlenose/rxsocketio",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "RxJS operators for handling socket.io connections",
   "keywords": [
     "rxjs",
