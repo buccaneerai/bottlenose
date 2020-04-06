@@ -1,6 +1,6 @@
 {
   "name": "@bottlenose/rxsocketio",
-  "version": "0.5.1",
+  "version": "0.2.1-beta.2+2e605ea",
   "description": "RxJS operators for handling socket.io connections",
   "keywords": [
     "rxjs",
@@ -42,5 +42,5 @@
   "devDependencies": {
     "socket.io": "^2.3.0"
   },
-  "gitHead": "5660e7401100f29eb7aca2dbb00aaacf68e7ce5f"
+  "gitHead": "7c20c748ff213db732aee816c730e8ae427aef08"
 }
