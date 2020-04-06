@@ -4,6 +4,8 @@
 
 Opening a two-way WebSocket is a very common software pattern.  The `conduit` operator makes it trivially easy to initiate this exchange with a Socket.io server.  It pipes an Observable into a two-way websocket. Each item in the Observable will be published to the server. The output stream will be the messages sent from the server to the client.
 
+Messages sent to the `conduit` operator can include any keys you want.  But two keys (`topic` and `binary`) are reserved and `conduit` will handle them differently.  (See below for more information.)
+
 ## Usage
 
 **Basic Usage**:
@@ -28,8 +30,8 @@ socketResponse$.subscribe(
 );
 ```
 
-## Sending messages with a topic
-By default, objects piped into the conduit operator are sent to the `'message'` topic.  You can simply add a topic key to the objects to send them to a particular topic:
+## Sending messages to a topic
+Socket.io supports "topics" for messages.  By default, objects piped into the `conduit` operator are sent to the `'message'` topic.  You can simply add a topic key to the objects to send them to a particular topic:
 ```javascript
 import { from } from 'rxjs';
 import { conduit } from '@bottlenose/rxsocketio';
@@ -42,6 +44,32 @@ const messagesToSend$ = from([
 // send messages over the WebSocket and receive messages back from it...
 const socketResponse$ = messageToSend$.pipe(
   conduit({url: 'http://mysite.com', topics: ['television', 'music', 'message']})
+);
+socketResponse$.subscribe(
+  console.log, // log all messages received from the server
+  console.error,
+  () => console.log('Socket Closed!')
+);
+```
+
+## Sending messages with binary
+Sometimes, it's useful to send binary data (like audio or video) using Socket.io.  The `conduit` operator supports this:
+```javascript
+import {from} from 'rxjs';
+
+// binary can be an ArrayBuffer, Uint8Array, Blob, File and Buffer
+const messageToSend$ = from([
+  {topic: 'audio-stream', binary: new Uint8Array(), part: 0},
+  {topic: 'audio-stream', binary: new Uint8Array(), part: 1},
+  {topic: 'audio-stream', binary: new Uint8Array(), part: 0},
+]);
+
+// the messages will be sent to Socket.io like this:
+// socket.emit('audio-stream', jsonData, binary);
+// and the server can parse the results like this:
+// socket.on('audio-stream', jsonData, binary);
+const socketResponse$ = messageToSend$.pipe(
+  conduit({url, topics: ['audio-chunk-received']})
 );
 socketResponse$.subscribe(
   console.log, // log all messages received from the server

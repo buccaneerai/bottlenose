@@ -27,6 +27,8 @@
     * [Guides]()
       * [Getting Started](packages/rxsocketio/guides/getting_started.md)
       * [Example: Hello World](packages/rxsocketio/guides/demo.md)
+    * [creators]()
+      * [fromIO](packages/rxsocketio/creators/fromIO.md)
     * [operators]()
       * [conduit](packages/rxsocketio/operators/conduit.md)
   * [rxws (WebSocket)](../packages/rxws/README.md)
