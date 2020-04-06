@@ -21,6 +21,9 @@ jobs:
             ~/.cache/yarn
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
+          name: Bootstrap
+          command: yarn bootstrap
+      - run:
           name: Lint
           command: yarn lint
       - run:
