@@ -69,7 +69,7 @@ const conduit = function conduit({
       : messageInSub$
     );
     const publisher$ = input$.pipe(
-      _send(ioEvent$),
+      _send({io$: ioEvent$}),
       filter(() => false)
     );
     const consumer$ = ioEvent$.pipe(
