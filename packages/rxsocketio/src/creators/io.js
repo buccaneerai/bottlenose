@@ -1,6 +1,6 @@
 import socketIO from 'socket.io-client';
 import {Observable,of} from 'rxjs';
-import {map,takeUntil,tap} from 'rxjs/operators';
+import {map,shareReplay,takeUntil,tap} from 'rxjs/operators';
 
 import * as actions from '../internals/actions';
 
@@ -69,7 +69,8 @@ const io = function io({
     map(action => [client, action]),
     takeUntil(stop$.pipe(
       tap(() => client.disconnect())
-    ))
+    )),
+    shareReplay(1)
   );
 };
 
