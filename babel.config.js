@@ -10,6 +10,7 @@ module.exports = (api) => {
             browsers: 'Last 2 Chrome versions, Firefox ESR',
             node: '8.9',
           },
+          modules: 'umd'
         },
       ],
       [
@@ -21,6 +22,18 @@ module.exports = (api) => {
     ],
     env: {
       build: {
+        ignore: [
+          '**/*.test.js',
+          '**/*.story.js',
+          '__snapshots__',
+          '__tests__',
+          '__stories__',
+        ],
+      },
+      script: {
+        presets: [
+          ['@babel/env', {modules: 'cjs'}],
+        ],
         ignore: [
           '**/*.test.js',
           '**/*.story.js',

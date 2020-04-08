@@ -1,10 +1,15 @@
+import fs from 'fs';
+import path from 'path';
 import {expect} from 'chai';
 import sinon from 'sinon';
-import {from,of} from 'rxjs';
-import {map,mapTo} from 'rxjs/operators';
+import {from,Observable,of} from 'rxjs';
+import {map,mapTo,take,tap} from 'rxjs/operators';
 import {marbles} from 'rxjs-marbles/mocha';
+import {fromFile} from '@bottlenose/rxfs';
 
 import transcribe from './transcribe';
+
+const audioSampleFilePath = path.resolve(__dirname, '../../demo/sample-audio.mp3');
 
 describe('operators.transcribe', () => {
   it('should properly call its workflow', marbles(m => {
@@ -35,6 +40,7 @@ describe('operators.transcribe', () => {
       JSON.stringify({foo: 'some json'}),
     ])
     m.expect(actual$).toBeObservable(expected$);
+    m.expect(input$).toHaveSubscriptions('^--------!');
     expect(params._getPresignedUrl.calledOnce).to.be.true;
     expect(params._getPresignedUrl.getCall(0).args[0]).to.deep.equal({
       region: 'us-east-1',
@@ -46,7 +52,37 @@ describe('operators.transcribe', () => {
     // expect(params._conduit.callCount).to.equal(1);
   }));
 
-  it('should produce correct output when given a valid input stream', marbles(m => {
-
-  }));
+  it('should parse audio into ArrayBuffer objects and stream to websocket', done => {
+    const onData = sinon.spy();
+    const onError = sinon.spy();
+    const params = {
+      accessKeyId: 'fakeaccesskey',
+      secretAccessKey: 'fakesecretkey',
+      _conduit: sinon.stub().returns(source$ => source$.pipe()),
+      _getPresignedUrl: sinon.stub().returns(
+        'wss://buccaneer.ai?something'
+      ),
+      _serializer: d => d,
+      _deserializer: d => d,
+    };
+    const mp3Stream$ = fromFile({filePath: audioSampleFilePath}).pipe(
+      take(2)
+    );
+    const transcription$ = mp3Stream$.pipe(
+      transcribe(params)
+    );
+    transcription$.subscribe(onData, onError, () => {
+      expect(params._conduit.calledOnce).to.be.true;
+      expect(params._conduit.getCall(0).args[0]).to.deep.equal({
+        url: 'wss://buccaneer.ai?something',
+        serializer: params._serializer,
+        deserializer: params._deserializer,
+      });
+      expect(onData.callCount).to.equal(2);
+      const bufferOut = onData.getCall(0).args[0];
+      expect(bufferOut.constructor).to.equal(Buffer);
+      done();
+    });
+    transcription$.subscribe();
+  });
 });
