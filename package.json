@@ -4,7 +4,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna exec --parallel 'BABEL_ENV=build babel src --out-dir build --source-maps --extensions .js --config-file ../../babel.config.js --delete-dir-on-start --no-comments'",
-    "lint": "lerna run lint",
+    "package:create": "lerna create --dependencies rxjs --license MIT",
+    "lint": "lerna exec yarn lint",
     "ls": "lerna ls",
     "test": "lerna run test --since",
     "bump:major": "lerna version major --yes",
@@ -40,7 +41,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "type": "module",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "dependencies": {}

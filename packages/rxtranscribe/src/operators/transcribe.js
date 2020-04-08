@@ -4,11 +4,12 @@
 // https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html
 // https://docs.aws.amazon.com/transcribe/latest/dg/limits-guidelines.html
 import { of, throwError } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { mergeMap, takeUntil } from 'rxjs/operators';
 import { conduit } from '@bottlenose/rxws';
 
 import createAwsSignedUrl from '../internals/createAwsSignedUrl';
 import convertAudioToBinaryMessage from '../internals/convertAudioToBinaryMessage';
+import decodeMessage from '../internals/decodeMessage';
 
 const transcribe = function transcribe({
   region = (process.env.AWS_REGION || 'us-east-1'),
@@ -16,18 +17,28 @@ const transcribe = function transcribe({
   secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY,
   stop$ = of(),
   _conduit = conduit,
-  _convertAudioToBinaryMessage = convertAudioToBinaryMessage,
+  _serializer = audioBinary => convertAudioToBinaryMessage({audioBinary}),
+  _deserializer = message => decodeMessage({message}),
   _getPresignedUrl = createAwsSignedUrl
 }) {
-  if (!accessKeyId || !secretAccessKey) {
-    return throwError(new Error('AWS credentials must be set'));
-  }
-  const url = _getPresignedUrl({region, accessKeyId, secretAccessKey});
-  return source$ => source$.pipe(
-    map(audioBinary => _convertAudioToBinaryMessage(audioBinary)),
-    _conduit({url}), // outputs JSON response objects
-    takeUntil(stop$)
-  );
+  return fileChunk$ => {
+    const url = _getPresignedUrl({region, accessKeyId, secretAccessKey});
+    const message$ = fileChunk$.pipe(
+      mergeMap(fileChunk => (
+        !accessKeyId || !secretAccessKey
+        ? throwError(new Error('AWS credentials must be set'))
+        : of(fileChunk)
+      )),
+      // audioBinary should be streamed as an arraybuffer type on the websocket...
+      _conduit({
+        url,
+        serializer: _serializer,
+        deserializer: _deserializer,
+      }), // outputs JSON response objects
+      takeUntil(stop$)
+    );
+    return message$;
+  };
 };
 
 export default transcribe;

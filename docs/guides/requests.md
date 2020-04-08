@@ -1,3 +1,5 @@
+# HTTP requests
+
 Bottlenose doesn't have a module for HTTP data sources because it's simple to use existing libraries for this purpose.
 
 With [request-promise-native](https://www.npmjs.com/package/request-promise) (based the [request](https://www.npmjs.com/package/request) npm package for node.js):
@@ -18,6 +20,6 @@ const req$ = from(axios.get('https://google.com'));
 req.subscribe(console.log);
 ```
 
-Other useful libraries:
-- [superagent]
-- [graphql-request]
+## Other useful libraries
+- [superagent](https://www.npmjs.com/package/superagent)
+- [graphql-request](https://www.npmjs.com/package/graphql-request)
