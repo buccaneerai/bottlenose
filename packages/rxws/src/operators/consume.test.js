@@ -1,17 +1,17 @@
 import { expect } from 'chai';
 import { marbles } from 'rxjs-marbles/mocha';
 
-import messages from './messages';
+import consume from './consume';
 import { NEW_MESSAGE } from '../internals/actions';
 
-// the WebSocket emits messages wrapped in an object
+// the WebSocket emits consume wrapped in an object
 function formatData(message) {
   const msg = {data: JSON.stringify(message)};
   return { message: msg };
 }
 
-describe('messages operator', () => {
-  it('should emit message objects', marbles(m => {
+describe('operators.consume', () => {
+  it('should emit message objects received from WebSocket', marbles(m => {
     const messageArr = [
       {foo: 'bar'},
       {another: 'please'},
@@ -26,7 +26,7 @@ describe('messages operator', () => {
       5: ['client', {type: NEW_MESSAGE, data: formatData(messageArr[2])}],
     };
     const input$ = m.cold('0-1(23)4-5|', inputs);
-    const actual$ = input$.pipe(messages());
+    const actual$ = input$.pipe(consume());
     m.expect(actual$).toBeObservable(m.cold(
       '0--2-----5|',
       {
@@ -37,7 +37,7 @@ describe('messages operator', () => {
     ));
   }));
 
-  // it('should emit messages from topic when given a topic objects', marbles(m => {
+  // it('should emit consume from topic when given a topic objects', marbles(m => {
   //   const inputs = {
   //     0: ['client', {data: {message: JSON.stringify({foo: 'bar'})}, type: NEW_MESSAGE}],
   //     1: ['client', {type: 'notamessage'}],
@@ -47,7 +47,7 @@ describe('messages operator', () => {
   //     5: ['client', {data: {message: JSON.stringify({sitrep: 'snafu'})}, type: NEW_MESSAGE}],
   //   };
   //   const input$ = m.cold('0-1(23)4-5|', inputs);
-  //   const actual$ = input$.pipe(messages('dunno'));
+  //   const actual$ = input$.pipe(consume('dunno'));
   //   m.expect(actual$).toBeObservable(m.cold(
   //     '---------5|',
   //     {
