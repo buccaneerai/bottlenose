@@ -36,7 +36,9 @@
     "@aws-sdk/eventstream-marshaller": "^0.1.0-preview.2",
     "@aws-sdk/util-utf8-node": "^0.1.0-preview.1",
     "@bottlenose/rxws": "^0.6.0",
+    "deepspeech": "^0.6.1",
     "lodash": "^4.17.15",
+    "node-vad": "^1.1.4",
     "qs": "^6.9.1",
     "rxjs": "^6.5.4"
   },
@@ -47,12 +49,12 @@
   },
   "browserslist": [],
   "scripts": {
-    "build": "rm -rf ./build/* && babel ./src -d ./build --ignore *.test.js",
+    "build": "BABEL_ENV=build babel src --out-dir build --source-maps --extensions .js --config-file ../../babel.config.js --delete-dir-on-start --no-comments",
     "lint": "eslint -c ../../.eslintrc ./src",
     "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
     "test:watch": "yarn test -- --watch",
     "prepublishOnly": "yarn lint && yarn test && yarn build",
-    "demo:run": "BABEL_ENV=script yarn babel-node --config-file ../../babel.config.js ./demo/runDemo.js"
+    "demo:run": "yarn build && BABEL_ENV=build yarn babel-node --config-file ../../babel.config.js ./demo/runDemo.js"
   },
   "gitHead": "2e605ea39f6ec0994985bdd3a63398c3b9946553"
 }
