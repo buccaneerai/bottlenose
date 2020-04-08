@@ -29,7 +29,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "rm -rf ./build/* && babel ./src -d ./build --ignore *.test.js",
+    "build": "BABEL_ENV=build babel src --out-dir build --source-maps --extensions .js --config-file ../../babel.config.js --delete-dir-on-start --no-comments",
     "lint": "eslint -c ../../.eslintrc ./src",
     "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
     "test:watch": "yarn test -- --watch",
