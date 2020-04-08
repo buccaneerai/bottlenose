@@ -12,7 +12,7 @@ const ws = function ws({
   _createSocket = (_url, _socketOptions) => new WS(_url, _socketOptions),
   _actions = actions,
 }) {
-  const socket = _createSocket(url, {...socketOptions});
+  const socket = _createSocket(url, socketOptions);
   const event$ = new Observable(obs => {
     obs.next(_actions.createClient({client: socket}));
     socket.onopen = e => obs.next(

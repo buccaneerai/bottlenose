@@ -1,5 +1,6 @@
 # Quick Start
 
+## Installation
 ### npm
 
 ```bash
@@ -12,74 +13,47 @@ npm i @bottlenose/rxws --save
 yarn add @bottlenose/rxws
 ```
 
-## Subscribe to messages from a server
-
-```javascript
-import { share } from 'rxjs/operators';
-import { messages, ws } from '@bottlenose/rxws';
-
-const websocketParams = {
-  url: 'wss://mysite.com',
-  topics: ['message', 'news'],
-};
-const ws$ = ws(websocketParams).pipe(
-  share() // pipe the Observable to a Subject
-);
-
-// get a stream of messages from the server:
-const message$ = ws$.pipe(
-  messages() // get all messages from the WebSocket.
-);
-message$.subscribe(console.log); // log messages from the server
-```
-
-## Publish messages to a server
-
+## Open a two-way data stream over a WebSocket
+The most common use for WebSockets is to open a bi-directional data stream to publish messages to the server and receive messages back from it.  The package provides a `conduit` operator for this purpose:
 ```javascript
 import { from } from 'rxjs';
-import { share } from 'rxjs/operators';
-import { broadcast, ws } from '@bottlenose/rxws';
+import { conduit } from '@bottlenose/rxws';
 
-const ws$ = ws({url: 'wss://mysite.com'}).pipe(share());
-
-// send a stream of messages to the server:
-const messagesToPublish$ = from([
-  {text: 'hello'},
-  {text: 'goodbye'},
+const messagesToSend$ = from([
+  {body: 'data'},
+  {body: 'more data'},
 ]);
-const publisher$ = ws$.pipe(
-  broadcast(messagesToPublish$, 'post')
+
+// send messages over the WebSocket and receive messages back from it...
+const socketResponse$ = messageToSend$.pipe(
+  conduit({url: 'wss://mysite.com'})
 );
-publisher$.subscribe();
+socketResponse$.subscribe(
+  console.log, // log all messages received from the server
+  console.error,
+  () => console.log('WebSocket Closed!')
+);
 ```
 
-## Handle interruptions to the client's connection
-
+By default, messages are expected to be encoded as JSON objects.  You can alter this by providing a serializer and deserializer:
 ```javascript
-import { share } from 'rxjs/operators';
-import { connections, disconnections, ws } from '@bottlenose/rxws';
+import { from } from 'rxjs';
+import { conduit } from '@bottlenose/rxws';
 
-const websocketParams = {
-  url: 'wss://mysite.com',
-  topics: ['message', 'news']
-};
-const ws$ = ws(websocketParams).pipe(share());
+const decodeMessage = base64Message => atob(base64Message);
+const encodeMessage = binaryString => btoa(binartString);
 
-const disconnection$ = ws$.pipe(
-  disconnections()
+const messagesToSend$ = from([
+  'somebinarystring',
+  'anotherbinarystring',
+]);
+const socketResponse$ = messageToSend$.pipe(
+  conduit({
+    url: 'wss://mysite.com',
+    serializer: encodeMessage,
+    deserializer: decodeMessage,
+  })
 );
-disconnection$.subscribe(
-  () => console.log('You are disconnected from the server!')
-);
-const reconnection$ = ws$.pipe(
-  connections()
-);
-reconnection$.subscribe(
-  () => console.log('You have reconnected to the server!')
-);
+socketResponse$.subscribe();
 ```
-
-## Next steps
-
-* Check out the [full API](https://brianbuccaneer.gitbook.io/rxws/api).
 
