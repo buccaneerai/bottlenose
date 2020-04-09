@@ -35,7 +35,8 @@ function ingestAudioToModel(model) {
       chunk
     ], [0, null]),
     map(([audioLength, chunk]) => model.feedAudioContent(
-      modelStream,
+      // modelStream, // FIXME
+      null,
       chunk.slice(0, chunk.length / 2)
     ))
   );
