@@ -1,7 +1,7 @@
 {
   "name": "@bottlenose/rxtranscribe",
   "version": "0.6.0",
-  "description": "👂 Realtime speech-to-text (S2T) transcription with AWS Transcribe and RxJS",
+  "description": "👂 Realtime speech-to-text (S2T) transcription with RxJS",
   "main": "build/index.js",
   "repository": "https://github.com/buccaneerai/bottlenose/tree/master/packages/rxtranscribe",
   "publishConfig": {
