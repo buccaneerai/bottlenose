@@ -76,8 +76,8 @@ const toDeepSpeech = function toDeepSpeech({
   modelDir = process.env.DEEPSPEECH_MODEL_PATH,
   useSingletonModel = true,
   _createModel = createModel,
-  // inputType = 'vad'
-  // interval = 2000
+  // inputType = 'vad',
+  // interval = 2000,
 }) {
   const model = _createModel({modelDir, useSingletonModel});
   return vadStream$ => vadStream$.pipe(vadToText({model}));

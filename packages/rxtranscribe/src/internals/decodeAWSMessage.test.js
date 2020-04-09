@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import decodeMessage from './decodeMessage';
+import decodeMessage from './decodeAWSMessage';
 
 describe('internals.decodeMessage', () => {
   it('should call decode workflow correctly', () => {
