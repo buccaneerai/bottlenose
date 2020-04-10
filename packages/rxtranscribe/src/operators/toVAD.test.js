@@ -26,7 +26,7 @@ describe('operators.toVAD', () => {
       expect(onData.callCount).to.equal(5);
       const item5 = onData.getCall(4).args[0];
       expect(item5[0].byteLength).to.be.a('number'); // check if it is a Buffer
-      expect(item5[1]).to.deep.equal({type: 'vad/VOICE'});
+      expect(item5[1]).to.deep.equal({type: 'VOICE'});
       done();
     });
   });

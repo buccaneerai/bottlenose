@@ -2,11 +2,11 @@ import VAD from 'node-vad';
 import {from,of,throwError,zip} from 'rxjs';
 import {map,mergeMap} from 'rxjs/operators';
 
-const VAD_VOICE = 'vad/VOICE';
-const VAD_SILENCE = 'vad/SILENCE';
-const VAD_ERROR = 'vad/ERROR';
-const VAD_NOISE = 'vad/NOISE';
-const VAD_UNKNOWN = 'vad/UNKNOWN';
+const VAD_VOICE = 'VOICE';
+const VAD_SILENCE = 'SILENCE';
+const VAD_ERROR = 'ERROR';
+const VAD_NOISE = 'NOISE';
+const VAD_UNKNOWN = 'UNKNOWN';
 
 function mapVadToEventType(vadValue) {
   switch (vadValue) {
