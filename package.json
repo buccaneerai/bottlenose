@@ -35,7 +35,7 @@
     "mocha": "^7.0.0",
     "optimist": "^0.6.1",
     "prompt": "^1.0.0",
-    "rxjs-marbles": "^5.0.4",
+    "rxjs-marbles": "^6.0.0",
     "sinon": "^8.0.4"
   },
   "workspaces": [
