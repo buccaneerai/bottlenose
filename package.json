@@ -13,7 +13,8 @@
     "bump:patch": "lerna version patch --yes",
     "diff": "lerna diff",
     "release": "lerna publish",
-    "release:beta": "lerna publish --canary --preid beta"
+    "release:beta": "lerna publish --canary --preid beta",
+    "clean": "lerna clean && rm -r node_modules"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",
