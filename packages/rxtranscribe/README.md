@@ -5,7 +5,7 @@
 </a>
 
 ## Description
-This package allows real-time speech-to-text (STT) functionality to be performed on audio streams.  It offers numerous strategies for how the STT can be performed including the following pipelines: the opensource [DeepSpeech]() architecture, the [Amazon Transcribe API]() and [Google Speech-to-text API].
+This package allows real-time speech-to-text (STT) functionality to be performed on audio streams.  It offers numerous strategies for how the STT can be performed including the following pipelines: the opensource [DeepSpeech]() architecture, the [Amazon Transcribe API](https://aws.amazon.com/transcribe/) and [Google Speech-to-text API](https://cloud.google.com/speech-to-text/).
 
 Currently, audio can be passed in as a stream of Buffer objects containing audio data encoded using one of the following 
 
