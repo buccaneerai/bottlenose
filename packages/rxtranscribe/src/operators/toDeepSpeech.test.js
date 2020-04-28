@@ -6,11 +6,7 @@ import {take} from 'rxjs/operators';
 import {fromFile} from '@bottlenose/rxfs';
 
 import toDeepSpeech, {testExports} from './toDeepSpeech';
-const {
-  createModel,
-  ingestAudioToModel,
-  windowAudioChunks
-} = testExports;
+const {createModel, transcribe} = testExports;
 
 describe('operators.toDeepSpeech', () => {
   it('should call its workflows correctly', done => {
@@ -22,7 +18,7 @@ describe('operators.toDeepSpeech', () => {
       modelDir: 'foobar',
       _createModel: sinon.stub().returns(),
       _windowAudioChunks: sinon.stub().returns(windowOperator),
-      _ingestAudioToModel: sinon.stub().returns(sttOperator),
+      _transcribe: sinon.stub().returns(sttOperator),
     };
     const fileChunk$ = from(['011011', '110110']);
     const out$ = fileChunk$.pipe(toDeepSpeech(params));
@@ -54,7 +50,7 @@ describe('operators.toDeepSpeech', () => {
       },
       sampleRate: 16000,
     };
-    const out$ = fileChunks$.pipe(ingestAudioToModel(params));
+    const out$ = fileChunks$.pipe(transcribe(params));
     out$.subscribe(onData, onError, () => {
       expect(onError.called).to.be.false;
       expect(params.model.createStream.calledOnce).to.be.true;
