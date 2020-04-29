@@ -80,7 +80,7 @@ const toDeepSpeech = function toDeepSpeech({
     //   sampleRate,
     //   bufferInterval
     // }}),
-    bufferCount(5), // TODO: remove this when silence buffers are added
+    bufferCount(10), // TODO: remove this when silence buffers are added
     _transcribe({model, sampleRate})
   );
 };

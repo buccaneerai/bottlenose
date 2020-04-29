@@ -12,12 +12,12 @@ describe('operators.toDeepSpeech', () => {
   it('should call its workflows correctly', done => {
     const onData = sinon.spy();
     const onError = sinon.spy();
-    const windowOperator = sinon.stub().returns(of(['011011', '110110']));
+    // const windowOperator = sinon.stub().returns(of(['011011', '110110']));
     const sttOperator = sinon.stub().returns(from(['hello world', 'byeee']));
     const params = {
       modelDir: 'foobar',
       _createModel: sinon.stub().returns(),
-      _windowAudioChunks: sinon.stub().returns(windowOperator),
+      // _buffer: sinon.stub().returns(windowOperator),
       _transcribe: sinon.stub().returns(sttOperator),
     };
     const fileChunk$ = from(['011011', '110110']);
@@ -28,7 +28,7 @@ describe('operators.toDeepSpeech', () => {
       expect(params._createModel.getCall(0).args[0]).to.deep.equal({
         modelDir: params.modelDir
       });
-      expect(windowOperator.callCount).to.equal(1);
+      // expect(windowOperator.callCount).to.equal(1);
       expect(sttOperator.callCount).to.equal(1);
       expect(onData.callCount).to.equal(2);
       expect(onData.getCall(1).args[0]).to.equal('byeee');
