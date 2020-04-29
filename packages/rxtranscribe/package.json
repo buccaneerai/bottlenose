@@ -36,7 +36,7 @@
     "@aws-sdk/eventstream-marshaller": "^0.1.0-preview.2",
     "@aws-sdk/util-utf8-node": "^0.1.0-preview.1",
     "@bottlenose/rxws": "^0.6.0",
-    "deepspeech": "^0.6.1",
+    "deepspeech": "^0.7.0",
     "lodash": "^4.17.15",
     "node-vad": "^1.1.4",
     "qs": "^6.9.1",
