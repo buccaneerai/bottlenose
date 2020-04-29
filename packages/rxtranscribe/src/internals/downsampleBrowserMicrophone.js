@@ -25,7 +25,10 @@
 //       while (outputIndex < frameLength) {
 //         sum = 0;
 //         num = 0;
-//         while (inputIndex < Math.min(inputBuffer.length, (outputIndex + 1) * sampleRate / desiredSampleRate)) {
+//         while (
+          // inputIndex < Math.min(inputBuffer.length, (outputIndex + 1)
+          //   * sampleRate / desiredSampleRate
+          // )) {
 //             sum += inputBuffer[inputIndex];
 //             num++;
 //             inputIndex++;
