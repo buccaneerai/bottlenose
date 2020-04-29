@@ -4,7 +4,7 @@ import { map, mergeMap } from 'rxjs/operators';
 import { ws, send } from '@bottlenose/rxws';
 
 import createAwsSignedUrl from './createAwsSignedUrl';
-import convertAudioToBinaryMessage from './convertAudioToBinaryMessage';
+import convertAudioToAWSBinaryMessage from './convertAudioToAWSBinaryMessage';
 
 // const transcribe = new AWS.TranscribeService();
 
@@ -49,7 +49,7 @@ const transcribeAudio = function transcribeAudio({
       region,
     });
     const message$ = source$.pipe(
-      map(audioBinary => convertAudioToBinaryMessage(audioBinary))
+      map(audioBinary => convertAudioToAWSBinaryMessage(audioBinary))
     );
     const ws$ = url$.pipe(
       mergeMap(url => _ws({url, message$})),

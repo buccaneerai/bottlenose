@@ -7,11 +7,11 @@ import {map,mapTo,take,tap} from 'rxjs/operators';
 import {marbles} from 'rxjs-marbles/mocha';
 import {fromFile} from '@bottlenose/rxfs';
 
-import transcribe from './transcribe';
+import toAWS from './toAWS';
 
 const audioSampleFilePath = path.resolve(__dirname, '../../demo/sample-audio.mp3');
 
-describe('operators.transcribe', () => {
+describe('operators.toAWS', () => {
   it('should properly call its workflow', marbles(m => {
     const input$ = m.cold('-0--1---2|', [
       Buffer.from('foobar', 'base64'),
@@ -32,7 +32,7 @@ describe('operators.transcribe', () => {
       ),
     };
     const actual$ = input$.pipe(
-      transcribe(params)
+      toAWS(params)
     );
     const expected$ = m.cold('-0--1---2|', [
       JSON.stringify({foo: 'some json'}),
@@ -69,7 +69,7 @@ describe('operators.transcribe', () => {
       take(2)
     );
     const transcription$ = mp3Stream$.pipe(
-      transcribe(params)
+      toAWS(params)
     );
     transcription$.subscribe(onData, onError, () => {
       expect(params._conduit.calledOnce).to.be.true;

@@ -1,9 +1,13 @@
 import {expect} from 'chai';
 
-import {transcribe} from './index';
+import * as api from './index';
 
 describe('index', () => {
   it('should export operator functions', () => {
-    expect(transcribe).to.be.a('function');
+    const expectedApi = [
+      'toAWS',
+      'toDeepSpeech'
+    ];
+    expect(Object.keys(api)).to.deep.equal(expectedApi);
   });
 });

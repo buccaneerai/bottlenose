@@ -8,10 +8,10 @@ import { mergeMap, takeUntil } from 'rxjs/operators';
 import { conduit } from '@bottlenose/rxws';
 
 import createAwsSignedUrl from '../internals/createAwsSignedUrl';
-import convertAudioToBinaryMessage from '../internals/convertAudioToBinaryMessage';
-import decodeMessage from '../internals/decodeMessage';
+import convertAudioToBinaryMessage from '../internals/convertAudioToAWSBinaryMessage';
+import decodeMessage from '../internals/decodeAWSMessage';
 
-const transcribe = function transcribe({
+const toAWS = function toAWS({
   region = (process.env.AWS_REGION || 'us-east-1'),
   accessKeyId = process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY,
@@ -41,4 +41,4 @@ const transcribe = function transcribe({
   };
 };
 
-export default transcribe;
+export default toAWS;
