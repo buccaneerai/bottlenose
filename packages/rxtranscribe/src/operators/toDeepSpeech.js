@@ -8,8 +8,6 @@ import {
   filter,
   map,
   mergeMap,
-  take,
-  tap
 } from 'rxjs/operators';
 
 // import bufferBetweenSilences from './bufferBetweenSilences';
@@ -81,7 +79,10 @@ const toDeepSpeech = function toDeepSpeech({
     //   bufferInterval
     // }}),
     bufferCount(10), // TODO: remove this when silence buffers are added
-    _transcribe({model, sampleRate})
+    _transcribe({model, sampleRate}),
+    map(text => text.split(' ')),
+    mergeMap(words => of(...words)),
+    map(wordString => ({content: wordString}))
   );
 };
 
