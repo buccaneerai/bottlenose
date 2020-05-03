@@ -16,11 +16,12 @@ console.log('running demo');
 function createOperator({
   strategy,
   region = 'us-east-1',
-  modelDir
+  modelDir,
+  codec = 'wav',
 }) {
   switch (strategy) {
     case 'deepspeech':
-      return toDeepSpeech({modelDir});
+      return toDeepSpeech({modelDir, codec: 'pcm'});
     case 'aws':
       return toAWS({region});
     // case 'awsmed':
@@ -42,7 +43,7 @@ function runDemo({
 }) {
   const mp3Chunk$ = fromFile({filePath: inputFilePath});
   const transcription$ = mp3Chunk$.pipe(
-    tap(input => console.log('IN', typeof input)),
+    // tap(input => console.log('IN', typeof input)),
     createOperator({strategy, region, modelDir})
   );
   return transcription$;
@@ -53,16 +54,19 @@ const schema = {
     inputFilePath: {
       description: 'Path to an audio file (mp3/mp4/wav)',
       type: 'string',
-      default: path.resolve(__dirname, './sample-audio.mp3'),
+      default: path.resolve(__dirname, './sample-audio.pcm16bit'),
     },
     strategy: {
       description: 'Where to send the audio? [aws, gcp, deepgram, deepspeech, awsmed]',
       type: 'string',
+      default: 'deepspeech',
+      validator: /deepspeech*|aws*|gcp*|deepgram*|awsmed?/
     },
     modelDir: {
-      description: '(For DeepSpeech only): Path to a DeepSpeech-compatible tensorflow model',
-      default: `${process.env.HOME}/Downloads/deepspeech-0.6.1-models`,
-    }
+      description: 'Path to a DeepSpeech-compatible tensorflow model',
+      default: `${process.env.HOME}/Documents/models/deepspeech-0.6.1-models`,
+      ask: () => prompt.history('strategy').value === 'deepspeech',
+    },
   }
 };
 
@@ -74,7 +78,7 @@ prompt.get(schema, (err, params) => {
   if (isAWS && !process.env.AWS_SECRET_ACCESS_KEY) throw new Error('AWS_SECRET_ACCESS_KEY must be set');
   const transcription$ = runDemo(params);
   transcription$.subscribe(
-    out => console.log('OUT', out),
+    out => console.log(out),
     console.error,
     () => {
       console.log('DONE');

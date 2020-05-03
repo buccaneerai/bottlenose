@@ -5,13 +5,9 @@
 </a>
 
 ## Description
-This package allows real-time speech-to-text (S2T) functionality using a WebSocket which streams audio data to AWS Transcribe. Two reasons why the team at [Buccaneer](https://www.buccaneer.ai) decided to write a package for it:
+This package allows real-time speech-to-text (STT) functionality to be performed on audio streams.  It offers numerous strategies for how the STT can be performed including the following pipelines: the opensource [DeepSpeech]() architecture, the [Amazon Transcribe API](https://aws.amazon.com/transcribe/) and [Google Speech-to-text API](https://cloud.google.com/speech-to-text/).
 
-1. At the time this was written in Fall 2019, the [Transcribe API](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/TranscribeService.html) in `aws-sdk` did not support real-time audio streaming and Amazon did not provide an official JavaScript client for real-time subscription.  For many speech-to-text use cases, real-time transcription is mandatory.  (**Tip**: If your goal is to transcribe an audio file in its entirety and you can wait for the entire file to be processed, then you can use the `aws-sdk` and you don't need this library!)
-
-2. This implementation makes it easy to plug AWS Transcribe into [RxJS 6](https://rxjs-dev.firebaseapp.com/api) pipelines.
-
-3. This package encapsulates the business logic of AWS Transcribe streaming into a separate `npm` package so that applications can focus on what they're good at and don't need to worry about the internals of how AWS Transcribe processes audio data streams.
+Currently, audio can be passed in as a stream of Buffer objects containing audio data encoded using one of the following 
 
 ## Installation
 ```bash
@@ -22,31 +18,44 @@ yarn add @bottlenose/rxtranscribe
 npm i --save @bottlenose/rxtranscribe
 ```
 
+### DeepSpeech
+To run the DeepSpeech pipeline, [download the DeepSpeech model](https://github.com/mozilla/DeepSpeech/releases), unzip it and pass the model directory to the `toDeepSpeech` operator like this: `toDeepSpeech({modelDir: 'path/to/deepseech-models-0.7.0'})`.
+
+### AWS Transcribe
+To run the AWS Transcribe pipeline, you'll need a valid ACCESS_KEY_ID and SECRET_ACCESS_KEY with permissions to run AWS Transcribe.
+
+### GCP Speech-to-text
+- To run the GCP speech-to-text pipeline, you'll need a valid JSON file containing GCP credentials. 
+- The project will need to have the speech-to-text API enabled.
+- You may need to set [GOOGLE_APPLICATION_CREDENTIALS environment variable](https://cloud.google.com/docs/authentication) so that it contains the path of your credentials file.
+
+:bulb: In the future, it would be nicer to have an npm library that can install Sox so that `yarn install` would handle all the dependencies.
+
 ## Compatibility
 
 |Platform|Support|
 |--------------|:-----------:|
-|node.js (>10.8)|✅|
+|node.js (>12)|✅|
 |Browsers|❓|
 |React Native|❓|
 |Electron|❓|
 
-💡 This package has only been tested in the node.js environment.  If it doesn't work isomorphically, it could probably be modified to do so without much effort.  The authors haven't one so because running it on client devices does not seem like an advisable design for production situations.  But if you want to take a stab at implementing isomorphic support, [contact us](mailto:opensource@buccaneer.ai)!
+💡 This package has only been tested in the node.js environment.  If it doesn't work isomorphically, it could probably be modified to do so without much effort.  The authors haven't done so because running it on client devices does not seem like an advisable design for production situations.  But if you want to take a stab at implementing isomorphic support, [contact us](mailto:opensource@buccaneer.ai)!
 
 ## Basic Usage
 ```javascript
-import { transcribe } from '@bottlenose/rxtranscribe';
+import {map} from 'rxjs/operators';
+import {toDeepSpeech} from '@bottlenose/rxtranscribe';
 
 // The pipeline takes a stream of .wav audio chunks (Buffer, String, Blob or Typed Array)
-const buffer$ = chunk$.pipe(
-  map(chunkStr => Buffer.from(chunkString, 'base64')),
-  transcribe({})
+const buffer$ = pcmChunkEncodedAs16BitIntegers$.pipe(
+  map(chunk => Buffer.from(chunk, 'base64')),
+  toDeepSpeech({modelDir: '/path/to/deepspeech-models-0.7.0'})
 );
 ```
-
-💡 One limitation of the current package is that it currently only supports `.wav` files as inputs, which are [encoded as](https://cloud.google.com/speech-to-text/docs/encoding) .mp4 files.  It would be nice to support a wider variety of file types.  If you know how to do this and want to help implement this functionality, please [contact us](opensource@buccaneer.ai).
 
 ## Documentation & Guides
 - [Documentation](https://buccaneerai.gitbook.io/bottlenose/data-analysis/rxtranscribe)
 - [Full list of operators](https://buccaneerai.gitbook.io/bottlenose/data-analysis/rxtranscribe/operators)
 - [Guides](https://buccaneerai.gitbook.io/bottlenose/data-analysis/rxtranscribe/guides)
+- [Introduction to audio data](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Audio_concepts)
