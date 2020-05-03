@@ -54,16 +54,18 @@ const schema = {
     inputFilePath: {
       description: 'Path to an audio file (mp3/mp4/wav)',
       type: 'string',
-      default: path.resolve(__dirname, './samples/sample-audio.mp3'),
+      default: path.resolve(__dirname, './sample-audio.pcm16bit'),
       // default: path.resolve(__dirname, './samples/audio.raw'),
     },
     strategy: {
       description: 'Where to send the audio? [aws, gcp, deepgram, deepspeech, awsmed]',
       type: 'string',
+      default: 'deepspeech',
+      validator: /deepspeech*|aws*|gcp*|deepgram*|awsmed?/
     },
     modelDir: {
-      description: '(For DeepSpeech only): Path to a DeepSpeech-compatible tensorflow model',
-      default: `${process.env.HOME}/Downloads/deepspeech-0.6.1-models`,
+      description: 'Path to a DeepSpeech-compatible tensorflow model',
+      default: `${process.env.HOME}/Documents/models/deepspeech-0.6.1-models`,
       ask: () => prompt.history('strategy').value === 'deepspeech',
     },
     sampleRate: {

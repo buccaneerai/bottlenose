@@ -32,9 +32,9 @@ jobs:
       - run:
           name: Build
           command: yarn build
-      - run:
-          name: Security check for npm packages
-          command: yarn audit --groups dependencies --level 8
+      # - run:
+      #     name: Security check for npm packages
+      #     command: yarn audit --groups dependencies --level high
 workflows:
   version: 2
   build_test_deploy:

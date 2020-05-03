@@ -39,7 +39,6 @@
     "@google-cloud/speech": "^3.6.0",
     "deepspeech": "^0.6.1",
     "lodash": "^4.17.15",
-    "node-vad": "^1.1.4",
     "qs": "^6.9.1",
     "rxjs": "^6.5.4"
   },
