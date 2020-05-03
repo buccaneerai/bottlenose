@@ -9,7 +9,7 @@ import {fromFile} from '@bottlenose/rxfs';
 
 import toAWS from './toAWS';
 
-const audioSampleFilePath = path.resolve(__dirname, '../../demo/sample-audio.mp3');
+const audioSampleFilePath = path.resolve(__dirname, '../../demo/samples/sample-audio.mp3');
 
 describe('operators.toAWS', () => {
   it('should properly call its workflow', marbles(m => {

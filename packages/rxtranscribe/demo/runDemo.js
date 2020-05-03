@@ -37,7 +37,7 @@ function createOperator({
 function runDemo({
   strategy,
   modelDir,
-  inputFilePath = path.resolve(__dirname, './sample-audio.mp3'),
+  inputFilePath = path.resolve(__dirname, './samples/sample-audio.mp3'),
   region = 'us-east-1',
   sampleRate
 }) {
@@ -54,7 +54,7 @@ const schema = {
     inputFilePath: {
       description: 'Path to an audio file (mp3/mp4/wav)',
       type: 'string',
-      default: path.resolve(__dirname, './sample-audio.pcm16bit'),
+      default: path.resolve(__dirname, './samples/sample-audio.pcm16bit'),
       // default: path.resolve(__dirname, './samples/audio.raw'),
     },
     strategy: {
