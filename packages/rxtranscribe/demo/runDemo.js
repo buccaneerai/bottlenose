@@ -43,7 +43,7 @@ function runDemo({
 }) {
   const mp3Chunk$ = fromFile({filePath: inputFilePath});
   const transcription$ = mp3Chunk$.pipe(
-    tap(input => console.log('IN', typeof input)),
+    // tap(input => console.log('IN', typeof input)),
     createOperator({strategy, region, modelDir, sampleRate})
   );
   return transcription$;
@@ -56,11 +56,13 @@ const schema = {
       type: 'string',
       default: path.resolve(__dirname, './samples/sample-audio.pcm16bit'),
       // default: path.resolve(__dirname, './samples/audio.raw'),
+      // default: path.resolve(__dirname, './samples/commercial_mono.wav'),
     },
     strategy: {
       description: 'Where to send the audio? [aws, gcp, deepgram, deepspeech, awsmed]',
       type: 'string',
       default: 'deepspeech',
+      // default: 'gcp',
       validator: /deepspeech*|aws*|gcp*|deepgram*|awsmed?/
     },
     modelDir: {
@@ -71,6 +73,7 @@ const schema = {
     sampleRate: {
       description: 'SampleRate for the audio',
       default: 16000,
+      // default: 8000,
       ask: () => prompt.history('strategy').value === 'gcp',
     }
   }

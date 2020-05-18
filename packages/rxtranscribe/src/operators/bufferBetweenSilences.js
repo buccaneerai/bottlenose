@@ -1,5 +1,5 @@
 // import {interval,merge,of} from 'rxjs';
-// import {bufferToggle,filter,mergeMap,share,tap} from 'rxjs/operators';
+// import {bufferToggle,filter,mergeMap,share,tap, mergeAll} from 'rxjs/operators';
 
 // import toVAD from './toVAD';
 
@@ -10,11 +10,11 @@
 // }) {
 //   return chunk$ => {
 //     const chunkSub$ = chunk$.pipe(
-//       tap(c => console.log('CHUNK', c)),
+//       // tap(c => console.log('CHUNK', c)),
 //       share()
 //     );
 //     const chunkAndVad$ = chunkSub$.pipe(
-//       tap(c => console.log('CHUNK_AGAIN', c)),
+//       // tap(c => console.log('CHUNK_AGAIN', c)),
 //       _toVAD({...vadOptions}),
 //       share()
 //     );
@@ -22,17 +22,18 @@
 //     // (1) the time threshhold is exceeded and
 //     // (2) the VAD detects silence (a pause in the conversation)
 //     const stop$ = merge(of(true), interval(timeInterval)).pipe(
-//       tap(i => console.log('INTERVAL', i)),
+//       // tap(i => console.log('INTERVAL', i)),
 //       mergeMap(() => chunkAndVad$.pipe(
-//         tap(c => console.log('CHUNK_AND_VAD', c)),
+//         // tap(c => console.log('CHUNK_AND_VAD', c)),
 //         filter(([,vad]) => vad.type === 'SILENCE')
 //       )),
-//       tap(() => console.log('STOP'))
+//       // tap(() => console.log('STOP'))
 //     );
 //     const buffer$ = chunkSub$.pipe(
 //       // immediately emit the buffer when the stop$ condition is triggered
 //       bufferToggle(stop$, () => stop$),
-//       tap(b => console.log('BUFFER_OUT', b))
+//       mergeAll(),
+//       // tap(b => console.log('BUFFER_OUT', b))
 //     );
 //     return buffer$;
 //   };
