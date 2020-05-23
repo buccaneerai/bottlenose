@@ -15,7 +15,8 @@ const toGCP = function toGCP({
   googleCreds = process.env.GOOGLE_APPLICATION_CREDENTIALS,
   stop$ = of(),
   sampleRate = 16000,
-  bufferThreshold = 2
+  bufferThreshold = 3,
+  model = 'video'
 }) {
   return fileChunk$ => {
     if (!googleCreds) return throwError(new Error('Google Application Credentials must be set'));
@@ -27,6 +28,10 @@ const toGCP = function toGCP({
       sampleRateHertz: sampleRate,
       languageCode: 'en-US',
       enableWordConfidence: true,
+      enableWordTimeOffsets: true,
+      enableSpeakerDiarization: true,
+      enableAutomaticPunctuation: true,
+      model
       // audioChannelCount: 2,
       // enableSeparateRecognitionPerChannel: true,
     };
