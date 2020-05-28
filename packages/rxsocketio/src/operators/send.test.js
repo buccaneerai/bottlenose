@@ -3,13 +3,14 @@ import {marbles} from 'rxjs-marbles/mocha';
 import sinon from 'sinon';
 import {from,of} from 'rxjs';
 
-import send from './send';
+import send, {testExports} from './send';
+const {sendWithTransactions} = testExports;
 
 describe('send', () => {
   it('should emit basic messages properly', done => {
-    const _socket = {
-      emit: sinon.stub().returns(true)
-    };
+    let _socket = {emit: sinon.stub().returns(true)};
+    _socket.binary = () => _socket;
+    _socket.compress = () => _socket;
     const message$ = from([
       {body: 'yo'},
       {body: 'sup'},
@@ -31,9 +32,9 @@ describe('send', () => {
   });
 
   it('should create correct output observable', marbles(m => {
-    const _socket = {
-      emit: sinon.stub().returns(true)
-    };
+    let _socket = {emit: sinon.stub().returns(true),};
+    _socket.binary = () => _socket;
+    _socket.compress = () => _socket;
     const message$ = m.cold('--012|', {
       0: {body: 'yo'},
       1: {body: 'sup'},
@@ -49,9 +50,9 @@ describe('send', () => {
   }));
 
   it('should emit messages to custom topics properly', done => {
-    const _socket = {
-      emit: sinon.stub().returns(true)
-    };
+    let _socket = {emit: sinon.stub().returns(true)};
+    _socket.binary = () => _socket;
+    _socket.compress = () => _socket;
     const message$ = from([
       {body: 'yo'},
       {body: 'sup', topic: 'another'},
@@ -73,9 +74,9 @@ describe('send', () => {
   });
 
   it('should emit binary messages properly', done => {
-    const _socket = {
-      emit: sinon.stub().returns(true)
-    };
+    let _socket = {emit: sinon.stub().returns(true)};
+    _socket.binary = () => _socket;
+    _socket.compress = () => _socket;
     const blob = new ArrayBuffer();
     const message$ = from([
       {topic: 'audio-chunk', body: 'onefinebody', binary: blob},
@@ -95,5 +96,32 @@ describe('send', () => {
       ]);
       done();
     });
+  });
+
+  it('should handle failures when sendWithTransactions is true', done => {
+    const onData = sinon.spy();
+    const onError = sinon.spy();
+    const message = {body: 'one fine body'};
+    const response = [];
+    let socket = {emit: sinon.stub(),};
+    socket.binary = () => socket;
+    socket.compress = () => socket;
+    const options = {
+      shouldWaitForConfirmation: false,
+      shouldRetry: false,
+      maxTimeout: 10000,
+      validateResponse: responseArgs => !!responseArgs[0],
+      retryDelay: 10000,
+      retryCount: 3,
+      retryFunction: null,
+    };
+    const result$ = sendWithTransactions({message, socket, ...options});
+    result$.subscribe(onData, err => {
+      expect(socket.emit.calledOnce).to.be.true;
+      expect(onData.called).to.be.false;
+      expect(err).to.be.an('error');
+      done();
+    });
+    socket.emit.yield(null);
   });
 });
