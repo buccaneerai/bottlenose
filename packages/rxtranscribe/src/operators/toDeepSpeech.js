@@ -2,11 +2,12 @@
 // https://github.com/mozilla/DeepSpeech-examples/blob/r0.6/web_microphone_websocket/server.js
 // https://deepspeech.readthedocs.io/en/v0.6.1/NodeJS-API.html
 import DeepSpeech from 'deepspeech';
-import {of,throwError} from 'rxjs';
+import {Observable,of,throwError} from 'rxjs';
 import {
   bufferCount,
   filter,
   map,
+  mergeAll,
   mergeMap,
 } from 'rxjs/operators';
 
@@ -30,7 +31,7 @@ function createModel({
 
 function transcribe({model, sampleRate = 16000}) {
   return bufferedChunks$ => bufferedChunks$.pipe(
-    map(chunks => {
+    mergeMap(chunks => new Observable(obs => {
       const modelStream = model.createStream();
       chunks.forEach(chunk => (
         model.feedAudioContent(modelStream, chunk.slice(0, chunk.length / 2))
@@ -39,8 +40,10 @@ function transcribe({model, sampleRate = 16000}) {
       // const output = model.finishStream(modelStream);
       // const output = model.stt(chunks[0].slice(0, chunks[0].length / 2));
       const output = model.finishStream(modelStream);
-      return output;
-    }),
+      obs.next(output);
+      return obs.complete();
+    })),
+    mergeAll(1),
     // bug in DeepSpeech 0.6 causes silence to be inferred as "i" or "a"
     filter(text => text !== 'i' && text !== 'a')
   );
