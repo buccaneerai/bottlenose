@@ -17,6 +17,7 @@ const defaultOptions = {
   upgrade: true,
 };
 
+// maps socket.io events to RxJS events
 const eventHandlerMap = {
   connect: () => actions.connect(),
   connect_error: error => actions.connectError({error}),
@@ -30,20 +31,24 @@ const eventHandlerMap = {
   pong: latency => actions.pong({latency}),
 };
 
+// attach event listeners to Socket.io client
 function socketEventReducer(client, obs) {
   return (acc, [eventName, handler]) => (
     client.on(eventName, (...args) => obs.next(handler(...args)))
   );
 }
 
+// emit messages to a topic
 function createTopicEmitter(obs, _actions = actions) {
   return topic => message => obs.next(_actions.newMessage({topic, message}));
 }
 
+// handle all messages to a topic
 function handleTopic(client, obs, emitMessage) {
   return topic => client.on(topic, emitMessage(topic));
 }
 
+// convert Socket.io client to RxJS Observable
 function createObservableFromSocket(
   client,
   topics,
