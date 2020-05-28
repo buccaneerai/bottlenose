@@ -77,12 +77,12 @@ const io = function io({
   _createObservableFromSocket = createObservableFromSocket,
 }) {
   if (!url) return throwError(new Error('io creator requires a url<String>'));
-  const client = _socketIO.connect(url, {...defaultOptions, ...socketOptions});
+  const client = _socketIO(url, {...defaultOptions, ...socketOptions});
   const action$ = _createObservableFromSocket(client, topics);
   return action$.pipe(
     map(action => [client, action]),
     takeUntil(stop$.pipe(
-      tap(() => client.disconnect())
+      tap(() => client.disconnect()) // instruct client to disconnect
     )),
     shareReplay(1)
   );

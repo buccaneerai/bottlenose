@@ -21,13 +21,13 @@ describe('io', () => {
     const params = {
       url: 'foo',
       socketOptions: {foo: 'bar'},
-      _socketIO: {connect: sinon.stub().returns(client)},
+      _socketIO: sinon.stub().returns(client),
       _createObservableFromSocket: sinon.stub().returns(fakeEvent$),
     };
     const actual$ = io(params);
-    expect(params._socketIO.connect.calledOnce).to.be.true;
-    expect(params._socketIO.connect.firstCall.args[0]).to.equal(params.url);
-    expect(params._socketIO.connect.firstCall.args[1]).to.deep.include({json: true});
+    expect(params._socketIO.calledOnce).to.be.true;
+    expect(params._socketIO.firstCall.args[0]).to.equal(params.url);
+    expect(params._socketIO.firstCall.args[1]).to.deep.include({json: true});
     expect(params._createObservableFromSocket.calledOnce).to.be.true;
     const expected$ = m.cold('--01|', fakeEvents.map(e => [client, e]));
     m.expect(actual$).toBeObservable(expected$);
