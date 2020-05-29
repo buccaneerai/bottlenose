@@ -93,6 +93,7 @@ const messagesToSend$ = from([
 // be given to a socket.io Manager object:
 const socketOptions = {
   query: {token: 'mysuperseeeecrettoken'},
+  transports: ['websocket'],
   timeout: 5000,
 };
 
