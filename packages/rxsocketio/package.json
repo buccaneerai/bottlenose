@@ -30,7 +30,9 @@
     "lint": "eslint -c ../../.eslintrc ./src",
     "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
     "test:watch": "yarn test -- --watch",
-    "prepare": "yarn lint && yarn test && yarn build"
+    "prepare": "yarn lint && yarn test && yarn build",
+    "demo:server": "BABEL_ENV=script yarn babel-node --config-file ../../babel.config.js ./demo/server.js",
+    "demo:client": "BABEL_ENV=script yarn babel-node --config-file ../../babel.config.js ./demo/client.js"
   },
   "bugs": {
     "url": "https://github.com/buccaneerai/bottlenose/issues"
