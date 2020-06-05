@@ -24,8 +24,13 @@ function createOperator({
       return toDeepSpeech({modelDir, codec: 'pcm'});
     case 'aws':
       return toAWS({region});
-    // case 'awsmed':
-      // return toAWS({region, });
+    case 'awsmed':
+      return toAWS({
+        region,
+        isMedical: true,
+        specialty: 'PRIMARYCARE',
+        type: 'CONVERSATION'
+      });
     // case 'gcp':
     //   return toGCP();
     // case 'deepgram':

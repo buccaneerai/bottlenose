@@ -132,23 +132,34 @@ const getAwsSignedUrl = function getAwsSignedUrl({
   languageCode = 'en-US',
   sampleRate = 16000,
   _createAwsSignedUrl = createAwsSignedUrl,
+  isMedical = false, // use AWS Transcibe Medical
+  specialty = 'PRIMARYCARE', // for AWS Transcibe Medical
+  type = 'CONVERSATION' // for AWS Transcribe Medical
 }) {
   const endpoint = `transcribestreaming.${region}.amazonaws.com:8443`;
+  const path = (
+    isMedical
+    ? '/medical-stream-transcription-websocket'
+    : '/stream-transcription-websocket'
+  );
+  let query = `language-code=${languageCode}&media-encoding=pcm&sample-rate=${sampleRate}`;
+  if (isMedical) query += `&specialty=${specialty}&type=${type}`;
+  const options = {
+    region,
+    query,
+    key: accessKeyId,
+    secret: secretAccessKey,
+    protocol: 'wss',
+    expires: 15,
+  };
   // get a preauthenticated URL that we can use to establish our WebSocket
   return _createAwsSignedUrl(
     'GET',
     endpoint,
-    '/stream-transcription-websocket',
+    path,
     'transcribe',
     crypto.createHash('sha256').update('', 'utf8').digest('hex'),
-    {
-      region,
-      key: accessKeyId,
-      secret: secretAccessKey,
-      protocol: 'wss',
-      expires: 15,
-      query: `language-code=${languageCode}&media-encoding=pcm&sample-rate=${sampleRate}`
-    }
+    options
   );
 };
 
