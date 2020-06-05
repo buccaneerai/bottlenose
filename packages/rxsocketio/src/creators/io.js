@@ -44,8 +44,8 @@ function createTopicEmitter(obs, _actions = actions) {
 }
 
 // handle all messages to a topic
-function handleTopic(client, obs, emitMessage) {
-  return topic => client.on(topic, emitMessage(topic));
+function handleTopic(client, obs, emitToTopic) {
+  return topic => client.on(topic, emitToTopic(topic));
 }
 
 // convert Socket.io client to RxJS Observable
@@ -66,8 +66,8 @@ function createObservableFromSocket(
     // map Socket.io events to Observable events
     toPairs(_eventHandlerMap).reduce(socketEventReducer(client, obs), undefined);
     // listen for the topics that the client has subscribed to
-    const emitMessageToObs = createTopicEmitter(obs);
-    topics.map(handleTopic(client, obs, emitMessageToObs));
+    const emitToTopic = createTopicEmitter(obs);
+    topics.map(handleTopic(client, obs, emitToTopic));
     client.on('error', error => obs.error(error));
   });
 }
