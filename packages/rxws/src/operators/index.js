@@ -1,4 +1,4 @@
-export {default as broadcast} from './broadcast';
+export {default as send} from './send';
 export {default as client} from './client';
 export {default as conduit} from './conduit';
 export {default as connections} from './connections';

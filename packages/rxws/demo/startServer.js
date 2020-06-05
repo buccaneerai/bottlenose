@@ -10,7 +10,7 @@ function startServer(port = 3002) {
     connection.on('message', console.log);
     // Send current time every 3 secs
     setInterval(
-      () => connection.send(JSON.stringify({text: 'hello'})),
+      () => connection.send(JSON.stringify({text: 'Hello, I am the server.'})),
       3000
     );
   });
