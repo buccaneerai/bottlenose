@@ -130,7 +130,7 @@ const getAwsSignedUrl = function getAwsSignedUrl({
   accessKeyId,
   secretAccessKey,
   languageCode = 'en-US',
-  sampleRate = 44100,
+  sampleRate = 16000,
   _createAwsSignedUrl = createAwsSignedUrl,
 }) {
   const endpoint = `transcribestreaming.${region}.amazonaws.com:8443`;

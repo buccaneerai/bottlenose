@@ -52,7 +52,7 @@ describe('operators.toAWS', () => {
     // expect(params._conduit.callCount).to.equal(1);
   }));
 
-  it('should parse audio into ArrayBuffer objects and stream to websocket', done => {
+  it('should parse audio and stream to websocket', done => {
     const onData = sinon.spy();
     const onError = sinon.spy();
     const params = {
@@ -78,7 +78,7 @@ describe('operators.toAWS', () => {
         serializer: params._serializer,
         deserializer: params._deserializer,
       });
-      expect(onData.callCount).to.equal(2);
+      expect(onData.callCount).to.equal(256);
       const bufferOut = onData.getCall(0).args[0];
       expect(bufferOut.constructor).to.equal(Buffer);
       done();
