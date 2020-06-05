@@ -2,9 +2,7 @@ import {filter, map} from 'rxjs/operators';
 
 import {NEW_MESSAGE} from '../internals/actions';
 
-const consume = function consume(
-  deserializer = JSON.parse
-) {
+const consume = function consume(deserializer = JSON.parse) {
   return ws$ => ws$.pipe(
     map(([,action]) => action),
     filter(action => action.type === NEW_MESSAGE),

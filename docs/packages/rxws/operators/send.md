@@ -1,13 +1,13 @@
 ## Description
 
-Broadcast (emit) messages to the server. By default, it broadcasts to the 'message' topic.
+Broadcast (emit) messages to the server. By default, it sends to the 'message' topic.
 
 ## Usage
 
 **Basic Usage**:
 ```javascript
 import { from } from 'rxjs';
-import { broadcast, ws } from '@bottlenose/rxws';
+import { send, ws } from '@bottlenose/rxws';
 
 const messagesToSend$ = from([
   {body: 'data'},
@@ -15,7 +15,7 @@ const messagesToSend$ = from([
 ]);
 const ws$ = ws({url: 'wss://mysite.com'});
 const messages$ = ws$.pipe(
-  broadcast(messagesToSend$)
+  send(messagesToSend$)
 );
 
 messages$.subscribe(); // this will attempt to send the messages to the server
@@ -23,7 +23,7 @@ messages$.subscribe(); // this will attempt to send the messages to the server
 
 ## API
 ```typescript
-broadcast(
+send(
   messagesToSend$<Observable>,
   topic<String> = 'message'
 )

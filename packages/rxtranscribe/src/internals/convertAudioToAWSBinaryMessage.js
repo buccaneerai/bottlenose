@@ -1,5 +1,7 @@
-// import { toUtf8, fromUtf8 } from '@aws-sdk/util-utf8-node';
-// import { EventStreamMarshaller } from '@aws-sdk/eventstream-marshaller';
+// https://github.com/aws-samples/amazon-transcribe-websocket-static/blob/master/lib/main.js
+import buffer from 'buffer';
+import { toUtf8, fromUtf8 } from '@aws-sdk/util-utf8-node';
+import { EventStreamMarshaller } from '@aws-sdk/eventstream-marshaller';
 
 // function pcmEncode(input) {
 //   let offset = 0;
@@ -12,35 +14,36 @@
 //   return buffer;
 // }
 
-// function getAudioEventMessage(buffer) {
-//   return {
-//     headers: {
-//       ':message-type': {
-//         type: 'string',
-//         value: 'event'
-//       },
-//       ':event-type': {
-//         type: 'string',
-//         value: 'AudioEvent'
-//       }
-//     },
-//     body: buffer
-//   };
-// }
+function getAudioEventMessage(pcmBuffer) {
+  return {
+    headers: {
+      ':message-type': {
+        type: 'string',
+        value: 'event'
+      },
+      ':event-type': {
+        type: 'string',
+        value: 'AudioEvent'
+      }
+    },
+    body: pcmBuffer
+  };
+}
 
-// const convertAudioToBinaryMessage = function convertAudioToBinaryMessage({
-//   audioBinary,
-//   _pcmEncode = pcmEncode,
-//   _getAudioEventMessage = getAudioEventMessage,
-//   _marshaller = (new EventStreamMarshaller(
-//     toUtf8,
-//     fromUtf8
-//   )),
-// }) {
-//   const pcmBuffer = _pcmEncode(audioBinary);
-//   const audioEventMessage = _getAudioEventMessage(Buffer.from(pcmBuffer));
-//   const binary = _marshaller.marshall(audioEventMessage);
-//   return binary;
-// };
+// https://github.com/aws-samples/amazon-transcribe-websocket-static/blob/master/lib/main.js
+const convertAudioToBinaryMessage = function convertAudioToBinaryMessage({
+  audioBinary,
+  // _pcmEncode = pcmEncode,
+  _getAudioEventMessage = getAudioEventMessage,
+  _marshaller = (new EventStreamMarshaller(toUtf8, fromUtf8)),
+}) {
+  // audio data should already be encoded as 16-bit PCM
+  // with a sample rate of 16000...
+  const pcmBuffer = audioBinary;
+  // const pcmBuffer = buffer.transcode(audioBinary, 'binary', 'utf8');
+  const audioEventMessage = _getAudioEventMessage(pcmBuffer);
+  const binary = _marshaller.marshall(audioEventMessage);
+  return binary;
+};
 
-// export default pcmEncode;
+export default convertAudioToBinaryMessage;

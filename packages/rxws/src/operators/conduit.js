@@ -6,6 +6,7 @@ import {
   mergeMap,
   pairwise,
   share,
+  shareReplay,
   takeUntil,
   tap,
   withLatestFrom
@@ -13,82 +14,91 @@ import {
 
 // import {CONNECT} from '../internals/actions';
 import ws from '../creators/ws';
-import broadcast from './broadcast';
+import send from './send';
 import consume from './consume';
 
 const errors = {
-  noUrl: new Error('conduit operator requires a {url<String>}'),
+  noUrl: () => new Error('conduit operator requires a {url<String>}'),
 };
 
-// FIXME: this might need to be reworked a bit to work properly...
-// maybe more like the conduit in rxsocketio
-function createMessageBuffer(message$, ws$) {
-  const messageInSub$ = message$.pipe(share());
-  const wsSub$ = ws$.pipe(share());
-  // close buffer whenever the socket connects
-  const closeBuffer = () => wsSub$.pipe(
-    map(([socket]) => socket),
-    pairwise(),
-    // tap(([priorSocket, socket]) => console.log(
-    //   (!priorSocket || priorSocket.readyState !== 1)
-    //   && socket.readyState === 1
-    // )),
-    filter(([priorSocket, socket]) => (
-      (!priorSocket || priorSocket.readyState !== 1)
-      && socket.readyState === 1
-    )),
-    // tap(() => console.log('CLOSE_BUFFER'))
+function createMessageBuffer(ws$) {
+  return messageIn$ => {
+    const wsSub$ = ws$.pipe(share());
+    // close buffer whenever the socket connects
+    const closeBuffer = () => wsSub$.pipe(
+      map(([socket]) => socket && socket.readyState === 1),
+      pairwise(),
+      filter(([wasConnected, nowConnected]) => (!wasConnected && nowConnected)),
+    );
+    const bufferedMessage$ = messageIn$.pipe(
+      withLatestFrom(merge(of([null, null]), wsSub$)),
+      // buffer messages whenever the socket is closed or not available
+      filter(([, [socket]]) => !socket || socket.readyState !== 1),
+      map(([message]) => message),
+      bufferWhen(closeBuffer),
+      mergeMap(bufferedItems => of(...bufferedItems)),
+    );
+    return bufferedMessage$;
+  };
+}
+
+function passthroughMessageBuffer(ws$) {
+  return messageIn$ => messageIn$.pipe(
+    withLatestFrom(merge(of([null, null]), ws$)),
+    filter(([,[socket]]) => socket && socket.readyState === 1),
+    map(([message]) => message)
   );
-  const bufferedMessage$ = messageInSub$.pipe(
-    withLatestFrom(merge(of([null, null]), wsSub$)),
-    // buffer messages whenever the socket is closed or not available
-    filter(([, [socket]]) => !socket || socket.readyState !== 1),
-    map(([message]) => message),
-    bufferWhen(closeBuffer),
-    // tap(m => console.log('buffer', m)),
-    mergeMap(bufferedItems => of(...bufferedItems)),
-  );
-  return bufferedMessage$;
+}
+
+function bufferMessages(
+  ws$,
+  _createMessageBuffer = createMessageBuffer,
+  _passthroughMessageBuffer = passthroughMessageBuffer,
+) {
+  return messageIn$ => {
+    const messageInSub$ = messageIn$.pipe(share());
+    const wsSub$ = ws$.pipe(share());
+    // buffer messages when socket.io client is not ready to send them
+    const bufferedMessage$ = messageInSub$.pipe(
+      _createMessageBuffer(wsSub$)
+    );
+    // when messages don't need to be buffered, simply pass them through
+    const unbufferedMessage$ = messageInSub$.pipe(
+      _passthroughMessageBuffer(wsSub$)
+    );
+    return merge(bufferedMessage$, unbufferedMessage$);
+  };
 }
 
 const conduit = function conduit({
   url,
-  stop$ = of(),
+  bufferOnDisconnect = true,
   socketOptions = {},
+  stop$ = of(),
   serializer = JSON.stringify,
   deserializer = JSON.parse,
-  _broadcast = broadcast,
+  _send = send,
   _consume = consume,
   _ws = ws,
-  bufferOnDisconnect = true,
-}) {
+  _bufferMessages = bufferMessages,
+} = {}) {
+  if (!url) return () => throwError(errors.noUrl());
   return messageIn$ => {
-    const messageInSub$ = messageIn$.pipe(share());
-    if (!url) return throwError(errors.noUrl);
+    const messageInSub$ = messageIn$.pipe(shareReplay(1));
     const ws$ = _ws({url, socketOptions}).pipe(
-      // tap(([socket]) => console.log('WS', socket)),
-      share(),
       takeUntil(stop$),
-      // tap(arr => console.log('EVENT', arr[1]))
+      shareReplay(1),
     );
-    const bufferedMessage$ = createMessageBuffer(messageInSub$, ws$);
-    const unbufferedMessage$ = messageInSub$.pipe(
-      withLatestFrom(merge(of([null, null]), ws$)),
-      filter(([,[socket]]) => socket && socket.readyState === 1),
-      map(([message]) => message),
-      // tap(m => console.log('sending immediately:', m)),
+    const producer$ = messageIn$.pipe(
+      (bufferOnDisconnect ? _bufferMessages(ws$) : tap(() => true)),
+      takeUntil(stop$),
+      _send(ws$, serializer),
+      filter(() => false), // this should not emit any items
     );
-    const input$ = (
-      bufferOnDisconnect
-      ? merge(unbufferedMessage$, bufferedMessage$)
-      : messageInSub$
+    const consumer$ = ws$.pipe(
+      _consume(deserializer)
     );
-    const conduit$ = input$.pipe(
-      _broadcast(ws$, serializer),
-      _consume(deserializer),
-      takeUntil(stop$)
-    );
-    return conduit$;
+    return merge(producer$, consumer$);
   };
 };
 
