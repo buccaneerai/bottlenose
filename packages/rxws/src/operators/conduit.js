@@ -1,4 +1,8 @@
-import {merge,of,throwError} from 'rxjs';
+import {
+  merge,
+  of,
+  throwError
+} from 'rxjs';
 import {
   bufferWhen,
   filter,
