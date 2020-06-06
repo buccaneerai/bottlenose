@@ -1,25 +1,26 @@
-[![CircleCI](https://circleci.com/gh/buccaneerai/bottlenose/tree/master.svg?style=shield)](https://circleci.com/gh/buccaneerai/bottlenose/tree/master)
-[![CircleCI](https://circleci.com/gh/buccaneerai/bottlenose/tree/dev.svg?style=shield)](https://circleci.com/gh/buccaneerai/bottlenose/tree/dev)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![CircleCI](https://img.shields.io/circleci/build/gh/buccaneerai/bottlenose/dev?label=master)](https://circleci.com/gh/buccaneerai/bottlenose/tree/dev)
+[![CircleCI](https://img.shields.io/circleci/build/gh/buccaneerai/bottlenose/dev?label=dev)](https://circleci.com/gh/buccaneerai/bottlenose/tree/dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?color=blue)](https://opensource.org/licenses/MIT)
+[![PRs Welcome](https://img.shields.io/static/v1?color=6A56A8&label=PRs&message=welcome)](https://buccaneerai.gitbook.io/bottlenose/contributing/contributing)
 
 ## Description
 
 🐬 Bottlenose is a set of npm packages which provide industrial-strength data analysis and machine learning tools for software makers who love JavaScript. 
 
-Features:
-- Embraces reactive functional programming. (All packages are built as wrappers on top of the [RxJS](https://rxjs.dev).)
-- Modeled after gold standard data analysis tools like [R](https://www.r-project.org) and [pandas](https://pandas.pydata.org).
-- Built for software makers by software makers. (Use cases include startups, software enterprises, dev shops, full stack developers and other product creators.)
-- Full stack: most modules are universal and run on most environments (browser, server, mobile, desktop)
-- Expressive, concise, readable and declarative syntax (built on [RxJS pipeable operators](https://rxjs.dev)).
-- Stream-based and real-time: Allows most data analysis tasks to be accomplished with stream-processing instead of memory-intensive batch processing.
-- Lightweight, secure and performant
+Bottlenose differs from most data analysis tools in the following respects:
+- Embraces reactive **functional programming**. (All packages are built as wrappers on top of the [RxJS](https://rxjs.dev).)
+- Modeled after **gold standard data analysis tools** like [R](https://www.r-project.org) and [pandas](https://pandas.pydata.org).
+- **Built for software makers by software makers**. (Use cases include startups, software enterprises, dev shops, full stack developers and other product creators.)
+- **Full stack & universal**: Most modules can run anywhere (browser, server, mobile, desktop)
+- **Expressive, concise, readable and declarative** syntax (built on [RxJS pipeable operators](https://rxjs.dev)).
+- **Stream-based & real-time**: Allows most data analysis tasks to be accomplished with stream-processing instead of memory-intensive batch processing.
+- **Lightweight, secure and performant**
 
 You can use Bottlenose to...
 - Perform exploratory data analysis and data munging
 - Build data-intensive products and enterprise-ready data pipelines
-- Handle data streams
-- Train machine learning models (static or in real-time applications)
+- Handle data streams in real time
+- Train machine learning models in real-time
 - Write applications that are expressive, readable, easy to reason about and easy to test
 
 Bottlenose is a young project started in late 2019 so it has a limited but fast-growing feature set.  It is maintained by an opensource community. It is also actively used and improved by a healthcare AI startup called [Buccaneer](https://www.buccaneer.ai), which is adding new modules frequently as their team develops them for enterprise SaaS data pipelines.
@@ -43,19 +44,16 @@ RxJS offers great toolkit for general reactive functional programming.  Bottleno
 #### Easily generate input streams
 Bottlenose has [modules for handling common data input sources](https://buccaneerai.gitbook.io/bottlenose) like CSV, AWS S3, local file system and websockets.  For example, this would parse CSV input:
 ```javascript
-import { from } from 'rxjs';
-import { map  } from 'rxjs/operators';
+import { fromFile } from' @bottlenose/rxfs';
 import { parse } from '@bottlenose/rxcsv';
 
-// Create a stream of raw CSV data
-const csvString$ = from([
-  'name,systolicBp,dialostilicBp,message\n', 
-  'Blackbeard,140,91,Yarr\nCrunch,120,', 
-  ',180,Arr\nSparrow,110,70,Savvy\n',
-]);
+// Suppose there is a csv file containing this data:
+// "name","systolicBp","dialostilicBp","isAngry" 
+// "Blackbeard",140,91,"true"
+// "Crunch",120,180,"false"
+// "Sparrow",110,70,"false"
 
-// Stream the CSV data into an RxJS Subject
-const row$ = csvString$.pipe(parse());
+const row$ = fromFile('./my-csv.csv').pipe(parse());
 row$.subscribe();
 // {name: "Blackbeard", systolicBp: 140, diastolicBp: 91, isAngry: true},
 // {name: "Crunch", systolicBp: 120, diastolicBp: 80, isAngry: false},
@@ -68,7 +66,7 @@ Bottlenose also has [modules for common data analysis tasks](https://buccaneerai
 import { map } from 'rxjs/operators';
 import { mean } from '@bottlenose/rxstats';
 
-// using the row$ csv from the prior example
+// using the row$ data from the prior example
 const mean$ = row$.pipe(
   map(row => row.systolicBp), 
   mean() // calculate the mean on one of the columns
@@ -79,19 +77,32 @@ mean$.subscribe(console.log);
 // 123.33333333333333
 ```
 
-#### Train machine learning models reactively
-Bottlenose is also adding [modules for common machine learning algorithms](https://buccaneerai.gitbook.io/bottlenose) (like SGD).  For example, this would train an SGD classifier:
+#### Train & use machine learning models reactively
+Bottlenose is also adding [modules for common machine learning algorithms](https://buccaneerai.gitbook.io/bottlenose).  For example, this would train an SGD classifier:
 ```javascript
-import {classifier} from '@bottlenose/rxsgd';
+import { from } from 'rxjs';
+import { map, mergeMap, takeLast } from 'rxjs/operators';
+import { classifier, predict } from '@bottlenose/rxsgd';
 
-// train an SGD model on the example above
+// train an SGD model on the example above to predict if the pirate isAngry
 const sgd$ = row$.pipe(
   map(row => [[row.systolicBp, row.diastolicBp], row.isAngry]),
-  classifier()
+  classifier(),
 );
-// train the classifier and emit it its new trained parameters each time 
-// a new item is ingested
-sgd$.subscribe();
+
+const newPirate$ = from([
+  {name: 'SpongeBob Squarepants', systolicBp: 105, diastolicBp: 70},
+  {name: 'Captain Hook', systolicBp: 150, diastolicBp: 100},
+]);
+
+// when the classifier is trained, start running data through it
+const prediction$ = classifier$.pipe(
+  takeLast(1),
+  mergeMap(classifier => newPirate$.pipe(
+    predict(classifier)
+  ))
+);
+prediction$.subscribe(console.log);
 ```
 
 ## Community

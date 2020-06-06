@@ -1,6 +1,6 @@
 # Contributing
 
-<img src="https://github.com/buccaneerai/rxjs-stats/raw/master/docs/contributing/mandolorian.jpg" />
+<img src="https://github.com/buccaneerai/bottlenose/raw/master/docs/contributing/mandolorian.jpg" />
 
 👍 First off, thank you for your interest in contributing.  To develop better data analysis and machine learning tools, JavaScript very much needs the help of opensource contributors!
 
