@@ -1,7 +1,7 @@
 // https://www.npmjs.com/package/isomorphic-ws
 import WS from 'isomorphic-ws';
 import { Observable } from 'rxjs';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { filter, map, shareReplay, takeUntil } from 'rxjs/operators';
 
 import * as actions from '../internals/actions';
 
@@ -25,7 +25,8 @@ const ws = function ws({
   return event$.pipe(
     map(event => [socket, event]),
     filter(data => data.indexOf(undefined) === -1),
-    takeUntil(stop$)
+    takeUntil(stop$),
+    shareReplay(1)
   );
 };
 

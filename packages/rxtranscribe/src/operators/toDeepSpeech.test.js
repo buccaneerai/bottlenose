@@ -63,7 +63,7 @@ describe('operators.toDeepSpeech', () => {
   });
 
   it('should tranform DeepSpeech output to correct output format', marbles(m => {
-    const input$ = m.cold('--0-|', ['1010101011']);
+    const input$ = m.cold('--0-|', [Buffer.from('1010101011')]);
     const modelOutput = 'the quick brown fox jumps over the lazy dog';
     const modelStream = 'stream-object';
     const model = {
