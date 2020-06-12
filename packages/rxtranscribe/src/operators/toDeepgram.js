@@ -6,7 +6,7 @@ import shortenChunks from '../internals/shortenChunks';
 
 
 const errors = {
-  requiredParams: () => new Error('toDeepGram operator requires username and password'),
+  requiredParams: () => new Error('toDeepgram operator requires username and password'),
 };
 
 const getAuthProtocol = ({username, password}) => {
@@ -25,7 +25,7 @@ const getFullUrl = ({url, encoding, channels, sampleRate, interimResults}) => {
 };
 
 // https://deepgram.com/docs#real-time-speech-recognition
-const toDeepGram = ({
+const toDeepgram = ({
   username = process.env.DEEPGRAM_USERNAME, // can be set as environment var
   password = process.env.DEEPGRAM_PASSWORD, // can be set as environment var
   encoding = 'linear16', // linear16 means raw PCM audio (as 16-bit integers)
@@ -52,4 +52,4 @@ const toDeepGram = ({
   };
 };
 
-export default toDeepGram;
+export default toDeepgram;

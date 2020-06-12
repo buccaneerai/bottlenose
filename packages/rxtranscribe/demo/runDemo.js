@@ -8,7 +8,7 @@ const {map,reduce,share,tap} = require('rxjs/operators');
 const {fromFile} = require('@bottlenose/rxfs');
 
 // const {transcribe} = require('../src/index');
-const {toAWS, toDeepGram, toDeepSpeech, toGCP} = require('../build/index');
+const {toAWS, toDeepgram, toDeepSpeech, toGCP} = require('../build/index');
 // import {toDeepgram} from '../src/index';
 
 console.log('running demo');
@@ -34,7 +34,7 @@ function createOperator({
     case 'gcp':
       return toGCP({sampleRate});
     case 'deepgram':
-      return toDeepGram();
+      return toDeepgram();
     default:
       return () => throwError(new Error('Unsupported transcription strategy'));
   }
