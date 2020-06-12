@@ -6,8 +6,8 @@ describe('index', () => {
   it('should export operator functions', () => {
     const expectedApi = [
       'toAWS',
-      'toDeepGram',
       'toDeepSpeech',
+      'toDeepgram',
       'toGCP'
     ];
     expect(Object.keys(api)).to.deep.equal(expectedApi);
