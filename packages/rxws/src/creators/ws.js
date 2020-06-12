@@ -20,7 +20,8 @@ const ws = function ws({
       _actions.socketConnect({client: socket, event: e,})
     );
     socket.onclose = e => obs.next(_actions.disconnect({event: e}));
-    socket.onerror = error => obs.next(_actions.socketError({error}));
+    // socket.onerror = error => obs.next(_actions.socketError({error}));
+    socket.onerror = error => obs.error(error);
     socket.onmessage = message => obs.next(_actions.newMessage({message}));
   });
   return event$.pipe(

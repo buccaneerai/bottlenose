@@ -6,6 +6,7 @@ describe('index', () => {
   it('should export operator functions', () => {
     const expectedApi = [
       'toAWS',
+      'toDeepGram',
       'toDeepSpeech',
       'toGCP'
     ];
