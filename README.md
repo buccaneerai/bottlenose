@@ -4,23 +4,22 @@
 
 ## Description
 
-🐬 Bottlenose is a set of npm packages which provide industrial-strength data analysis and machine learning tools for software makers who love JavaScript. 
+🐬 RxJS offers a great toolkit for reactive functional programming.  But if you use RxJS in a larger software application, you may often find yourself handcrafting your own functions to handle common workflows and wrap them in RxJS observables (like streaming file data or connecting to a WebSocket). Bottlenose is a collection of npm packages that provide industrial-strength RxJS operators and utilities for handling common data streams (filesystems, CSV, AWS S3, Websockets, socket.io), analyzing data (statistics, NLP) and implementing machine learning models (like SVM).
 
 Features:
 - Embraces reactive functional programming. (All packages are built as wrappers on top of the [RxJS](https://rxjs.dev).)
-- Modeled after gold standard data analysis tools like [R](https://www.r-project.org) and [pandas](https://pandas.pydata.org).
 - Built for software makers by software makers. (Use cases include startups, software enterprises, dev shops, full stack developers and other product creators.)
-- Full stack: most modules are universal and run on most environments (browser, server, mobile, desktop)
+- Industrial strength: packages are reliable, lightweight, secure and performant
+- Full stack: most modules are universal (browser, server, mobile, desktop)
 - Expressive, concise, readable and declarative syntax (built on [RxJS pipeable operators](https://rxjs.dev)).
 - Stream-based and real-time: Allows most data analysis tasks to be accomplished with stream-processing instead of memory-intensive batch processing.
-- Lightweight, secure and performant
 
 You can use Bottlenose to...
+- Integrate data sources (as streams) into applications
 - Perform exploratory data analysis and data munging
-- Build data-intensive products and enterprise-ready data pipelines
-- Handle data streams
-- Train machine learning models (static or in real-time applications)
+- Build data-intensive products and performant data pipelines
 - Write applications that are expressive, readable, easy to reason about and easy to test
+- Train machine learning models (static or in real-time applications)
 
 Bottlenose is a young project started in late 2019 so it has a limited but fast-growing feature set.  It is maintained by an opensource community. It is also actively used and improved by a healthcare AI startup called [Buccaneer](https://www.buccaneer.ai), which is adding new modules frequently as their team develops them for enterprise SaaS data pipelines.
 
@@ -38,7 +37,7 @@ yarn add @bottlenose/rxstats
 ```
 
 ## Basic Usage
-RxJS offers great toolkit for general reactive functional programming.  Bottlenose extends RxJS with domain-specific operators and utility functions. For a full list of operators and modules, [see the documentation](https://buccaneerai.gitbook.io/bottlenose).
+For a full list of operators and modules, [see the documentation](https://buccaneerai.gitbook.io/bottlenose).
 
 #### Easily generate input streams
 Bottlenose has [modules for handling common data input sources](https://buccaneerai.gitbook.io/bottlenose) like CSV, AWS S3, local file system and websockets.  For example, this would parse CSV input:

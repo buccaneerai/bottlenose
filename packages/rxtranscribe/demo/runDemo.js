@@ -1,12 +1,14 @@
+const fs = require('fs');
 const prompt = require('prompt');
 const optimist = require('optimist');
 const path = require('path');
+const moment = require('moment');
 const {throwError} = require('rxjs');
-const {tap} = require('rxjs/operators');
+const {map,reduce,share,tap} = require('rxjs/operators');
 const {fromFile} = require('@bottlenose/rxfs');
 
 // const {transcribe} = require('../src/index');
-const {toAWS, toDeepSpeech, toGCP} = require('../build/index');
+const {toAWS, toDeepgram, toDeepSpeech, toGCP} = require('../build/index');
 // import {toDeepgram} from '../src/index';
 
 console.log('running demo');
@@ -31,8 +33,8 @@ function createOperator({
       });
     case 'gcp':
       return toGCP({sampleRate});
-    // case 'deepgram':
-    //   return toDeepgram();
+    case 'deepgram':
+      return toDeepgram();
     default:
       return () => throwError(new Error('Unsupported transcription strategy'));
   }
@@ -53,6 +55,7 @@ function runDemo({
   return transcription$;
 }
 
+const dateFormat = 'YYYY-MM-DD-hh:mm:ss';
 const schema = {
   properties: {
     inputFilePath: {
@@ -79,6 +82,15 @@ const schema = {
       default: 16000,
       // default: 8000,
       ask: () => prompt.history('strategy').value === 'gcp',
+    },
+    shouldStoreOutput: {
+      description: 'Do you want to save the output? (y/n)',
+      default: 'n',
+    },
+    outputPath: {
+      description: 'Where do you want to store the output JSON?',
+      default: `${process.env.HOME}/Desktop/stt-${moment().format(dateFormat)}.json`,
+      ask: () => prompt.history('shouldStoreOutput').value === 'y',
     }
   }
 };
@@ -92,7 +104,13 @@ prompt.get(schema, (err, params) => {
   if (params.strategy === 'gcp' && !process.env.GOOGLE_APPLICATION_CREDENTIALS) throw new Error('GOOGLE_APPLICATION_CREDENTIALS must be set');
   console.log('Running pipeline...');
 
-  const transcription$ = runDemo(params);
+  const transcription$ = runDemo(params).pipe(share());
+  const output$ = transcription$.pipe(
+    reduce((acc, message) => [...acc, message], []),
+    map(messages => JSON.stringify(messages)),
+    map(json => Buffer.from(json)),
+    map(buffer => fs.writeFileSync('', buffer)),
+  );
   transcription$.subscribe(
     out => console.log(out),
     console.error,
@@ -101,4 +119,5 @@ prompt.get(schema, (err, params) => {
       process.exit();
     }
   );
+  if (params.shouldStoreOutput === 'y') output$.subscribe();
 });

@@ -78,6 +78,7 @@ const conduit = function conduit({
   url,
   bufferOnDisconnect = true,
   socketOptions = {},
+  protocols = null,
   stop$ = of(),
   serializer = JSON.stringify,
   deserializer = JSON.parse,
@@ -89,7 +90,7 @@ const conduit = function conduit({
   if (!url) return () => throwError(errors.noUrl());
   return messageIn$ => {
     const messageInSub$ = messageIn$.pipe(shareReplay(1));
-    const ws$ = _ws({url, socketOptions}).pipe(
+    const ws$ = _ws({url, protocols, socketOptions}).pipe(
       takeUntil(stop$),
       shareReplay(1),
     );

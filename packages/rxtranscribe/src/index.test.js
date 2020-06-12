@@ -7,6 +7,7 @@ describe('index', () => {
     const expectedApi = [
       'toAWS',
       'toDeepSpeech',
+      'toDeepgram',
       'toGCP'
     ];
     expect(Object.keys(api)).to.deep.equal(expectedApi);
