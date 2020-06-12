@@ -1,8 +1,9 @@
 build_defaults: &build_defaults
   docker:
     - image: circleci/node:12-stretch
-
-version: 2
+orbs:
+  slack: circleci/slack@3.4.2
+version: 2.1
 jobs:
   build:
     <<: *build_defaults
@@ -32,6 +33,9 @@ jobs:
       - run:
           name: Build
           command: yarn build
+      - slack/status:
+          fail_only: true
+          failure_message: ':red_circle: A $CIRCLE_JOB has failed! You should probably do something about that...'
       # - run:
       #     name: Security check for npm packages
       #     command: yarn audit --groups dependencies --level high
