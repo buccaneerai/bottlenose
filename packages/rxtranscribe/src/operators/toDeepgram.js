@@ -36,10 +36,10 @@ const toDeepgram = ({
 } = {}) => {
   if (!username || !password) return () => throwError(errors.requiredParams());
   return audioChunk$ => {
-    // const lastMessage = new Uint8Array(0);
+    const lastMessage$ = of(new Uint8Array(0));
     // const shortenedChunk$ = audioChunk$.pipe(shortenChunks(1000));
     // const messageIn$ = concat(shortenedChunk$, of(lastMessage));
-    const messageOut$ = audioChunk$.pipe(
+    const messageOut$ = concat(audioChunk$, lastMessage$).pipe(
       conduit({
         url: getFullUrl({url, encoding, channels, sampleRate, interimResults}),
         protocols: getAuthProtocol({username, password}),
