@@ -62,7 +62,7 @@ const toDeepSpeech = function toDeepSpeech({
   // _wavTo16BitPcm = wavTo16BitPcm
   _createModel = createModel,
   _transcribe = transcribe,
-}) {
+} = {}) {
   const model = _createModel({modelDir});
   // file chunks should be encoded as 16-bit-integer PCM data
   return fileChunk$ => fileChunk$.pipe(
