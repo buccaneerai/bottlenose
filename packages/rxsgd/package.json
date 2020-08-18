@@ -1,6 +1,6 @@
 {
   "name": "@bottlenose/rxsgd",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "♾️ SGD (stochastic gradient descent) linear classifier for RxJS",
   "keywords": [
     "rxjs",
