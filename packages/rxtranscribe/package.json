@@ -1,6 +1,6 @@
 {
   "name": "@bottlenose/rxtranscribe",
-  "version": "0.6.0",
+  "version": "0.1.1-beta.38+c725fc8",
   "description": "👂 Realtime speech-to-text (S2T) transcription with RxJS",
   "main": "build/index.js",
   "repository": "https://github.com/buccaneerai/bottlenose/tree/master/packages/rxtranscribe",
@@ -58,5 +58,5 @@
     "prepublishOnly": "yarn lint && yarn test && yarn build",
     "demo:run": "yarn build && BABEL_ENV=build yarn babel-node --config-file ../../babel.config.js ./demo/runDemo.js"
   },
-  "gitHead": "2e605ea39f6ec0994985bdd3a63398c3b9946553"
+  "gitHead": "c725fc85108af6b555449d033e20e5bbc9268099"
 }
