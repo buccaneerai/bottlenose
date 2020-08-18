@@ -14,6 +14,12 @@ import {
 // import bufferBetweenSilences from './bufferBetweenSilences';
 // import wavTo16BitPcm from '../internals/wavTo16BitPcm';
 
+const errors = {
+  missingModelDir: () => (
+    new Error('modelDir<String> is required for toDeepSpeech operator')
+  )
+};
+
 const createModel = ({
   modelDir,
   beamWidth = 1024,
@@ -51,12 +57,14 @@ const transcribeChunks = ({model, sampleRate, candidateCount = 1}) => chunks => 
   // return obs.complete();
 };
 
-const transcribe = ({model, sampleRate = 16000}) => bufferedChunks$ => (
-  bufferedChunks$.pipe(
-    map(transcribeChunks({model, sampleRate})),
-    // mergeAll(1),
-    // bug in DeepSpeech 0.6 causes silence to be inferred as "i" or "a"
-    // filter(text => text !== 'i' && text !== 'a')
+const transcribe = ({model, sampleRate = 16000, candidateCount = 1}) => (
+  bufferedChunks$ => (
+    bufferedChunks$.pipe(
+      map(transcribeChunks({model, sampleRate, candidateCount})),
+      // mergeAll(1),
+      // bug in DeepSpeech 0.6 causes silence to be inferred as "i" or "a"
+      // filter(text => text !== 'i' && text !== 'a')
+    )
   )
 );
 
@@ -77,7 +85,7 @@ const transcriptWordReducer = ({words, nextWord}, {text, start_time}) => (
     }
 );
 
-const standardizeOutput = deepSpeechMetadata => ({
+const standardizeOutput = () => deepSpeechMetadata => ({
   transcripts: deepSpeechMetadata.transcripts.map(transcript => ({
     confidence: transcript.confidence,
     words: transcript.tokens.reduce(
@@ -87,13 +95,13 @@ const standardizeOutput = deepSpeechMetadata => ({
   }))
 });
 
-// TODO - this should return confidence levels and timestamps...
 const toDeepSpeech = ({
   modelDir = process.env.DEEPSPEECH_MODEL_PATH,
   // vadOptions = {},
   // bufferInterval = 1000,
   sampleRate = 16000,
   bufferSize = 3,
+  candidateCount = 1, // number of candidate transcripts
   // codec = 'pcm', // supported: ['pcm']
   rawOutput = false,
   // _bufferBetweenSilences = bufferBetweenSilences,
@@ -101,36 +109,22 @@ const toDeepSpeech = ({
   _createModel = createModel,
   _transcribe = transcribe,
 } = {}) => {
+  if (!modelDir) return () => throwError(errors.missingModelDir());
+  // Warning: This is not a pure function! Model only gets instantiated once!
   const model = _createModel({modelDir});
+
   // file chunks should be encoded as 16-bit-integer PCM data
   return fileChunk$ => fileChunk$.pipe(
-    mergeMap(chunk => (
-      modelDir
-      ? of(chunk)
-      : throwError(
-        new Error('modelDir<String> is required for toDeepSpeech operator')
-      )
-    )),
-    // (
-    //   codec === 'wav'
-    //   ? _wavTo16BitPcm({sampleRate: model.sampleRate()})
-    //   : tap(() => 1) // TODO: would null be okay here?
-    // ),
-    // _bufferBetweenSilences({vadOptions: {
-    //   ...vadOptions,
-    //   sampleRate,
-    //   bufferInterval
-    // }}),
     bufferCount(bufferSize),
-    _transcribe({model, sampleRate}),
-    map(
-      rawOutput
-      ? metadata => metadata
-      : standardizeOutput
-    ),
-    // mergeMap(words => of(...words)),
+    _transcribe({model, sampleRate, candidateCount}),
+    map(rawOutput ? metadata => metadata : standardizeOutput()),
   );
 };
 
-export const testExports = {createModel, transcribe};
+export const testExports = {
+  createModel,
+  standardizeOutput,
+  transcribe,
+  transcribeChunks,
+};
 export default toDeepSpeech;
