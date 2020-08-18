@@ -1,6 +1,6 @@
 {
   "name": "@bottlenose/rxfs",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "💾 Stream file data to and from local file system with RxJS",
   "keywords": [
     "rxjs",
