@@ -84,7 +84,7 @@ const schema = {
     },
     modelDir: {
       description: 'Path to a DeepSpeech-compatible tensorflow model',
-      default: `${process.env.HOME}/Documents/models/deepspeech-0.6.1-models`,
+      default: `${process.env.HOME}/Documents/models/deepspeech-0.7.0-models/deepspeech-0.7.0-models`,
       ask: () => prompt.history('strategy').value === 'deepspeech',
     },
     sampleRate: {
