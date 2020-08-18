@@ -35,9 +35,9 @@ describe('operators.toAWS', () => {
       toAWS(params)
     );
     const expected$ = m.cold('-0--1---2|', [
-      JSON.stringify({}),
-      JSON.stringify({}),
-      JSON.stringify({}),
+      JSON.stringify({foo: 'some json'}),
+      JSON.stringify({foo: 'some json'}),
+      JSON.stringify({foo: 'some json'}),
     ])
     m.expect(actual$).toBeObservable(expected$);
     m.expect(input$).toHaveSubscriptions('^--------!');
