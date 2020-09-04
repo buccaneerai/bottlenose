@@ -42,13 +42,14 @@ const toGCP = function toGCP({
       map(chunks => Buffer.concat(chunks)),
       // tap(chunk => console.log(chunk)),
       bufferBetweenSilence({_toVAD, vadOptions: {sampleRate}}),
-      // tap(chunk => console.log(chunk.length)),
       map(chunk => client.recognize({config, audio: { content: chunk.toString('base64') }})),
       concatMap(r => r),
       // map(([transcribedResult]) => transcribedResult.results.map(result => {
       //   const {alternatives: [transcription], channelTag, languageCode} = result;
       //   return {transcription, channelTag, languageCode};
       // })),
+      // FOR TESTING OUTPUT
+      map(([res]) => res.results.map(result => result.alternatives[0].transcript).join('')),
       catchError(err => of([])),
       takeUntil(stop$)
     );
