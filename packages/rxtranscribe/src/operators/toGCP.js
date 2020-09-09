@@ -24,7 +24,6 @@ const toGCP = function toGCP({
 }) {
   return fileChunk$ => {
     if (!googleCreds) return throwError(new Error('Google Application Credentials must be set'));
-    // const clientv1p1beta1 = client === undefined ? new gcpSpeech.v1p1beta1.SpeechClient() : client;
     const config = {
       encoding: 'LINEAR16',
       sampleRateHertz: sampleRate,
@@ -41,15 +40,16 @@ const toGCP = function toGCP({
       bufferCount(bufferThreshold),
       map(chunks => Buffer.concat(chunks)),
       // tap(chunk => console.log(chunk)),
-      bufferBetweenSilence({vadOptions: sampleRate, _toVAD}),
+      // Remove: FOR TESTING
+      // bufferBetweenSilence({vadOptions: sampleRate, _toVAD}),
       map(chunk => client.recognize({config, audio: { content: chunk.toString('base64') }})),
       concatMap(r => r),
       // map(([transcribedResult]) => transcribedResult.results.map(result => {
       //   const {alternatives: [transcription], channelTag, languageCode} = result;
       //   return {transcription, channelTag, languageCode};
       // })),
-      // FOR TESTING OUTPUT
-      map(([res]) => res.results.map(result => result.alternatives[0].transcript).join('')),
+      // Remove: FOR TESTING
+      // map(([res]) => res.results.map(result => result.alternatives[0].transcript).join('')),
       catchError(err => of([])),
       takeUntil(stop$)
     );

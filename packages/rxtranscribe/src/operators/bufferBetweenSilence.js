@@ -1,6 +1,6 @@
 import {of, iif, generate, EMPTY, forkJoin, BehaviorSubject} from 'rxjs';
 import {finalize, zip, takeLast, share, mergeMap, map, tap, pairwise, reduce, skipWhile, expand, takeWhile, takeUntil, take} from 'rxjs/operators';
-import {VadEvents} from './toVAD';
+import toVAD, {VadEvents} from './toVAD';
 
 const MIN_CHUNK_SIZE = 10000;
 const VAD_SAMPLE_SIZE = 1000;
@@ -24,14 +24,15 @@ const bufferBetweenSilence = function bufferBetweenSilence({
       console.log('Offset', offset);
       console.log('Chunk Length', chunk.length);
       // console.log('Pump values', [vadRes, chunk]);
-      const newOffset = offset += VAD_SAMPLE_SIZE;
+      offset += VAD_SAMPLE_SIZE;
       console.log('this should be false', chunk.length - offset < MIN_CHUNK_SIZE);
-      // IT LITERALLY ENDS HERE!!!! WHAT THE FLYING FUCK!!!
-      // AND THE FUCKING OFFSET NEVER CHANGES!!!!
       console.log('this should also be false', vadRes === VadEvents.SILENCE);
-      if (chunk.length - offset < MIN_CHUNK_SIZE || vadRes === VadEvents.SILENCE) return subject$.complete();
-      console.log('We should definitely get here be here.');
-      return subject$.next(newOffset);
+      if (chunk.length - offset < MIN_CHUNK_SIZE || vadRes === VadEvents.SILENCE) {
+        console.log('We should not be getting here.');
+        return subject$.complete();
+      }
+      console.log('We should definitely get here.');
+      return subject$.next(offset);
     };
 
     const byteOffset$ = new BehaviorSubject(0);
@@ -42,7 +43,11 @@ const bufferBetweenSilence = function bufferBetweenSilence({
       // tap(r => console.log('Inside the byteOffset', offset)),
       zip(chunkSub$),
       // tap(r => console.log('Ran zip on chunk sub', r)),
-      map(([newOffset, chunk]) => chunk.subarray(chunk.length - newOffset - VAD_SAMPLE_SIZE - 1, chunk.length - newOffset - 1)),
+      map(([newOffset, chunk]) => (
+        chunk.subarray(
+          chunk.length - newOffset - VAD_SAMPLE_SIZE - 1, chunk.length - newOffset - 1
+        )
+      )),
       // tap(r => console.log('Got the new offset', r)),
       _toVAD({...vadOptions}),
       // tap(r => console.log('Vad Result', r)),
@@ -61,16 +66,17 @@ const bufferBetweenSilence = function bufferBetweenSilence({
     // );
 
     // Set the offset and chunks
-    return  slicer$.pipe(
+    return slicer$.pipe(
       // skipWhile(chunk => !isSilentOrTooSmall(chunk)),
       takeLast(), // Behavior Subject to fix the double emitting should work
-      tap(r => console.log(`Ending offset: ${offset}`)),
+      tap(() => console.log(`Ending offset: ${offset}`)),
       map(([, chunk]) => {
         console.log('Result Merge', chunk);
         return [
-        chunk.subarray(0, offset),
-        chunk.subarray(offset, chunk.length - 1)
-      ]}),
+          chunk.subarray(0, offset),
+          chunk.subarray(offset, chunk.length - 1)
+        ];
+      }),
       tap(r => console.log(`Chunks: ${r.length}`)),
       tap(r => console.log(`Chunk1: ${r[0].length}`)),
       tap(r => console.log(`Chunk2: ${r[1].length}`)),
