@@ -41,7 +41,7 @@ const toGCP = function toGCP({
       bufferCount(bufferThreshold),
       map(chunks => Buffer.concat(chunks)),
       // tap(chunk => console.log(chunk)),
-      bufferBetweenSilence({_toVAD, vadOptions: {sampleRate}}),
+      bufferBetweenSilence({vadOptions: sampleRate, _toVAD}),
       map(chunk => client.recognize({config, audio: { content: chunk.toString('base64') }})),
       concatMap(r => r),
       // map(([transcribedResult]) => transcribedResult.results.map(result => {

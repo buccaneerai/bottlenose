@@ -1,7 +1,9 @@
-import {of, iif, generate} from 'rxjs';
-import {share, mergeMap, map, tap, pairwise, reduce, skipWhile, expand, takeWhile, takeUntil, take} from 'rxjs/operators';
+import {of, iif, generate, EMPTY, forkJoin, BehaviorSubject} from 'rxjs';
+import {finalize, zip, takeLast, share, mergeMap, map, tap, pairwise, reduce, skipWhile, expand, takeWhile, takeUntil, take} from 'rxjs/operators';
+import {VadEvents} from './toVAD';
 
-import toVAD, {VadEvents} from './toVAD';
+const MIN_CHUNK_SIZE = 10000;
+const VAD_SAMPLE_SIZE = 1000;
 
 /**
  *
@@ -13,45 +15,62 @@ const bufferBetweenSilence = function bufferBetweenSilence({
   _toVAD = toVAD,
 }) {
   return chunk$ => {
-    const MIN_CHUNK_SIZE = 10000;
     let offset = 0;
-    let noisy = true;
 
-    const isSilentOrTooSmall = chunk => !noisy || chunk.length - offset < MIN_CHUNK_SIZE;
-
-    // Ensuring we only run this once
+    // Replays the same chunk that was supplied
     const chunkSub$ = chunk$.pipe(share());
 
-    const chunkSlicer$ = chunkSub$.pipe(
-      takeWhile((chunk) => !isSilentOrTooSmall({chunk})),
-      tap(chunk => console.log(`Chunk length: ${chunk.length}`)),
-      tap(chunk => console.log(`Chunk difference: ${chunk.length - offset}`)),
-      map(chunk => {
-        const chunkSlice = chunk.subarray(chunk.length - offset - 3000 - 1, chunk.length - offset - 1);
-        offset += 3000;
-        return [chunkSlice, chunk];
-      }),
-      map(([slice,]) => slice),
+    const pump = (subject$) => ([vadRes, chunk]) => {
+      console.log('Offset', offset);
+      console.log('Chunk Length', chunk.length);
+      // console.log('Pump values', [vadRes, chunk]);
+      const newOffset = offset += VAD_SAMPLE_SIZE;
+      console.log('this should be false', chunk.length - offset < MIN_CHUNK_SIZE);
+      // IT LITERALLY ENDS HERE!!!! WHAT THE FLYING FUCK!!!
+      // AND THE FUCKING OFFSET NEVER CHANGES!!!!
+      console.log('this should also be false', vadRes === VadEvents.SILENCE);
+      if (chunk.length - offset < MIN_CHUNK_SIZE || vadRes === VadEvents.SILENCE) return subject$.complete();
+      console.log('We should definitely get here be here.');
+      return subject$.next(newOffset);
+    };
+
+    const byteOffset$ = new BehaviorSubject(0);
+    const pumpNext = pump(byteOffset$);
+
+    // Creates slices for VAD to run against
+    const slicer$ = byteOffset$.pipe(
+      // tap(r => console.log('Inside the byteOffset', offset)),
+      zip(chunkSub$),
+      // tap(r => console.log('Ran zip on chunk sub', r)),
+      map(([newOffset, chunk]) => chunk.subarray(chunk.length - newOffset - VAD_SAMPLE_SIZE - 1, chunk.length - newOffset - 1)),
+      // tap(r => console.log('Got the new offset', r)),
       _toVAD({...vadOptions}),
-      tap(([,vadRes]) => {
-        if (vadRes.type === VadEvents.SILENCE) noisy = false;
-        console.log(`Offset: ${offset}, VAD: ${vadRes.type}`)
-      }),
-      // mergeMap(() => chunkSub$.pipe()),
-      // map((chunk) => ([isSilentOrTooSmall({chunk}), chunk])),
-      reduce((acc, val) => val),
+      // tap(r => console.log('Vad Result', r)),
+      map(([,{type}]) => type),
+      zip(chunkSub$),
+      tap(pumpNext),
+      // reduce((acc, val) => val)
     );
 
+    // const recusivePartioner$ = slicer$.pipe(
+    //   expand(([vadRes, chunk]) => {
+    //     console.log(`Chunk: ${chunk.length}, Offset: ${offset}, VAD: ${vadRes}`)
+    //     if (vadRes === VadEvents.SILENCE || chunk.length - offset < MIN_CHUNK_SIZE) return EMPTY;
+    //     return chunkAndVad$;
+    //   }),
+    // );
+
     // Set the offset and chunks
-    return chunkSlicer$.pipe(
+    return  slicer$.pipe(
       // skipWhile(chunk => !isSilentOrTooSmall(chunk)),
-      take(1), // Behavior Subject to fix the double emitting should work
-      mergeMap(() => chunkSub$.pipe()),
+      takeLast(), // Behavior Subject to fix the double emitting should work
       tap(r => console.log(`Ending offset: ${offset}`)),
-      map(chunk => ([
+      map(([, chunk]) => {
+        console.log('Result Merge', chunk);
+        return [
         chunk.subarray(0, offset),
-        chunk.subarray(chunk.length - offset, chunk.length - 1)
-      ])),
+        chunk.subarray(offset, chunk.length - 1)
+      ]}),
       tap(r => console.log(`Chunks: ${r.length}`)),
       tap(r => console.log(`Chunk1: ${r[0].length}`)),
       tap(r => console.log(`Chunk2: ${r[1].length}`)),
