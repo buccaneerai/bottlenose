@@ -4,6 +4,7 @@ import {marbles} from 'rxjs-marbles/mocha';
 import gcpSpeech from '@google-cloud/speech';
 
 import toGCP from './toGCP';
+import { of } from 'rxjs';
 
 describe('operators.toGCP', () => {
   it('Should throw error if no credentials were given', marbles(m => {
@@ -27,18 +28,21 @@ describe('operators.toGCP', () => {
     ]);
 
     const client = sinon.createStubInstance(gcpSpeech.v1p1beta1.SpeechClient, {
-      recognize: gcpRecognizeResult
+      recognize: sinon.stub().returns(gcpRecognizeResult)
     });
 
     const op = toGCP({
+      _toVAD: () => of([0, 'SILENCE']),
       googleCreds: 'fakegooglecredentials',
       client
     });
 
-    const expected$ = m.cold('---------(0|)', [[out0, out1, out2]]);
+    // console.log(client.recognize.callCount)
+    const expected$ = m.cold('---------(0|)', gcpRecognizeResult);
     const actual$ = input$.pipe(op);
     m.expect(actual$).toBeObservable(expected$);
     m.expect(input$).toHaveSubscriptions('^--------!');
+    // expect(client.recognize.calledOnce).to.be.true;
 
   }));
 });

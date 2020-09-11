@@ -8,21 +8,12 @@ const prompt = require('prompt');
 const optimist = require('optimist');
 const path = require('path');
 const moment = require('moment');
-const {concat,merge,of,throwError} = require('rxjs');
-const {
-  skipLast,
-  map,
-  scan,
-  share,
-  shareReplay,
-  takeLast,
-  tap
-} = require('rxjs/operators');
-const {fromFile,writeFile} = require('@bottlenose/rxfs');
 
-// const {transcribe} = require('../src/index');
+const {concat, of, throwError} = require('rxjs');
+const {map, scan, share,tap} = require('rxjs/operators');
+
+const {fromFile,writeFile} = require('@bottlenose/rxfs');
 const {toAWS, toDeepgram, toDeepSpeech, toGCP} = require('../build/index');
-// import {toDeepgram} from '../src/index';
 
 console.log('running demo');
 
@@ -57,8 +48,8 @@ const runDemo = ({
   region = 'us-east-1',
   sampleRate
 }) => {
-  const mp3Chunk$ = fromFile({filePath: inputFilePath});
-  const transcription$ = mp3Chunk$.pipe(
+  const audioChunk$ = fromFile({filePath: inputFilePath});
+  const transcription$ = audioChunk$.pipe(
     // tap(input => console.log('IN', typeof input)),
     createOperator({strategy, region, modelDir, sampleRate})
   );
@@ -165,10 +156,10 @@ prompt.get(schema, (err, params) => {
     console.trace,
     () => {
       console.log('DONE');
-      if (!params.shouldStoreOutput) process.exit();
+      if (!params.shouldStoreOutput || params.shouldStoreOutput === 'n') process.exit();
     }
   );
-  if (params.shouldStoreOutput === 'y') {
+
+  if (params.shouldStoreOutput === 'y')
     outputWriter$.subscribe(null, console.trace, () => 1);
-  }
 });
