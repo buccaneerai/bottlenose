@@ -30,7 +30,8 @@
     "realtime"
   ],
   "files": [
-    "build/*"
+    "build/*",
+    ".yalc"
   ],
   "dependencies": {
     "@aws-sdk/eventstream-marshaller": "^0.1.0-preview.2",
