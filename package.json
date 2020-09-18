@@ -1,5 +1,5 @@
 {
-  "private": true,
+  "private": false,
   "name": "bottlenose",
   "scripts": {
     "bootstrap": "BABEL_ENV=build lerna bootstrap",
@@ -44,5 +44,6 @@
   ],
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "dependencies": {}
+  "dependencies": {},
+  "version": "0.7.1"
 }
