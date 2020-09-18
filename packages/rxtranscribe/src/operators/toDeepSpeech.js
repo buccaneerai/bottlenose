@@ -40,26 +40,29 @@ const createModel = ({
   return newModel;
 };
 
-const transcribeChunks = ({model, sampleRate, candidateCount = 1}) => chunks => {
-  // mergeMap(chunks => new Observable(obs => {
-  const fullBuffer = Buffer.concat(chunks);
-  const output = model.sttWithMetadata(fullBuffer, candidateCount);
-  return output;
-  // const modelStream = model.createStream();
-  // chunks.forEach(chunk => (
-    // model.feedAudioContent(modelStream, chunk.slice(0, chunk.length / 2))
-    // modelStream.feedAudioContent(chunk)
-  // ));
-  // const output = model.finishStream(modelStream);
-  // const output = model.stt(chunks[0].slice(0, chunks[0].length / 2));
-  // const output = model.finishStream(modelStream);
-  // obs.next(output);
-  // return obs.complete();
-};
+const transcribeChunks = ({model, sampleRate, candidateCount = 1}) => (
+  chunks => {
+    // mergeMap(chunks => new Observable(obs => {
+    const fullBuffer = Buffer.concat(chunks);
+    const output = model.sttWithMetadata(fullBuffer, candidateCount);
+    return output;
+    // const modelStream = model.createStream();
+    // chunks.forEach(chunk => (
+      // model.feedAudioContent(modelStream, chunk.slice(0, chunk.length / 2))
+      // modelStream.feedAudioContent(chunk)
+    // ));
+    // const output = model.finishStream(modelStream);
+    // const output = model.stt(chunks[0].slice(0, chunks[0].length / 2));
+    // const output = model.finishStream(modelStream);
+    // obs.next(output);
+    // return obs.complete();
+  }
+);
 
 const transcribe = ({model, sampleRate = 16000, candidateCount = 1}) => (
   bufferedChunks$ => (
     bufferedChunks$.pipe(
+      filter(chunks => !!chunks && chunks.length), // filter out empty objects
       map(transcribeChunks({model, sampleRate, candidateCount})),
       // mergeAll(1),
       // bug in DeepSpeech 0.6 causes silence to be inferred as "i" or "a"

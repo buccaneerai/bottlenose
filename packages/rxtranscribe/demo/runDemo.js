@@ -137,7 +137,7 @@ prompt.get(schema, (err, params) => {
     throw new Error('AWS_SECRET_ACCESS_KEY must be set');
   }
   if (params.strategy === 'deepgram' && !process.env.DEEPGRAM_USERNAME) {
-    throw new Error('DEEPGRAM_USER must be set');
+    throw new Error('DEEPGRAM_USERNAME must be set');
   }
   if (params.strategy === 'deepgram' && !process.env.DEEPGRAM_PASSWORD) {
     throw new Error('DEEPGRAM_PASSWORD must be set');

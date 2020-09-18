@@ -75,6 +75,7 @@ const conduit = function conduit({
   stop$ = of(),
   // serializer = JSON.stringify,
   // deserializer = JSON.parse,
+  topicsOut = ['message'],
   _bufferMessages = bufferMessages,
   _send = send,
   _consume = consume,
