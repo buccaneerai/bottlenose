@@ -4,7 +4,6 @@ import {conduit} from '@bottlenose/rxws';
 
 import shortenChunks from '../internals/shortenChunks';
 
-
 const errors = {
   requiredParams: () => new Error('toDeepgram operator requires username and password'),
 };

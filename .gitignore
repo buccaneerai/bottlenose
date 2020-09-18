@@ -68,3 +68,6 @@ typings/
 # Apple Mac internals
 .DS_Store
 
+# yalc local package storage
+.yalc
+yalc.lock
