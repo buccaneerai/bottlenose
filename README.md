@@ -2,6 +2,8 @@
 [![CircleCI](https://circleci.com/gh/buccaneerai/bottlenose/tree/dev.svg?style=shield)](https://circleci.com/gh/buccaneerai/bottlenose/tree/dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
+> ⚠️ Although most of the operators are functional, this monorepo is no longer maintained.  (The maintainers found Lerna to be too unwieldy to maintain and it generated more overhead than it was worth.)  Instead, the RxJS utilities have been moved to separate npm packages starting with `@buccaneerai/rxjs-<package-name>`.
+
 ## Description
 
 🐬 RxJS offers a great toolkit for reactive functional programming.  But if you use RxJS in a larger software application, you may often find yourself handcrafting your own functions to handle common workflows and wrap them in RxJS observables (like streaming file data or connecting to a WebSocket). Bottlenose is a collection of npm packages that provide industrial-strength RxJS operators and utilities for handling common data streams (filesystems, CSV, AWS S3, Websockets, socket.io), analyzing data (statistics, NLP) and implementing machine learning models (like SVM).
