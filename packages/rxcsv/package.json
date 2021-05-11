@@ -1,0 +1,43 @@
+{
+  "name": "@bottlenose/rxcsv",
+  "version": "0.1.0",
+  "description": "Parse and write CSV with RxJS",
+  "keywords": [
+    "rxjs",
+    "bottlenose",
+    "csv"
+  ],
+  "author": "Buccaneer LLC <opensource@buccaneer.ai>",
+  "homepage": "https://github.com/buccaneerai/bottlenose#readme",
+  "license": "MIT",
+  "main": "src/index.js",
+  "directories": {
+    "src": "src"
+  },
+  "files": [
+    "build"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.yarnpkg.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buccaneerai/bottlenose.git"
+  },
+  "scripts": {
+    "build": "rm -rf ./build/* && babel ./src -d ./build --ignore *.test.js",
+    "lint": "eslint -c ../../.eslintrc ./src",
+    "test": "mocha --exit ./src/**/*.test.js ./src/*.test.js",
+    "test:watch": "yarn test -- --watch"
+  },
+  "bugs": {
+    "url": "https://github.com/buccaneerai/bottlenose/issues"
+  },
+  "dependencies": {
+    "csv-parse": "^4.8.5",
+    "csv-parser": "^2.3.2",
+    "json2csv": "^4.5.4",
+    "lodash": "^4.17.15",
+    "rxjs": "^6.5.4"
+  }
+}
